@@ -4,7 +4,7 @@ import { motion, type Variants } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { ServiceCard } from "./service-card";
 
-export const ServicesSection = () => {
+const ServicesSection = (props: Props) => {
   const { t } = useTranslation();
 
   const containerVariants: Variants = {
@@ -77,3 +77,4 @@ export const ServicesSection = () => {
     </section>
   );
 };
+export default ServicesSection;

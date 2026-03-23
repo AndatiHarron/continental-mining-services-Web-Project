@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import whoWeAreImage from "@/assets/about-us/who-we-are.jpeg";
 
-export const CompanyProfile = () => {
+function CompanyProfile(props: Props) {
   const { t } = useTranslation();
   const paragraphs = t("about.companyProfile.bodyParagraphs", {
     returnObjects: true,
@@ -65,3 +65,4 @@ export const CompanyProfile = () => {
     </section>
   );
 };
+export default CompanyProfile;

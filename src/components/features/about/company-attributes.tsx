@@ -24,7 +24,7 @@ import {
 
 const BOLD_MARKER_REGEX = /\*\*/;
 
-export const CompanyAttributes = () => {
+function CompanyAttributes(props: Props) {
   const { t } = useTranslation();
 
   // Image mapping for attributes
@@ -199,3 +199,4 @@ export const CompanyAttributes = () => {
     </section>
   );
 };
+export default CompanyAttributes;
