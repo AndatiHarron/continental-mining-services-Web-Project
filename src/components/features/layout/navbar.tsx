@@ -75,7 +75,7 @@ export const Navbar = () => {
           <div className="flex items-center gap-4 border-white/20 border-l pl-4">
             <RegionToggle />
             <a
-              href="https://wa.me/254710337605?text=Hello%2C%20I%20would%20like%20to%20request%20a%20quote.%20You%20can%20also%20reach%20me%20at%20operations@continental-miningservices.com"
+              href="https://wa.me/23275311632?text=Hello%2C%20I%20would%20like%20to%20request%20a%20quote.%20You%20can%20also%20reach%20me%20at%20info@continental-miningservices.com"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -161,7 +161,7 @@ export const Navbar = () => {
                     </div>
                   </div>
                   <a
-                    href="https://wa.me/254710337605?text=Hello%2C%20I%20would%20like%20to%20request%20a%20quote.%20You%20can%20also%20reach%20me%20at%20operations@continental-miningservices.com"
+                    href="https://wa.me/23275311632?text=Hello%2C%20I%20would%20like%20to%20request%20a%20quote.%20You%20can%20also%20reach%20me%20at%20info@continental-miningservices.com"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
