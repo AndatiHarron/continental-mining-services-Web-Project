@@ -3,7 +3,7 @@ import { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 
- function CtaSection() {
+export const CtaSection = () => {
   const { t } = useTranslation();
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -57,4 +57,3 @@ import { Button } from "@/components/ui/button";
     </section>
   );
 };
-export default CtaSection;

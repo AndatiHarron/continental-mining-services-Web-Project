@@ -9,7 +9,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
     if (!document.getElementById(scriptId)) {
       const script = document.createElement("script");
       script.id = scriptId;
-      script.src = "https://code.tidio.co/zlndi6qxipdtoljf37hsefdf5wlwzjce.js";
+      script.src = "//code.tidio.co/zlndi6qxipdtoljf37hsefdf5wlwzjce.js";
       script.async = true;
       document.body.appendChild(script);
     }
@@ -18,7 +18,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       if (script) script.remove();
     };
   }, []);
-//andati
+
   return (
     <div className="flex min-h-screen flex-col">
       <Navbar />

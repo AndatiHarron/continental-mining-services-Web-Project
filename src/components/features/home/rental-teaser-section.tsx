@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/carousel";
 import { RentalCard } from "./rental-card";
 
- function RentalTeaserSection() {
+export const RentalTeaserSection = () => {
   const { t } = useTranslation();
 
   return (
@@ -105,4 +105,3 @@ import { RentalCard } from "./rental-card";
     </section>
   );
 };
-export default RentalTeaserSection;

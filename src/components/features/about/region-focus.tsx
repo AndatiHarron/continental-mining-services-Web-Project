@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import operatingImage from "@/assets/about-us/operating.jpeg";
 
-const RegionFocus = () => {
+export const RegionFocus = () => {
   const { t } = useTranslation();
 
   return (
@@ -50,5 +50,3 @@ const RegionFocus = () => {
     </section>
   );
 };
-export default RegionFocus;
-export default RegionFocus;

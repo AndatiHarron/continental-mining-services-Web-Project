@@ -4,7 +4,7 @@ import { motion, type Variants } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { ServiceCard } from "./service-card";
 
-const ServicesSection = () => {
+export const ServicesSection = () => {
   const { t } = useTranslation();
 
   const containerVariants: Variants = {
@@ -16,7 +16,7 @@ const ServicesSection = () => {
       },
     },
   };
-//andati
+
   const itemVariants: Variants = {
     hidden: { opacity: 0, y: 30 },
     visible: {
@@ -77,4 +77,3 @@ const ServicesSection = () => {
     </section>
   );
 };
-export default ServicesSection;

@@ -3,7 +3,7 @@ import { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 
-const AboutCta = () => {
+export const AboutCta = () => {
   const { t } = useTranslation();
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -57,4 +57,3 @@ const AboutCta = () => {
     </section>
   );
 };
-export default AboutCta;

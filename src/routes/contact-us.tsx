@@ -165,12 +165,12 @@ function ContactUs() {
                     <h4 className="font-semibold text-lg">
                       {t("contactPage.contactInfo.email.label")}
                     </h4>
-                    <a
-                      className="break-all text-white/80 transition-colors hover:text-white"
-                      href="mailto:info@continentalminingservices.com"
-                    >
-                      info@continentalminingservices.com
-                    </a>
+                      <a
+                        className="break-all text-white/80 transition-colors hover:text-white"
+                        href="mailto:info@continental-miningservices.com"
+                      >
+                        info@continental-miningservices.com
+                      </a>
                   </div>
                 </div>
 
@@ -185,12 +185,12 @@ function ContactUs() {
                     <h4 className="font-semibold text-lg">
                       {t("contactPage.contactInfo.phone.label")}
                     </h4>
-                    <a
-                      className="text-white/80 transition-colors hover:text-white"
-                      href="tel:+23275311632"
-                    >
-                      +232 75 311632
-                    </a>
+                      <a
+                        className="text-white/80 transition-colors hover:text-white"
+                        href="tel:+23275311632"
+                      >
+                        +232 75 311632
+                      </a>
                   </div>
                 </div>
               </div>

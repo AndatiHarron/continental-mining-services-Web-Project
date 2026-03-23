@@ -195,4 +195,3 @@ export const KeyAttributes = () => {
     </section>
   );
 };
-export default KeyAttributes;
