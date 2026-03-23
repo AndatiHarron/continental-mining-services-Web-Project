@@ -1,0 +1,17 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Continental Mining Services",
+  "url": "https://continental-miningservices.com",
+  "logo": "https://continental-miningservices.com/logo.png",
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+232 75 311632",
+    "contactType": "customer service",
+    "email": "info@continental-miningservices.com"
+  },
+  "sameAs": [
+    "https://www.linkedin.com/company/continental-miningservices/",
+    "https://www.facebook.com/continental-miningservices/"
+  ]
+}
