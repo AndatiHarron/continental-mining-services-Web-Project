@@ -1,7 +1,7 @@
-import { j as jsxRuntimeExports, r as reactExports } from "../_chunks/_libs/react.mjs";
-import { e as Vz, Y as Yr, i as iN, u as uG, f as fL } from "../_chunks/_libs/@hugeicons/core-free-icons.mjs";
+import { r as reactExports, j as jsxRuntimeExports } from "../_chunks/_libs/react.mjs";
+import { e as Vz, Y as Yr, i as iN, f as fL } from "../_chunks/_libs/@hugeicons/core-free-icons.mjs";
 import { u as useRouterState, L as Link } from "../_chunks/_libs/@tanstack/react-router.mjs";
-import { c as cn } from "./router-C94rKTxU.mjs";
+import { c as cn } from "./router-hAUMM4d-.mjs";
 import { c as cva } from "../_libs/class-variance-authority.mjs";
 import { B as Button$1, D as DialogRoot, a as DialogTrigger, b as DialogPopup, c as DialogClose, d as DialogPortal, e as DialogBackdrop } from "../_chunks/_libs/@base-ui/react.mjs";
 import { u as useTranslation } from "../_libs/react-i18next.mjs";
@@ -88,12 +88,19 @@ const Footer = () => {
           /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "max-w-md text-lg text-white/70 leading-relaxed", children: t("footer.description") })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "mb-8 font-bold font-heading text-lg text-white uppercase tracking-wide after:mt-2 after:block after:h-1 after:w-12 after:bg-secondary after:content-['']", children: t("footer.sections.contact") }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "mb-8 font-bold font-heading text-lg text-white uppercase tracking-wide after:mt-2 after:block after:h-1 after:w-12 after:bg-secondary after:content-['']", children: t("footer.contact") }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-6", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "group flex items-start gap-4 text-white/80 transition-colors hover:text-white", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white/5 transition-colors group-hover:bg-secondary group-hover:text-white", children: /* @__PURE__ */ jsxRuntimeExports.jsx(HugeiconsIcon, { className: "h-5 w-5", icon: uG }) }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "leading-relaxed", children: t("footer.location") })
-            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "a",
+              {
+                className: "group flex items-center gap-4 text-white/80 transition-colors hover:text-white",
+                href: "mailto:info@continental-miningservices.com",
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white/5 transition-colors group-hover:bg-secondary group-hover:text-white", children: /* @__PURE__ */ jsxRuntimeExports.jsx(HugeiconsIcon, { className: "h-5 w-5", icon: iN }) }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "break-all font-medium", children: "info@continental-miningservices.com" })
+                ]
+              }
+            ),
             /* @__PURE__ */ jsxRuntimeExports.jsxs(
               "a",
               {
@@ -102,17 +109,6 @@ const Footer = () => {
                 children: [
                   /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white/5 transition-colors group-hover:bg-secondary group-hover:text-white", children: /* @__PURE__ */ jsxRuntimeExports.jsx(HugeiconsIcon, { className: "h-5 w-5", icon: Yr }) }),
                   /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-medium", children: "+232 75 311632" })
-                ]
-              }
-            ),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs(
-              "a",
-              {
-                className: "group flex items-center gap-4 text-white/80 transition-colors hover:text-white",
-                href: "mailto:info@continentalminingservices.com",
-                children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white/5 transition-colors group-hover:bg-secondary group-hover:text-white", children: /* @__PURE__ */ jsxRuntimeExports.jsx(HugeiconsIcon, { className: "h-5 w-5", icon: iN }) }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "break-all font-medium", children: "info@continentalminingservices.com" })
                 ]
               }
             )
@@ -324,8 +320,8 @@ const Navbar = () => {
           {
             src: logoImg,
             alt: "Continental Mining Logo",
-            className: "h-[88px] w-auto",
-            height: 88
+            className: "h-[58px] w-auto",
+            height: 58
           }
         )
       }
@@ -352,7 +348,7 @@ const Navbar = () => {
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           "a",
           {
-            href: "https://wa.me/254710337605?text=Hello%2C%20I%20would%20like%20to%20request%20a%20quote.%20You%20can%20also%20reach%20me%20at%20operations@continental-miningservices.com",
+            href: "https://wa.me/23275311632?text=Hello%2C%20I%20would%20like%20to%20request%20a%20quote.%20You%20can%20also%20reach%20me%20at%20info@continental-miningservices.com",
             target: "_blank",
             rel: "noopener noreferrer",
             children: /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { className: "bg-secondary font-heading font-semibold text-white shadow-lg transition-all hover:-translate-y-0.5 hover:bg-secondary/90 hover:shadow-secondary/20", children: t("nav.button.quote") })
@@ -447,7 +443,7 @@ const Navbar = () => {
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "a",
                 {
-                  href: "https://wa.me/254710337605?text=Hello%2C%20I%20would%20like%20to%20request%20a%20quote.%20You%20can%20also%20reach%20me%20at%20operations@continental-miningservices.com",
+                  href: "https://wa.me/23275311632?text=Hello%2C%20I%20would%20like%20to%20request%20a%20quote.%20You%20can%20also%20reach%20me%20at%20info@continental-miningservices.com",
                   target: "_blank",
                   rel: "noopener noreferrer",
                   children: /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -468,9 +464,37 @@ const Navbar = () => {
   ] }) });
 };
 function Layout({ children }) {
+  reactExports.useEffect(() => {
+    const scriptId = "lyrro-ai-script";
+    if (!document.getElementById(scriptId)) {
+      const script = document.createElement("script");
+      script.id = scriptId;
+      script.src = "//code.tidio.co/zlndi6qxipdtoljf37hsefdf5wlwzjce.js";
+      script.async = true;
+      document.body.appendChild(script);
+    }
+    return () => {
+      const script = document.getElementById(scriptId);
+      if (script) script.remove();
+    };
+  }, []);
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex min-h-screen flex-col", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(Navbar, {}),
     /* @__PURE__ */ jsxRuntimeExports.jsx("main", { className: "grow", children }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "div",
+      {
+        id: "lyrro-ai-anchor",
+        style: {
+          position: "fixed",
+          bottom: 24,
+          right: 24,
+          zIndex: 9999,
+          pointerEvents: "none"
+          // Let the widget handle its own pointer events
+        }
+      }
+    ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Footer, {})
   ] });
 }

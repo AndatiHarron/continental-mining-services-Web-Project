@@ -1,13 +1,13 @@
 import { j as jsxRuntimeExports, r as reactExports } from "../_chunks/_libs/react.mjs";
-import { L as Layout, B as Button } from "./layout-Cge3f9-K.mjs";
+import { L as Layout, B as Button } from "./layout-eel1PsGI.mjs";
 import { H as Hn } from "../_chunks/_libs/@hugeicons/core-free-icons.mjs";
 import { L as Link } from "../_chunks/_libs/@tanstack/react-router.mjs";
 import { A as Autoplay } from "../_libs/embla-carousel-autoplay.mjs";
-import { C as Carousel, a as CarouselContent, b as CarouselItem, c as CarouselPrevious, d as CarouselNext } from "./carousel-Cw4F2ZAm.mjs";
+import { C as Carousel, a as CarouselContent, b as CarouselItem, c as CarouselPrevious, d as CarouselNext } from "./carousel-lkreKvt9.mjs";
 import { u as useTranslation } from "../_libs/react-i18next.mjs";
 import { m as motion, u as useScroll, a as useTransform } from "../_libs/framer-motion.mjs";
 import { H as HugeiconsIcon } from "../_chunks/_libs/@hugeicons/react.mjs";
-import "./router-C94rKTxU.mjs";
+import "./router-hAUMM4d-.mjs";
 import "../_libs/clsx.mjs";
 import "../_libs/tailwind-merge.mjs";
 import "../_libs/i18next.mjs";
@@ -501,14 +501,21 @@ const ServiceDetailedList = () => {
                   `${service.id}-${card.title}-${currentLang}`
                 );
               }) }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex justify-center", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-                Button,
-                {
-                  className: "bg-secondary font-semibold text-white hover:bg-secondary/90",
-                  size: "lg",
-                  children: ctaText
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex justify-center", children: (() => {
+                const whatsappNumber = "254710337605";
+                let waText = "Hello, I would like to make an enquiry.";
+                if (service.key === "oreHaulage") {
+                  waText = "Hello, I would like to request a quote for ore haulage services.";
+                } else if (service.key === "mineDrilling") {
+                  waText = "Hello, I would like to discuss my mine drilling requirements.";
+                } else if (service.key === "flatbedCargo") {
+                  waText = "Hello, I am interested in getting rates for flatbed cargo movement.";
+                } else if (service.key === "containerMovement") {
+                  waText = "Hello, I would like to request information about your container movement services.";
                 }
-              ) })
+                const waUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(waText)}`;
+                return /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: waUrl, target: "_blank", rel: "noopener noreferrer", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { className: "bg-secondary font-semibold text-white hover:bg-secondary/90", size: "lg", children: ctaText }) });
+              })() })
             ]
           },
           service.id

@@ -336,7 +336,7 @@ export const ServiceDetailedList = () => {
                 <div className="flex justify-center">
                   {(() => {
                     // WhatsApp number (update if needed)
-                    const whatsappNumber = "254710337605";
+                    const whatsappNumber = "23275311632";
                     let waText = "Hello, I would like to make an enquiry.";
                     if (service.key === "oreHaulage") {
                       waText = "Hello, I would like to request a quote for ore haulage services.";
@@ -347,7 +347,7 @@ export const ServiceDetailedList = () => {
                     } else if (service.key === "containerMovement") {
                       waText = "Hello, I would like to request information about your container movement services.";
                     }
-                    const waUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(waText)}`;
+                    const waUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(waText.replace(/operations@continental-miningservices.com/g, "info@continental-miningservices.com"))}`;
                     return (
                       <a href={waUrl} target="_blank" rel="noopener noreferrer">
                         <Button className="bg-secondary font-semibold text-white hover:bg-secondary/90" size="lg">

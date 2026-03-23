@@ -167,7 +167,7 @@ function ContactUs() {
                     </h4>
                     <a
                       className="break-all text-white/80 transition-colors hover:text-white"
-                      href="mailto:info@continentalminingservices.com"
+                      href="mailto:info@continental-miningservices.com"
                     >
                       info@continentalminingservices.com
                     </a>

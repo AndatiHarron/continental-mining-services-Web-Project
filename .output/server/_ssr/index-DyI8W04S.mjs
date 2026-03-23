@@ -1,10 +1,10 @@
 import { j as jsxRuntimeExports, r as reactExports } from "../_chunks/_libs/react.mjs";
-import { L as Layout, B as Button, l as logoImg } from "./layout-Cge3f9-K.mjs";
+import { L as Layout, B as Button, l as logoImg } from "./layout-eel1PsGI.mjs";
 import { A as Autoplay } from "../_libs/embla-carousel-autoplay.mjs";
-import { C as Carousel, a as CarouselContent, b as CarouselItem, c as CarouselPrevious, d as CarouselNext } from "./carousel-Cw4F2ZAm.mjs";
+import { C as Carousel, a as CarouselContent, b as CarouselItem, c as CarouselPrevious, d as CarouselNext } from "./carousel-lkreKvt9.mjs";
 import { c as Khr, s as sHr, d as H6, H as Hn } from "../_chunks/_libs/@hugeicons/core-free-icons.mjs";
 import { L as Link } from "../_chunks/_libs/@tanstack/react-router.mjs";
-import { C as Card, a as CardContent } from "./router-C94rKTxU.mjs";
+import { C as Card, a as CardContent } from "./router-hAUMM4d-.mjs";
 import { u as useTranslation } from "../_libs/react-i18next.mjs";
 import { m as motion, u as useScroll, a as useTransform } from "../_libs/framer-motion.mjs";
 import { H as HugeiconsIcon } from "../_chunks/_libs/@hugeicons/react.mjs";
@@ -173,7 +173,7 @@ const HeroSection = () => {
     }
   ];
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "relative flex min-h-screen items-center justify-center overflow-hidden bg-black", children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0 z-0", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0 z-0", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
       motion.div,
       {
         animate: { scale: 1.05 },
@@ -185,17 +185,20 @@ const HeroSection = () => {
           repeatType: "reverse",
           ease: "linear"
         },
-        children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "img",
-          {
-            alt: t("hero.image.alt"),
-            className: "h-full w-full object-cover opacity-60",
-            height: 1080,
-            src: heroBg,
-            title: t("hero.image.alt"),
-            width: 1920
-          }
-        )
+        children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "img",
+            {
+              alt: t("hero.image.alt"),
+              className: "h-full w-full object-cover opacity-60",
+              height: 1080,
+              src: heroBg,
+              title: t("hero.image.alt"),
+              width: 1920
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0 bg-black/70", style: { zIndex: 1 } })
+        ]
       }
     ) }),
     /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "container relative z-10 px-4 pt-20 md:px-6", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
@@ -245,7 +248,7 @@ const HeroSection = () => {
                 /* @__PURE__ */ jsxRuntimeExports.jsx(
                   "a",
                   {
-                    href: "https://wa.me/254710337605?text=Hello%2C%20I%20would%20like%20to%20request%20a%20quote.%20You%20can%20also%20reach%20me%20at%20operations@continental-miningservices.com",
+                    href: "https://wa.me/23275311632?text=Hello%2C%20I%20would%20like%20to%20request%20a%20quote.%20You%20can%20also%20reach%20me%20at%20info@continental-miningservices.com",
                     target: "_blank",
                     rel: "noopener noreferrer",
                     children: /* @__PURE__ */ jsxRuntimeExports.jsx(
