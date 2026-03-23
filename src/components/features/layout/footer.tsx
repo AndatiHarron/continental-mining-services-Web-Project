@@ -77,7 +77,7 @@ export const Footer = () => {
                   <HugeiconsIcon className="h-5 w-5" icon={MailIcon} />
                 </div>
                 <span className="break-all font-medium">
-                  info@continentalminingservices.com
+                  info@continental-miningservices.com
                 </span>
               </a>
             </div>
