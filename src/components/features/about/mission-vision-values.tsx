@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { Card, CardContent } from "@/components/ui/card";
 
-export const MissionVisionValues = () => {
+const MissionVisionValues = () => {
   const { t } = useTranslation();
   const coreValues = t("about.missionVisionValues.coreValues.list", {
     returnObjects: true,
@@ -96,3 +96,4 @@ export const MissionVisionValues = () => {
     </section>
   );
 };
+export default MissionVisionValues;

@@ -24,7 +24,7 @@ import {
 
 const BOLD_MARKER_REGEX = /\*\*/;
 
- function CompanyAttributes() {
+const CompanyAttributes = () => {
   const { t } = useTranslation();
 
   // Image mapping for attributes
@@ -199,4 +199,5 @@ const BOLD_MARKER_REGEX = /\*\*/;
     </section>
   );
 };
+export default CompanyAttributes;
 export default CompanyAttributes;

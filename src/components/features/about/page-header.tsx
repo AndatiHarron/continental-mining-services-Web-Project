@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import heroBg from "@/assets/about-us/develon.jpg";
 
-export const PageHeader = () => {
+const PageHeader = () => {
   const { t } = useTranslation();
   const breadcrumbs = t("about.pageHeader.breadcrumbs", {
     returnObjects: true,
@@ -101,3 +101,4 @@ export const PageHeader = () => {
     </section>
   );
 };
+export default PageHeader;

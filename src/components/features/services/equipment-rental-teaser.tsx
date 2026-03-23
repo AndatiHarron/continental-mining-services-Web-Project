@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 
-export const EquipmentRentalTeaser = () => {
+const EquipmentRentalTeaser = () => {
   const { t } = useTranslation();
 
   return (
@@ -41,3 +41,4 @@ export const EquipmentRentalTeaser = () => {
     </section>
   );
 };
+export default EquipmentRentalTeaser;

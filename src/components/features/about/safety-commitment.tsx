@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import sa1 from "@/assets/about-us/safety/sa-01.jpg";
 import sa2 from "@/assets/about-us/safety/sa-02.jpg";
 
-export const SafetyCommitment = () => {
+const SafetyCommitment = () => {
   const { t } = useTranslation();
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -103,3 +103,4 @@ export const SafetyCommitment = () => {
     </section>
   );
 };
+export default SafetyCommitment;
