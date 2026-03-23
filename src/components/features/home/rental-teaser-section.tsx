@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/carousel";
 import { RentalCard } from "./rental-card";
 
-function RentalTeaserSection(props: Props) {
+ function RentalTeaserSection() {
   const { t } = useTranslation();
 
   return (
