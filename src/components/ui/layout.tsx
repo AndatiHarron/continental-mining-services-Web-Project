@@ -9,7 +9,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
     if (!document.getElementById(scriptId)) {
       const script = document.createElement("script");
       script.id = scriptId;
-      script.src = "//code.tidio.co/zlndi6qxipdtoljf37hsefdf5wlwzjce.js";
+      script.src = "https://code.tidio.co/zlndi6qxipdtoljf37hsefdf5wlwzjce.js";
       script.async = true;
       document.body.appendChild(script);
     }
