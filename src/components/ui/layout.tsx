@@ -18,7 +18,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       if (script) script.remove();
     };
   }, []);
-
+//andati
   return (
     <div className="flex min-h-screen flex-col">
       <Navbar />

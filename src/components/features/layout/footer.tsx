@@ -130,7 +130,7 @@ export const Footer = () => {
               {t("footer.privacyPolicy")}
             </Link>
             <Link className="transition-colors hover:text-white" to="/">
-              Terms of Service
+              Terms of Service.
             </Link>
           </div>
         </div>
