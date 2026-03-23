@@ -1,12 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
-import React, { Suspense } from "react";
-const AboutCta = React.lazy(() => import("@/components/features/about/about-cta"));
-const CompanyAttributes = React.lazy(() => import("@/components/features/about/company-attributes"));
-const CompanyProfile = React.lazy(() => import("@/components/features/about/company-profile"));
-const MissionVisionValues = React.lazy(() => import("@/components/features/about/mission-vision-values"));
-const PageHeader = React.lazy(() => import("@/components/features/about/page-header"));
-const RegionFocus = React.lazy(() => import("@/components/features/about/region-focus"));
-const SafetyCommitment = React.lazy(() => import("@/components/features/about/safety-commitment"));
+import { AboutCta } from "@/components/features/about/about-cta";
+import { CompanyAttributes } from "@/components/features/about/company-attributes";
+import { CompanyProfile } from "@/components/features/about/company-profile";
+import { MissionVisionValues } from "@/components/features/about/mission-vision-values";
+import { PageHeader } from "@/components/features/about/page-header";
+import { RegionFocus } from "@/components/features/about/region-focus";
+import { SafetyCommitment } from "@/components/features/about/safety-commitment";
 import { Layout } from "@/components/ui/layout";
 import i18n from "@/i18n/config";
 import enTranslation from "@/locales/en/translation.json";
@@ -38,15 +37,13 @@ export const Route = createFileRoute("/about")({
 function About() {
   return (
     <Layout>
-      <Suspense fallback={<div>Loading...</div>}>
-        <PageHeader />
-        <CompanyProfile />
-        <MissionVisionValues />
-        <CompanyAttributes />
-        <SafetyCommitment />
-        <RegionFocus />
-        <AboutCta />
-      </Suspense>
+      <PageHeader />
+      <CompanyProfile />
+      <MissionVisionValues />
+      <CompanyAttributes />
+      <SafetyCommitment />
+      <RegionFocus />
+      <AboutCta />
     </Layout>
   );
 }

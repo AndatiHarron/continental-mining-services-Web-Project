@@ -289,13 +289,6 @@ export const ServiceDetailedList = () => {
                                       alt={`${card.title} ${imgIndex + 1}`}
                                       className="absolute inset-0 h-full w-full object-cover object-center"
                                       src={img}
-                                      srcSet={`
-                                        ${img} 480w,
-                                        ${img} 768w,
-                                        ${img} 1200w
-                                      `}
-                                      sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                      loading="lazy"
                                       title={`${card.title} ${imgIndex + 1}`}
                                     />
                                   </CarouselItem>

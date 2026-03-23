@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- Home Page -->
   <url>
-    <loc>https://continental-miningservices.com/</loc>
+    <loc>https://continental-mining.vercel.app/</loc>
     <lastmod>2025-12-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -10,7 +10,7 @@
   
   <!-- Services Page -->
   <url>
-    <loc>https://continental-miningservices.com/services</loc>
+    <loc>https://continental-mining.vercel.app/services</loc>
     <lastmod>2025-12-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
@@ -18,7 +18,7 @@
   
   <!-- About Page -->
   <url>
-    <loc>https://continental-miningservices.com/about</loc>
+    <loc>https://continental-mining.vercel.app/about</loc>
     <lastmod>2025-12-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -26,9 +26,7 @@
   
   <!-- Contact Page -->
   <url>
-    <loc>https://continental-miningservices.com/contact-us</loc>
-    </urlset>
-    <!-- Add more URLs for important subpages or service details as needed -->
+    <loc>https://continental-mining.vercel.app/contact-us</loc>
     <lastmod>2025-12-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

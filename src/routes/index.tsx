@@ -1,10 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import React, { Suspense } from "react";
+import { CtaSection } from "@/components/features/home/cta-section";
 import { HeroSection } from "@/components/features/home/hero-section";
-const KeyAttributes = React.lazy(() => import("@/components/features/home/key-attributes"));
-const ServicesSection = React.lazy(() => import("@/components/features/home/services-section"));
-const RentalTeaserSection = React.lazy(() => import("@/components/features/home/rental-teaser-section"));
-const CtaSection = React.lazy(() => import("@/components/features/home/cta-section"));
+import { KeyAttributes } from "@/components/features/home/key-attributes";
+import { RentalTeaserSection } from "@/components/features/home/rental-teaser-section";
+import { ServicesSection } from "@/components/features/home/services-section";
 import { Layout } from "@/components/ui/layout";
 import i18n from "@/i18n/config";
 import { getSEOData } from "@/utils/seo";
@@ -37,12 +36,10 @@ function Index() {
   return (
     <Layout>
       <HeroSection />
-      <Suspense fallback={<div>Loading...</div>}>
-        <KeyAttributes />
-        <ServicesSection />
-        <RentalTeaserSection />
-        <CtaSection />
-      </Suspense>
+      <KeyAttributes />
+      <ServicesSection />
+      <RentalTeaserSection />
+      <CtaSection />
     </Layout>
   );
 }
