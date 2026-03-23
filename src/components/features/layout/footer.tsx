@@ -71,7 +71,7 @@ export const Footer = () => {
 
               <a
                 className="group flex items-center gap-4 text-white/80 transition-colors hover:text-white"
-                href="mailto:info@continental-miningservices.com"
+                href="mailto:info@continentalminingservices.com"
               >
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white/5 transition-colors group-hover:bg-secondary group-hover:text-white">
                   <HugeiconsIcon className="h-5 w-5" icon={MailIcon} />
@@ -130,7 +130,7 @@ export const Footer = () => {
               {t("footer.privacyPolicy")}
             </Link>
             <Link className="transition-colors hover:text-white" to="/">
-              Terms of Service.
+              Terms of Service
             </Link>
           </div>
         </div>
