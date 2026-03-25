@@ -26,6 +26,8 @@ import {
 
 const BOLD_MARKER_REGEX = /\*\*/;
 
+import whyChooseUsBg from "@/assets/home/home_why_choose_us.webp";
+
 export const KeyAttributes = () => {
   const { t } = useTranslation();
 
@@ -72,7 +74,16 @@ export const KeyAttributes = () => {
   };
 
   return (
-    <section className="bg-primary py-24 text-white">
+    <section className="relative overflow-hidden py-24 text-white">
+      {/* Background image */}
+      <img
+        src={whyChooseUsBg}
+        alt="Why Choose Us background"
+        className="absolute inset-0 h-full w-full object-cover object-center opacity-60 -z-10"
+        style={{ filter: "brightness(0.6)" }}
+      />
+      {/* Overlay for extra darkening */}
+      <div className="absolute inset-0 bg-black/60 -z-10" />
       <div className="container mx-auto px-4 md:px-6">
         <motion.div
           className="mx-auto mb-16 max-w-3xl text-center"
