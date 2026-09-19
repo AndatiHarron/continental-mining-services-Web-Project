@@ -1,8 +1,30 @@
 {
   "welcome": "Welcome to our app",
   "description": "Your go-to multilingual React application.",
+  "common": {
+    "skipToContent": "Skip to main content",
+    "requestQuote": "Request a Quote",
+    "whatsapp": "WhatsApp",
+    "callUs": "Call us",
+    "emailUs": "Email us",
+    "learnMore": "Learn more",
+    "close": "Close",
+    "previous": "Previous image",
+    "next": "Next image",
+    "goToSlide": "Go to image {{n}}",
+    "scrollDown": "Scroll to explore",
+    "whatsappGeneric": "Hello, I would like to request a quote. You can also reach me at info@continental-miningservices.com",
+    "sourceLabel": "Source"
+  },
+  "home": {
+    "pageMeta": {
+      "title": "Mining Logistics & Equipment Rental in Sierra Leone | Continental Mining",
+      "description": "Sierra Leone's premier mining partner. Ore haulage, mine drilling, flatbed and container logistics, and heavy equipment rental from our Freetown base — 24/7."
+    }
+  },
   "hero": {
     "badge": "Sierra Leone's Premier Mining Partner",
+    "location": "Freetown · Sierra Leone",
     "heading": {
       "part1": "Mining Logistics",
       "part2": "Leaders in the Region"
@@ -13,12 +35,32 @@
       "fleet": "View Rental Fleet"
     },
     "image": {
-      "alt": "Topographical Map Pattern"
-    }
+      "alt": "Hyundai excavator loading rock into a mining dump truck at an open-pit mine"
+    },
+    "stats": [
+      {
+        "value": "6",
+        "label": "Core mining services"
+      },
+      {
+        "value": "24/7",
+        "label": "Operational support"
+      },
+      {
+        "value": "100%",
+        "label": "Local expertise"
+      },
+      {
+        "value": "41 t",
+        "label": "Rated dump-truck payload"
+      }
+    ]
   },
   "services": {
+    "eyebrow": "What we do",
     "heading": "Core Services",
-    "description": "Comprehensive mining support solutions tailored to the challenging terrain of Sierra Leone.",
+    "description": "Comprehensive mining support solutions tailored to the challenging terrain of Sierra Leone — from the drill site to the port.",
+    "cta": "Explore all services",
     "items": {
       "oreHaulage": {
         "title": "Ore Loading & Haulage",
@@ -35,36 +77,120 @@
     }
   },
   "rental": {
+    "eyebrow": "Equipment rental · Fleet explorer",
     "heading": "Fleet Available for Rent",
-    "description": "Modern, well-maintained heavy machinery ready for deployment.",
+    "description": "Modern, well-maintained Hyundai and SAG (Sagmoto) heavy machinery ready for deployment — with flexible rental terms to match your project timeline. Select a machine to explore its specifications and technology.",
     "button": {
       "fleet": "View Full Fleet"
+    },
+    "requestMachine": "Request this machine",
+    "whatsappText": "Hello, I would like to check availability and rates for: {{machine}}.",
+    "featuredModel": "Featured model",
+    "specLabels": {
+      "operatingWeight": "Operating weight",
+      "enginePower": "Engine power",
+      "bucketCapacity": "Bucket capacity",
+      "bladeCapacity": "Blade capacity",
+      "payload": "Rated payload",
+      "drive": "Configurations",
+      "model": "Model",
+      "type": "Type",
+      "ratedPower": "Rated power",
+      "emission": "Emission standard",
+      "torque": "Max. torque",
+      "heapedCapacity": "Heaped body capacity",
+      "tippingAngle": "Tipping angle",
+      "transmission": "Transmission",
+      "engine": "Engine",
+      "machineClass": "Machine class",
+      "groundClearance": "Ground clearance",
+      "trackConfig": "Track configurations"
+    },
+    "specValues": {
+      "articulatedDumpTruck": "Articulated dump truck",
+      "fullTime6x6": "Full-time 6x6",
+      "fiveSpeedLockup": "5-speed with lock-up clutch",
+      "class30t": "30-tonne class",
+      "autoRetarder": "Automatic with retarder"
     },
     "items": {
       "excavators": {
         "title": "Excavators",
-        "description": "Heavy duty excavators for large scale earth moving."
+        "description": "Heavy duty excavators for large scale earth moving.",
+        "longDescription": "Heavy-duty Hyundai HX-series crawler excavators for large-scale earth moving, mass excavation and loading haul trucks at the pit face. Our excavator fleet covers the 21–35 tonne class, with 120–210 kW engines and 0.8–2.1 m³ buckets.",
+        "features": [
+          "Hi MATE telematics for remote monitoring of machine activity and performance",
+          "AAVM camera system giving the operator a 360° view around the machine",
+          "IMOD detection warns when people or objects come within 5 metres",
+          "Cummins engines balancing power, precise control and lower running costs"
+        ]
       },
       "bulldozers": {
         "title": "Bulldozers",
-        "description": "Powerful bulldozers for site clearing and preparation."
+        "description": "Powerful bulldozers for site clearing and preparation.",
+        "longDescription": "Powerful Hyundai crawler dozers for site clearing, levelling and preparation before mining and construction work begins. Our bulldozers cover the 18–38 tonne class with 150–320 kW engines and 3.5–7.0 m³ blades.",
+        "features": [
+          "Hyundai HD-series crawler dozer platform",
+          "XL and low-ground-pressure (LGP) track configurations for soft or wet ground",
+          "Built for site clearing, levelling and preparation"
+        ]
       },
       "loaders": {
         "title": "Front Loaders",
-        "description": "Versatile loaders for material handling and loading."
+        "description": "Versatile loaders for material handling and loading.",
+        "longDescription": "Versatile Hyundai HL-series wheel loaders for material handling, stockpile work and loading ore into haul trucks. Our loaders range from 12 to 25 tonnes with 100–180 kW engines and 1.8–4.5 m³ buckets.",
+        "features": [
+          "Onboard weighing system to measure every bucket and manage production",
+          "Smart Power mode — up to 5% fuel savings in heavy-load work",
+          "AAVM 360° view and IMOD object detection within 5 metres",
+          "Hydraulic locking differential and Z-bar linkage for strong lifting and tilt forces"
+        ]
       },
       "dumpTrucks": {
         "title": "Heavy Dump Trucks",
-        "description": "6x6 and 8x8 configurations for all terrains."
+        "description": "6x6 and 8x8 configurations for all terrains.",
+        "longDescription": "Hyundai articulated dump trucks for long hauls across rough, uneven terrain, with 6x6 and 8x8 configurations for all terrains. Our featured Hyundai HA45A carries a rated payload of 41 tonnes.",
+        "features": [
+          "Full-time 6x6 drive with automatic transmission and retarder",
+          "Self-levelling hydro-gas front suspension for rough haul roads",
+          "70° tipping angle and 26 m³ heaped body for fast, clean dumping",
+          "Auto-grease system, 7\" colour display and Hi MATE telematics"
+        ]
+      },
+      "tipperTrucks": {
+        "title": "Tipper Trucks",
+        "description": "High-capacity 8x4 tipper trucks for hauling.",
+        "longDescription": "High-capacity SAG (Sagmoto) tipper trucks for hauling ore and bulk material on mining operations and construction projects. Well-maintained and ready for deployment across Sierra Leone.",
+        "features": [
+          "Weichai WP12 / WP13 diesel engines from 420 to 580 HP",
+          "Locking inter-axle and inter-wheel differentials for off-road traction",
+          "320 mm to over 400 mm ground clearance on off-road models",
+          "Reinforced chassis frames with additional cross-members",
+          "Transmission options including FAST manual / AMT, ZF and Allison automatic"
+        ]
       }
     },
     "card": {
       "viewSpecs": "View Specs"
-    }
+    },
+    "fleetRange": "CMS fleet range",
+    "referenceModel": "Manufacturer reference model",
+    "technology": "Technology & features",
+    "sourceNote": "Manufacturer published data ({{source}}). Specifications vary by model and configuration.",
+    "brandLabel": "Built by",
+    "selectMachine": "Select a machine",
+    "machineTypes": "Machine types"
   },
   "keyAttributes": {
+    "eyebrow": "Why choose us",
     "heading": "Why Choose Us",
     "description": "Our commitment to excellence drives everything we do.",
+    "points": [
+      "International safety standards",
+      "Deep knowledge of West African terrain",
+      "Fleet maintained to rigorous standards",
+      "24/7 operational support"
+    ],
     "items": {
       "capacity": {
         "title": "Capacity",
@@ -88,6 +214,60 @@
       }
     }
   },
+  "process": {
+    "eyebrow": "How we work",
+    "heading": "From First Call to Final Delivery",
+    "description": "An integrated approach that bridges the gap between extraction and export.",
+    "steps": [
+      {
+        "title": "Consult",
+        "text": "Tell us about your location, timeline and requirements — by phone, email, WhatsApp or our contact form."
+      },
+      {
+        "title": "Plan",
+        "text": "Our Freetown team prepares a customized service proposal matched to your site and schedule."
+      },
+      {
+        "title": "Deploy",
+        "text": "We mobilize well-maintained equipment and trained personnel wherever you need them in Sierra Leone."
+      },
+      {
+        "title": "Deliver & Support",
+        "text": "From the moment ore is drilled to the moment it reaches the port, we keep your materials moving — backed by 24/7 support."
+      }
+    ]
+  },
+  "faq": {
+    "eyebrow": "FAQ",
+    "heading": "Frequently Asked Questions",
+    "description": "Quick answers about our services, fleet and coverage. Can't find what you need? Our team is one call away.",
+    "items": [
+      {
+        "question": "What services does Continental Mining Services offer?",
+        "answer": "We provide six core services: ore loading and haulage, mine drilling (exploration and blast hole), flatbed cargo movement for heavy machinery, port-to-site container movement, tipper truck rentals, and earth moving equipment rental."
+      },
+      {
+        "question": "Where in Sierra Leone do you operate?",
+        "answer": "We are headquartered in Freetown and deploy equipment and personnel across Sierra Leone — from the iron-ore rich northern districts to the diamond fields of the east."
+      },
+      {
+        "question": "What equipment is available for rent?",
+        "answer": "Our rental fleet includes excavators, bulldozers, front loaders, compactors, tipper trucks and heavy dump trucks in 6x6 and 8x8 configurations. Rental terms are flexible to match your project timeline."
+      },
+      {
+        "question": "How do I request a quote?",
+        "answer": "Message us on WhatsApp or call +232 75 311632, email info@continental-miningservices.com, or use our contact form. Share your location, timeline and requirements and we will prepare a customized service proposal."
+      },
+      {
+        "question": "How do you manage safety on site?",
+        "answer": "Safety is our culture. All operators undergo rigorous training, personal protective equipment is mandatory, machinery is regularly inspected and equipped with modern telemetry, and we comply with local and international mining safety regulations."
+      },
+      {
+        "question": "Do you provide support outside business hours?",
+        "answer": "Yes. We offer 24/7 operational support so your operations never face downtime due to equipment failure."
+      }
+    ]
+  },
   "cta": {
     "heading": "Ready to Optimize Your Operations?",
     "description": "Contact us today to discuss your mining logistics and equipment needs.",
@@ -105,46 +285,81 @@
       "quote": "Request Quote"
     },
     "mobile": {
-      "language": "Language"
+      "language": "Language",
+      "open": "Open menu",
+      "title": "Menu"
     }
   },
   "footer": {
     "description": "Delivering capacity, safety, and efficiency to Sierra Leone's mining sector.",
     "sections": {
       "contact": "Contact",
-      "quickLinks": "Quick Links"
+      "quickLinks": "Quick Links",
+      "services": "Services",
+      "company": "Company"
     },
-    "location": "Sierra Leone",
+    "location": "Freetown, Sierra Leone",
+    "support": "24/7 operational support",
     "links": {
       "home": "Home",
       "services": "Services",
       "contact": "Contact",
       "equipmentRental": "Equipment Rental"
     },
+    "language": "Language",
+    "backToTop": "Back to top",
     "copyright": "Continental Mining Services. All rights reserved.",
     "privacyPolicy": "Privacy Policy"
   },
+  "notFound": {
+    "pageMeta": {
+      "title": "Page Not Found | Continental Mining Services"
+    },
+    "code": "404",
+    "title": "This site doesn't exist on our map",
+    "text": "The page you are looking for may have moved or no longer exists.",
+    "home": "Back to home",
+    "services": "View our services"
+  },
   "about": {
     "pageMeta": {
-      "title": "About Continental Mining Services - Mining Partner in Sierra Leone | Continental Mining Services",
+      "title": "About Us – Mining Logistics Partner in Sierra Leone | Continental Mining",
       "slug": "/about",
-      "description": "Learn about Continental Mining Services, our mission in Sierra Leone, and our commitment to safety and operational excellence."
+      "description": "Learn about Continental Mining Services: a Freetown-based mining logistics partner combining international safety standards with deep local knowledge."
     },
     "pageHeader": {
+      "eyebrow": "About CMS",
       "title": "Building Africa's Mining Future",
       "subtitle": "A dedicated partner for heavy logistics and mining support in West Africa.",
       "breadcrumbs": ["Home", "About Us"]
     },
     "companyProfile": {
+      "eyebrow": "Our story",
       "headline": "Who We Are",
       "bodyParagraphs": [
         "Continental Mining Services (CMS) is a premier provider of mining logistics and support services based in Freetown, Sierra Leone. We specialize in the critical 'last mile' of mining operations—from ore haulage and precision drilling to the movement of heavy machinery.",
         "Founded with a vision to modernize local mining infrastructure, CMS combines international safety standards with deep local knowledge of the West African terrain. Our fleet is maintained to rigorous standards, ensuring that your operations never face downtime due to equipment failure."
       ],
-      "imageAlt": "Industrial meeting room with engineers looking at mining blueprints, professional lighting",
-      "statBadges": ["100% Local Expertise", "24/7 Operational Support"]
+      "imageAlt": "Engineers and managers planning a mining project around a meeting table",
+      "statBadges": ["100% Local Expertise", "24/7 Operational Support"],
+      "highlights": [
+        {
+          "value": "Freetown",
+          "label": "Headquarters"
+        },
+        {
+          "value": "24/7",
+          "label": "Operational support"
+        },
+        {
+          "value": "6",
+          "label": "Integrated services"
+        }
+      ]
     },
     "missionVisionValues": {
+      "eyebrow": "What drives us",
+      "heading": "Mission, Vision & Values",
       "mission": {
         "title": "Our Mission",
         "text": "To provide reliable, safe, and efficient mining support services that empower our clients to maximize their extraction potential while minimizing operational risks."
@@ -164,19 +379,80 @@
       }
     },
     "safetyCommitment": {
+      "eyebrow": "Health & safety",
       "headline": "Uncompromising Safety Standards",
       "text": "In the mining industry, safety is not just a policy—it is our culture. All CMS operators undergo rigorous training, and our machinery is equipped with modern telemetry and safety features to protect both personnel and the environment.",
+      "policyTitle": "Mining Safety Policy & Best Practices",
+      "imageAlt": "Mining crew wearing personal protective equipment on site",
+      "policy": [
+        {
+          "title": "Comprehensive Training",
+          "text": "All personnel undergo rigorous safety training before entering mining sites."
+        },
+        {
+          "title": "Personal Protective Equipment",
+          "text": "Mandatory helmets, gloves, boots, high-visibility vests and respiratory protection."
+        },
+        {
+          "title": "Hazard Identification",
+          "text": "Continuous risk assessment and hazard identification to prevent accidents."
+        },
+        {
+          "title": "Equipment Safety",
+          "text": "Regular inspection and maintenance of all machinery and vehicles."
+        },
+        {
+          "title": "Emergency Preparedness",
+          "text": "Clear evacuation plans, regular drills and accessible first-aid kits."
+        },
+        {
+          "title": "Environmental Protection",
+          "text": "Measures to prevent contamination and protect local ecosystems."
+        },
+        {
+          "title": "Health Monitoring",
+          "text": "Ongoing health checks for all workers to detect and address issues early."
+        },
+        {
+          "title": "Communication",
+          "text": "Reliable communication systems for reporting hazards and emergencies."
+        },
+        {
+          "title": "Compliance",
+          "text": "Adherence to all local and international mining safety regulations and standards."
+        }
+      ],
       "ctaButton": {
         "text": "View Our Safety Policy",
         "link": "#"
       }
     },
     "regionFocus": {
+      "eyebrow": "Where we operate",
       "headline": "Operating in Sierra Leone",
       "text": "Headquartered in Freetown, we understand the unique logistical challenges of the region. From the iron ore rich northern districts to the diamond fields of the east, CMS has the capability to deploy equipment and personnel where you need them most.",
-      "mapHighlight": "Sierra Leone"
+      "mapHighlight": "Mineral processing plant at a mining site in Sierra Leone",
+      "regions": [
+        {
+          "name": "Freetown",
+          "detail": "Headquarters and operations base"
+        },
+        {
+          "name": "Northern districts",
+          "detail": "Iron-ore rich mining regions"
+        },
+        {
+          "name": "Eastern districts",
+          "detail": "Diamond fields"
+        },
+        {
+          "name": "Port to site",
+          "detail": "Container and cargo movement nationwide"
+        }
+      ]
     },
     "companyAttributes": {
+      "eyebrow": "Capabilities",
       "heading": "Our Core Strengths",
       "description": "Built on a foundation of excellence and innovation.",
       "items": {
@@ -210,18 +486,21 @@
   },
   "servicesPage": {
     "pageMeta": {
-      "title": "Mining Services - Ore Haulage, Drilling & Equipment Rental | Continental Mining Services",
+      "title": "Ore Haulage, Drilling & Equipment Rental | Continental Mining Services",
       "slug": "/services",
-      "description": "Comprehensive mining solutions including ore haulage, precision drilling, and heavy logistics in Sierra Leone."
+      "description": "Ore haulage, mine drilling, flatbed cargo, container movement, tipper truck and earth moving equipment rental across Sierra Leone. Request a quote today."
     },
     "pageHeader": {
+      "eyebrow": "Our services",
       "title": "Operational Excellence",
       "subtitle": "Delivering efficient, safe, and scalable solutions for the mining lifecycle.",
       "breadcrumbs": ["Home", "Services"]
     },
     "introText": {
+      "eyebrow": "Integrated support",
       "headline": "End-to-End Mining Support",
-      "text": "Continental Mining Services streamlines your operations by bridging the gap between extraction and export. Our integrated approach ensures that from the moment ore is drilled to the moment it reaches the port, your materials are moving efficiently."
+      "text": "Continental Mining Services streamlines your operations by bridging the gap between extraction and export. Our integrated approach ensures that from the moment ore is drilled to the moment it reaches the port, your materials are moving efficiently.",
+      "jumpTo": "Jump to a service"
     },
     "detailedList": {
       "oreHaulage": {
@@ -238,7 +517,13 @@
             "description": "We ensure secure delivery of ore to clients."
           }
         ],
-        "ctaText": "Request Haulage Quote"
+        "ctaText": "Request Haulage Quote",
+        "whatsappText": "Hello, I would like to request a quote for ore haulage services.",
+        "keyFacts": [
+          "High-capacity tipper trucks",
+          "Front-loader loading",
+          "Built for rough terrain"
+        ]
       },
       "mineDrilling": {
         "title": "Mine Drilling Services",
@@ -254,7 +539,13 @@
             "description": "Skilled professionals ensuring efficient operations."
           }
         ],
-        "ctaText": "Discuss Drilling Needs"
+        "ctaText": "Discuss Drilling Needs",
+        "whatsappText": "Hello, I would like to discuss my mine drilling requirements.",
+        "keyFacts": [
+          "Exploration drilling",
+          "Blast hole drilling",
+          "Depth accuracy & sample integrity"
+        ]
       },
       "flatbedCargo": {
         "title": "Flatbed Cargo Movement",
@@ -274,7 +565,13 @@
             "description": "Adaptable services for diverse cargo needs."
           }
         ],
-        "ctaText": "Get Flatbed Rates"
+        "ctaText": "Get Flatbed Rates",
+        "whatsappText": "Hello, I am interested in getting rates for flatbed cargo movement.",
+        "keyFacts": [
+          "Heavy machinery transport",
+          "All terrains",
+          "Large-scale logistics"
+        ]
       },
       "containerMovement": {
         "title": "Container Movement",
@@ -290,7 +587,9 @@
             "description": "Ensuring on-time transportation to specified destinations."
           }
         ],
-        "ctaText": "Request Container Services"
+        "ctaText": "Request Container Services",
+        "whatsappText": "Hello, I would like to request information about your container movement services.",
+        "keyFacts": ["Port-to-site", "Secure & on time", "Supply chain support"]
       },
       "tipperTruckRentals": {
         "title": "Tipper Truck Rentals",
@@ -306,7 +605,13 @@
             "description": "Well-maintained vehicles ensuring consistent performance."
           }
         ],
-        "ctaText": "View Truck Fleet"
+        "ctaText": "View Truck Fleet",
+        "whatsappText": "Hello, I would like to check availability and rates for tipper truck rentals.",
+        "keyFacts": [
+          "SAG (Sagmoto) tipper trucks",
+          "Mining & construction",
+          "Deployment-ready"
+        ]
       },
       "earthMovingRental": {
         "title": "Earth Moving Equipment Rental",
@@ -322,10 +627,17 @@
             "description": "Adaptable rental solutions to match your project timeline."
           }
         ],
-        "ctaText": "Browse Equipment"
+        "ctaText": "Browse Equipment",
+        "whatsappText": "Hello, I would like to check availability and rates for earth moving equipment.",
+        "keyFacts": [
+          "Hyundai excavators",
+          "Bulldozers & compactors",
+          "Flexible rental terms"
+        ]
       }
     },
     "rentalTeaser": {
+      "eyebrow": "Equipment rental",
       "headline": "Need Machinery?",
       "text": "We also offer direct rentals of our heavy equipment fleet, including excavators, bulldozers, and compactors.",
       "buttonText": "View Rental Catalog",
@@ -335,15 +647,17 @@
       "headline": "Streamline Your Operations Today",
       "subheadline": "Contact our Freetown team for a customized service proposal.",
       "buttonText": "Contact Us"
-    }
+    },
+    "keyFactsLabel": "At a glance"
   },
   "contactPage": {
     "pageMeta": {
-      "title": "Contact Us - Mining Services in Freetown, Sierra Leone | Continental Mining Services",
+      "title": "Contact Us – Freetown, Sierra Leone | Continental Mining Services",
       "slug": "/contact-us",
-      "description": "Get in touch with Continental Mining Services in Freetown for quotes on ore haulage, drilling, and equipment rentals."
+      "description": "Contact Continental Mining Services in Freetown for quotes on ore haulage, mine drilling, logistics and equipment rental. Call or WhatsApp +232 75 311632."
     },
     "pageHeader": {
+      "eyebrow": "Contact",
       "breadcrumbs": ["Home", "Contact"],
       "title": "Start Your Project",
       "subtitle": "Reach out to our team for inquiries, fleet availability, and project quotes."
@@ -360,10 +674,20 @@
       },
       "phone": {
         "label": "Call Us"
-      }
+      },
+      "whatsapp": {
+        "label": "WhatsApp",
+        "value": "Chat with our team"
+      },
+      "support": {
+        "label": "Operational Support",
+        "value": "Available 24/7"
+      },
+      "follow": "Follow us"
     },
     "form": {
       "title": "Send a Message",
+      "intro": "Tell us what you need and we will get back to you with a customized proposal.",
       "fields": {
         "fullName": {
           "label": "Full Name",
@@ -393,10 +717,48 @@
         "Equipment Rental",
         "Logistics/Cargo"
       ],
-      "submitButton": "Send Message"
+      "optional": "optional",
+      "submitButton": "Send Message",
+      "whatsappButton": "Send via WhatsApp instead",
+      "emailSubject": "Website enquiry",
+      "successTitle": "Almost there!",
+      "successText": "Your email app should now open with your message ready to send. Prefer instant chat? Send the same details on WhatsApp.",
+      "sendAnother": "Edit message"
     },
     "map": {
-      "location": "Freetown, Sierra Leone"
+      "eyebrow": "Visit us",
+      "location": "Freetown, Sierra Leone",
+      "title": "Map showing Freetown, Sierra Leone",
+      "directions": "Get directions"
     }
+  },
+  "chain": {
+    "eyebrow": "The mining logistics chain",
+    "heading": "From Pit to Port",
+    "description": "We bridge the gap between extraction and export. Explore how our services connect along the chain — from the moment ore is drilled to the moment it reaches the port.",
+    "stage": "Stage",
+    "viewService": "View service",
+    "steps": [
+      {
+        "title": "Drill",
+        "text": "Exploration and blast hole drilling with modern rigs, ensuring the depth accuracy and sample integrity critical for geological assessment and efficient blasting."
+      },
+      {
+        "title": "Load",
+        "text": "Excavators and front loaders load mined material efficiently and safely at the face, keeping trucks moving and production on schedule."
+      },
+      {
+        "title": "Haul",
+        "text": "High-capacity tipper and dump trucks move ore across the rough terrain of Sierra Leone's mining districts, delivering your yield safely."
+      },
+      {
+        "title": "Relocate",
+        "text": "Flatbed trailers transport heavy machinery and equipment across all terrains, with streamlined loading and unloading."
+      },
+      {
+        "title": "Ship",
+        "text": "Containers move securely and on time between the port and your site, supporting your supply chain operations."
+      }
+    ]
   }
 }

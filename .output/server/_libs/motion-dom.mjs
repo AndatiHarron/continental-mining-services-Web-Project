@@ -1,4 +1,4 @@
-import { M as MotionGlobalConfig, n as noop, c as clamp, p as pipe, m as millisecondsToSeconds, s as secondsToMilliseconds, v as velocityPerSecond, i as invariant, a as progress, b as isEasingArray, e as easingDefinitionToFunction, d as easeInOut, f as memo, g as isBezierDefinition, h as circInOut, j as backInOut, k as anticipate, l as isNumericalString, S as SubscriptionManager, o as isZeroValueString, q as isObject, r as circOut, t as addUniqueItem, u as removeItem } from "./motion-utils.mjs";
+import { M as MotionGlobalConfig, n as noop, c as clamp, p as pipe, m as millisecondsToSeconds, s as secondsToMilliseconds, v as velocityPerSecond, i as invariant, a as progress, b as isEasingArray, e as easingDefinitionToFunction, d as easeInOut, f as memo, h as isBezierDefinition, j as circInOut, k as backInOut, l as anticipate, o as isNumericalString, S as SubscriptionManager, q as isZeroValueString, t as isObject, u as circOut, w as addUniqueItem, r as removeItem } from "./motion-utils.mjs";
 const stepsOrder = [
   "setup",
   // Compute
@@ -2043,6 +2043,90 @@ class AsyncMotionValueAnimation extends WithPromise {
     this.keyframeResolver?.cancel();
   }
 }
+class GroupAnimation {
+  constructor(animations) {
+    this.stop = () => this.runAll("stop");
+    this.animations = animations.filter(Boolean);
+  }
+  get finished() {
+    return Promise.all(this.animations.map((animation) => animation.finished));
+  }
+  /**
+   * TODO: Filter out cancelled or stopped animations before returning
+   */
+  getAll(propName) {
+    return this.animations[0][propName];
+  }
+  setAll(propName, newValue) {
+    for (let i = 0; i < this.animations.length; i++) {
+      this.animations[i][propName] = newValue;
+    }
+  }
+  attachTimeline(timeline) {
+    const subscriptions = this.animations.map((animation) => animation.attachTimeline(timeline));
+    return () => {
+      subscriptions.forEach((cancel, i) => {
+        cancel && cancel();
+        this.animations[i].stop();
+      });
+    };
+  }
+  get time() {
+    return this.getAll("time");
+  }
+  set time(time2) {
+    this.setAll("time", time2);
+  }
+  get speed() {
+    return this.getAll("speed");
+  }
+  set speed(speed) {
+    this.setAll("speed", speed);
+  }
+  get state() {
+    return this.getAll("state");
+  }
+  get startTime() {
+    return this.getAll("startTime");
+  }
+  get duration() {
+    return getMax(this.animations, "duration");
+  }
+  get iterationDuration() {
+    return getMax(this.animations, "iterationDuration");
+  }
+  runAll(methodName) {
+    this.animations.forEach((controls) => controls[methodName]());
+  }
+  play() {
+    this.runAll("play");
+  }
+  pause() {
+    this.runAll("pause");
+  }
+  cancel() {
+    this.runAll("cancel");
+  }
+  complete() {
+    this.runAll("complete");
+  }
+}
+function getMax(animations, propName) {
+  let max = 0;
+  for (let i = 0; i < animations.length; i++) {
+    const value = animations[i][propName];
+    if (value !== null && value > max) {
+      max = value;
+    }
+  }
+  return max;
+}
+class GroupAnimationWithThen extends GroupAnimation {
+  then(onResolve, _onReject) {
+    return this.finished.finally(onResolve).then(() => {
+    });
+  }
+}
 function calcChildStagger(children, child, delayChildren, staggerChildren = 0, staggerDirection = 1) {
   const index = Array.from(children).sort((a, b) => a.sortNodePosition(b)).indexOf(child);
   const numChildren = children.size;
@@ -2942,7 +3026,10 @@ function resolveElements(elementOrSelector, scope, selectorCache) {
     return [elementOrSelector];
   } else if (typeof elementOrSelector === "string") {
     let root = document;
-    const elements = root.querySelectorAll(elementOrSelector);
+    if (scope) {
+      root = scope.current;
+    }
+    const elements = selectorCache?.[elementOrSelector] ?? root.querySelectorAll(elementOrSelector);
     return elements ? Array.from(elements) : [];
   }
   return Array.from(elementOrSelector).filter((element) => element != null);
@@ -3276,6 +3363,77 @@ function transform(...args) {
   const options = args[3 + argOffset];
   const interpolator = interpolate(inputRange, outputRange, options);
   return useImmediate ? interpolator(inputValue) : interpolator;
+}
+function attachFollow(value, source, options = {}) {
+  const initialValue = value.get();
+  let activeAnimation = null;
+  let latestValue = initialValue;
+  let latestSetter;
+  const unit = typeof initialValue === "string" ? initialValue.replace(/[\d.-]/g, "") : void 0;
+  const stopAnimation = () => {
+    if (activeAnimation) {
+      activeAnimation.stop();
+      activeAnimation = null;
+    }
+    value.animation = void 0;
+  };
+  const startAnimation = () => {
+    const currentValue = asNumber$1(value.get());
+    const targetValue = asNumber$1(latestValue);
+    if (currentValue === targetValue) {
+      stopAnimation();
+      return;
+    }
+    const velocity = activeAnimation ? activeAnimation.getGeneratorVelocity() : value.getVelocity();
+    stopAnimation();
+    activeAnimation = new JSAnimation({
+      keyframes: [currentValue, targetValue],
+      velocity,
+      // Default to spring if no type specified (matches useSpring behavior)
+      type: "spring",
+      restDelta: 1e-3,
+      restSpeed: 0.01,
+      ...options,
+      onUpdate: latestSetter
+    });
+  };
+  const scheduleAnimation = () => {
+    startAnimation();
+    value.animation = activeAnimation ?? void 0;
+    value["events"].animationStart?.notify();
+    activeAnimation?.then(() => {
+      value.animation = void 0;
+      value["events"].animationComplete?.notify();
+    });
+  };
+  value.attach((v, set) => {
+    latestValue = v;
+    latestSetter = (latest) => set(parseValue(latest, unit));
+    frame.postRender(scheduleAnimation);
+  }, stopAnimation);
+  if (isMotionValue(source)) {
+    let skipNextAnimation = options.skipInitialAnimation === true;
+    const removeSourceOnChange = source.on("change", (v) => {
+      if (skipNextAnimation) {
+        skipNextAnimation = false;
+        value.jump(parseValue(v, unit), false);
+      } else {
+        value.set(parseValue(v, unit));
+      }
+    });
+    const removeValueOnDestroy = value.on("destroy", removeSourceOnChange);
+    return () => {
+      removeSourceOnChange();
+      removeValueOnDestroy();
+    };
+  }
+  return stopAnimation;
+}
+function parseValue(v, unit) {
+  return unit ? v + unit : v;
+}
+function asNumber$1(v) {
+  return typeof v === "number" ? v : parseFloat(v);
 }
 const valueTypes = [...dimensionValueTypes, color, complex];
 const findValueType = (v) => valueTypes.find(testValueType(v));
@@ -4104,6 +4262,42 @@ class HTMLVisualElement extends DOMVisualElement {
   }
   scrapeMotionValuesFromProps(props, prevProps, visualElement) {
     return scrapeMotionValuesFromProps$1(props, prevProps, visualElement);
+  }
+}
+function isObjectKey(key, object) {
+  return key in object;
+}
+class ObjectVisualElement extends VisualElement {
+  constructor() {
+    super(...arguments);
+    this.type = "object";
+  }
+  readValueFromInstance(instance, key) {
+    if (isObjectKey(key, instance)) {
+      const value = instance[key];
+      if (typeof value === "string" || typeof value === "number") {
+        return value;
+      }
+    }
+    return void 0;
+  }
+  getBaseTargetFromProps() {
+    return void 0;
+  }
+  removeValueFromRenderState(key, renderState) {
+    delete renderState.output[key];
+  }
+  measureInstanceViewportBox() {
+    return createBox();
+  }
+  build(renderState, latestValues) {
+    Object.assign(renderState.output, latestValues);
+  }
+  renderInstance(instance, { output }) {
+    Object.assign(instance, output);
+  }
+  sortInstanceNodePosition() {
+    return 0;
   }
 }
 const dashKeys = {
@@ -5930,57 +6124,74 @@ const HTMLProjectionNode = createProjectionNode({
   checkIsScrollRoot: (instance) => Boolean(window.getComputedStyle(instance).position === "fixed")
 });
 export {
-  eachAxis as A,
-  measurePageBox as B,
-  convertBoxToBoundingBox as C,
-  convertBoundingBoxToBox as D,
-  addValueToWillChange as E,
+  transform as $,
+  calcLength as A,
+  createBox as B,
+  eachAxis as C,
+  measurePageBox as D,
+  convertBoxToBoundingBox as E,
   Feature as F,
-  animateMotionValue as G,
+  convertBoundingBoxToBox as G,
   HTMLVisualElement as H,
-  setDragLock as I,
-  resize as J,
-  percent as K,
-  isElementTextInput as L,
-  microtask as M,
-  globalProjectionState as N,
-  HTMLProjectionNode as O,
-  hover as P,
-  press as Q,
-  supportsViewTimeline as R,
+  addValueToWillChange as I,
+  animateMotionValue as J,
+  setDragLock as K,
+  resize as L,
+  percent as M,
+  isElementTextInput as N,
+  microtask as O,
+  globalProjectionState as P,
+  HTMLProjectionNode as Q,
+  hover as R,
   SVGVisualElement as S,
-  supportsScrollTimeline as T,
-  isHTMLElement as U,
-  interpolate as V,
-  defaultOffset as W,
-  observeTimeline as X,
-  motionValue as Y,
-  collectMotionValues as Z,
-  transform as _,
-  isControllingVariants as a,
-  isVariantLabel as b,
-  isForcedMotionValue as c,
-  buildHTMLStyles as d,
-  buildSVGAttrs as e,
-  isSVGTag as f,
+  press as T,
+  supportsViewTimeline as U,
+  supportsScrollTimeline as V,
+  interpolate as W,
+  defaultOffset as X,
+  observeTimeline as Y,
+  motionValue as Z,
+  collectMotionValues as _,
+  isMotionValue as a,
+  attachFollow as a0,
+  hasReducedMotionListener as a1,
+  initPrefersReducedMotion as a2,
+  prefersReducedMotion as a3,
+  resolveElements as a4,
+  createGeneratorEasing as a5,
+  fillOffset as a6,
+  isGenerator as a7,
+  isSVGElement as a8,
+  isSVGSVGElement as a9,
+  visualElementStore as aa,
+  ObjectVisualElement as ab,
+  animateSingleValue as ac,
+  animateTarget as ad,
+  spring as ae,
+  GroupAnimationWithThen as af,
+  isControllingVariants as b,
+  isVariantLabel as c,
+  isForcedMotionValue as d,
+  buildHTMLStyles as e,
+  buildSVGAttrs as f,
   getFeatureDefinitions as g,
-  isVariantNode as h,
-  isMotionValue as i,
-  isAnimationControls as j,
-  resolveVariantFromProps as k,
-  scrapeMotionValuesFromProps$1 as l,
-  scrapeMotionValuesFromProps as m,
-  createAnimationState as n,
-  optimizedAppearDataAttribute as o,
-  resolveVariant as p,
-  isPrimaryPointer as q,
-  resolveMotionValue as r,
+  isSVGTag as h,
+  isHTMLElement as i,
+  resolveMotionValue as j,
+  isVariantNode as k,
+  isAnimationControls as l,
+  resolveVariantFromProps as m,
+  scrapeMotionValuesFromProps$1 as n,
+  scrapeMotionValuesFromProps as o,
+  optimizedAppearDataAttribute as p,
+  createAnimationState as q,
+  resolveTransition as r,
   setFeatureDefinitions as s,
-  addDomEvent as t,
-  frameData as u,
-  frame as v,
-  cancelFrame as w,
-  mixNumber$1 as x,
-  calcLength as y,
-  createBox as z
+  resolveVariant as t,
+  isPrimaryPointer as u,
+  addDomEvent as v,
+  frameData as w,
+  frame as x,
+  cancelFrame as y,
+  mixNumber$1 as z
 };

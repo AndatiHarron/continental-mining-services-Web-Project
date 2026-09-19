@@ -1,105 +1,136 @@
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef, useState } from "react";
+import {
+  Alert02Icon,
+  CheckListIcon,
+  FirstAidKitIcon,
+  Leaf01Icon,
+  MessageMultiple01Icon,
+  SchoolIcon,
+  Settings02Icon,
+  ShieldUserIcon,
+  StethoscopeIcon,
+} from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { useTranslation } from "react-i18next";
-import { Button } from "@/components/ui/button";
 import sa1 from "@/assets/about-us/safety/sa-01.jpg";
 import sa2 from "@/assets/about-us/safety/sa-02.jpg";
+import { CornerBrackets } from "@/components/ui/corner-brackets";
+import { Reveal } from "@/components/ui/reveal";
+import { SectionHeading } from "@/components/ui/section-heading";
+
+/** One icon per policy item, in the same order as the translation file */
+const POLICY_ICONS = [
+  SchoolIcon,
+  ShieldUserIcon,
+  Alert02Icon,
+  Settings02Icon,
+  FirstAidKitIcon,
+  Leaf01Icon,
+  StethoscopeIcon,
+  MessageMultiple01Icon,
+  CheckListIcon,
+];
 
 export const SafetyCommitment = () => {
   const { t } = useTranslation();
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-
-  const y = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
-
-  const [showPopup, setShowPopup] = useState(false);
+  const policy = t("about.safetyCommitment.policy", {
+    returnObjects: true,
+  }) as Array<{
+    title: string;
+    text: string;
+  }>;
 
   return (
     <section
-      className="relative overflow-hidden bg-primary py-24 text-white"
-      ref={ref}
+      className="relative isolate overflow-hidden bg-black py-24 text-white md:py-32"
+      id="safety"
     >
-      <motion.div
-        className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1578328819058-b69f3a3b0f6b?q=80&w=2574&auto=format&fit=crop')] bg-center bg-cover opacity-10 mix-blend-overlay"
-        style={{ y }}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10 bg-linear-to-br from-black via-gray-900 to-primary/50"
       />
-      <div className="absolute inset-0 bg-linear-to-r from-primary/90 via-primary/80 to-primary/90" />
-      <div className="container relative mx-auto px-4 md:px-6">
-        <motion.div
-          className="mx-auto max-w-4xl text-center"
-          initial={{ opacity: 0, y: 30 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          whileInView={{ opacity: 1, y: 0 }}
-        >
-          <h2 className="mb-6 font-bold font-heading text-3xl md:text-5xl">
-            {t("about.safetyCommitment.headline")}
-          </h2>
-          <p className="mx-auto mb-10 max-w-2xl text-white/80 text-xl leading-relaxed">
-            {t("about.safetyCommitment.text")}
-          </p>
-          <motion.div
-            transition={{ type: "spring", stiffness: 400, damping: 10 }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Button
-              className="h-14 border-white/20 bg-white/5 px-10 font-bold text-lg text-white backdrop-blur-sm transition-all hover:bg-white/10 hover:shadow-lg hover:shadow-white/5"
-              size="lg"
-              variant="outline"
-              onClick={() => setShowPopup(true)}
-            >
-              {t("about.safetyCommitment.ctaButton.text")}
-            </Button>
-          </motion.div>
-        </motion.div>
-      </div>
-      {showPopup && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-[10px]"
-          style={{ background: "rgba(0,0,0,0.60)" }}
-          onClick={() => setShowPopup(false)}
-        >
-          <div
-            className="relative rounded-2xl p-8 w-full max-w-2xl shadow-2xl border border-white/20 text-white"
-            style={{
-              background: "rgba(20, 20, 30, 0.85)",
-              boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
-              backdropFilter: "blur(16px)",
-              WebkitBackdropFilter: "blur(16px)",
-              border: "1px solid rgba(255,255,255,0.18)",
-            }}
-            onClick={e => e.stopPropagation()}
-          >
-            <h3 className="mb-4 font-bold text-2xl text-white">Mining Safety Policy & Best Practices</h3>
-            <div className="flex flex-col md:flex-row gap-6 mb-4">
-              <img src={sa1} alt="Safety in Mining 1" className="rounded-lg w-full md:w-1/2 object-cover max-h-60" />
-              <img src={sa2} alt="Safety in Mining 2" className="rounded-lg w-full md:w-1/2 object-cover max-h-60" />
+      <div
+        aria-hidden="true"
+        className="mask-fade-y absolute inset-0 -z-10 bg-grid-light"
+      />
+
+      <div className="container mx-auto px-4 md:px-6">
+        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+          <SectionHeading
+            align="left"
+            description={t("about.safetyCommitment.text")}
+            eyebrow={t("about.safetyCommitment.eyebrow")}
+            title={t("about.safetyCommitment.headline")}
+            tone="inverted"
+          />
+          <Reveal className="grid grid-cols-2 gap-4" delay={0.1}>
+            <div className="tilt img-skeleton relative overflow-hidden rounded-3xl">
+              <img
+                alt={t("about.safetyCommitment.imageAlt")}
+                className="aspect-[3/4] w-full object-cover"
+                decoding="async"
+                height={640}
+                loading="lazy"
+                src={sa1}
+                width={480}
+              />
+              <CornerBrackets />
             </div>
-            <ul className="mb-4 space-y-2 text-white text-base text-left">
-              <li><b>Comprehensive Training:</b> All personnel must undergo rigorous safety training before entering mining sites.</li>
-              <li><b>Personal Protective Equipment (PPE):</b> Mandatory use of helmets, gloves, boots, high-visibility vests, and respiratory protection.</li>
-              <li><b>Hazard Identification:</b> Continuous risk assessment and hazard identification to prevent accidents.</li>
-              <li><b>Equipment Safety:</b> Regular inspection and maintenance of all machinery and vehicles.</li>
-              <li><b>Emergency Preparedness:</b> Clear evacuation plans, regular drills, and accessible first-aid kits.</li>
-              <li><b>Environmental Protection:</b> Measures to prevent contamination and protect local ecosystems.</li>
-              <li><b>Health Monitoring:</b> Ongoing health checks for all workers to detect and address issues early.</li>
-              <li><b>Communication:</b> Reliable communication systems for reporting hazards and emergencies.</li>
-              <li><b>Compliance:</b> Adherence to all local and international mining safety regulations and standards.</li>
-            </ul>
-            <button
-              className="mt-2 rounded-lg bg-white/10 px-6 py-2 font-semibold text-white hover:bg-white/20 border border-white/30"
-              onClick={() => setShowPopup(false)}
-              type="button"
-            >
-              Close
-            </button>
-          </div>
+            <div className="tilt img-skeleton relative mt-10 overflow-hidden rounded-3xl">
+              <img
+                alt={t("about.safetyCommitment.imageAlt")}
+                className="aspect-[3/4] w-full object-cover"
+                decoding="async"
+                height={640}
+                loading="lazy"
+                src={sa2}
+                width={480}
+              />
+              <CornerBrackets />
+            </div>
+          </Reveal>
         </div>
-      )}
+
+        <Reveal className="mt-20" delay={0.1}>
+          <div className="mb-8 flex items-end justify-between gap-6">
+            <h3 className="font-bold font-heading text-2xl text-white md:text-3xl">
+              {t("about.safetyCommitment.policyTitle")}
+            </h3>
+            <span className="shrink-0 font-readout font-semibold text-5xl text-white/25 md:text-6xl">
+              {String(policy.length).padStart(2, "0")}
+            </span>
+          </div>
+        </Reveal>
+        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {policy.map((item, index) => (
+            <li key={item.title}>
+              <Reveal className="h-full" delay={(index % 3) * 0.06}>
+                <div className="tilt spotlight spotlight-inverted group relative flex h-full gap-5 overflow-hidden rounded-3xl border border-white/10 bg-white/[0.05] p-6 backdrop-blur transition-all duration-300 hover:border-white/25 hover:bg-white/10">
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-secondary/25 text-white ring-1 ring-white/15 transition-colors group-hover:bg-secondary">
+                    <HugeiconsIcon
+                      className="h-6 w-6"
+                      icon={POLICY_ICONS[index % POLICY_ICONS.length]}
+                    />
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    className="absolute top-3 right-4 font-readout text-sm text-white/25"
+                  >
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <div>
+                    <h4 className="mb-1.5 font-bold font-heading text-lg text-white">
+                      {item.title}
+                    </h4>
+                    <p className="text-sm text-white/65 leading-relaxed">
+                      {item.text}
+                    </p>
+                  </div>
+                </div>
+              </Reveal>
+            </li>
+          ))}
+        </ul>
+      </div>
     </section>
   );
 };

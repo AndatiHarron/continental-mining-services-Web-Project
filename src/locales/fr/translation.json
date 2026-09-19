@@ -1,8 +1,30 @@
 {
   "welcome": "Welcome to our app - fr",
   "description": "Your go-to multilingual React application. - fr",
+  "common": {
+    "skipToContent": "Aller au contenu principal",
+    "requestQuote": "Demander un Devis",
+    "whatsapp": "WhatsApp",
+    "callUs": "Appelez-nous",
+    "emailUs": "Écrivez-nous",
+    "learnMore": "En savoir plus",
+    "close": "Fermer",
+    "previous": "Image précédente",
+    "next": "Image suivante",
+    "goToSlide": "Aller à l'image {{n}}",
+    "scrollDown": "Défiler pour explorer",
+    "whatsappGeneric": "Bonjour, je souhaite demander un devis. Vous pouvez aussi me joindre à info@continental-miningservices.com",
+    "sourceLabel": "Source"
+  },
+  "home": {
+    "pageMeta": {
+      "title": "Logistique Minière et Location d'Équipements en Sierra Leone | Continental Mining",
+      "description": "Partenaire minier de premier plan en Sierra Leone. Transport de minerai, forage, logistique par remorque plate et conteneurs, location d'équipements lourds — 24h/24."
+    }
+  },
   "hero": {
     "badge": "Partenaire Minier de Premier Plan en Sierra Leone",
+    "location": "Freetown · Sierra Leone",
     "heading": {
       "part1": "Logistique Minière",
       "part2": "Leaders dans la Région"
@@ -13,12 +35,32 @@
       "fleet": "Voir la Flotte de Location"
     },
     "image": {
-      "alt": "Motif de Carte Topographique"
-    }
+      "alt": "Pelle Hyundai chargeant de la roche dans un tombereau minier sur une mine à ciel ouvert"
+    },
+    "stats": [
+      {
+        "value": "6",
+        "label": "Services miniers clés"
+      },
+      {
+        "value": "24/7",
+        "label": "Support opérationnel"
+      },
+      {
+        "value": "100%",
+        "label": "Expertise locale"
+      },
+      {
+        "value": "41 t",
+        "label": "Charge utile nominale"
+      }
+    ]
   },
   "services": {
+    "eyebrow": "Nos métiers",
     "heading": "Services Principaux",
-    "description": "Solutions complètes de soutien minier adaptées au terrain difficile de la Sierra Leone.",
+    "description": "Solutions complètes de soutien minier adaptées au terrain difficile de la Sierra Leone — du site de forage jusqu'au port.",
+    "cta": "Découvrir tous les services",
     "items": {
       "oreHaulage": {
         "title": "Chargement et Transport de Minerai",
@@ -35,36 +77,120 @@
     }
   },
   "rental": {
+    "eyebrow": "Location d'équipements · Explorateur de flotte",
     "heading": "Flotte Disponible à la Location",
-    "description": "Machinerie lourde moderne et bien entretenue prête à être déployée.",
+    "description": "Machinerie lourde Hyundai et SAG (Sagmoto) moderne et bien entretenue, prête à être déployée — avec des conditions de location flexibles adaptées à votre projet. Sélectionnez une machine pour découvrir ses spécifications et sa technologie.",
     "button": {
       "fleet": "Voir la Flotte Complète"
+    },
+    "requestMachine": "Demander cette machine",
+    "whatsappText": "Bonjour, je souhaite connaître la disponibilité et les tarifs pour : {{machine}}.",
+    "featuredModel": "Modèle phare",
+    "specLabels": {
+      "operatingWeight": "Poids en ordre de marche",
+      "enginePower": "Puissance moteur",
+      "bucketCapacity": "Capacité du godet",
+      "bladeCapacity": "Capacité de la lame",
+      "payload": "Charge utile nominale",
+      "drive": "Configurations",
+      "model": "Modèle",
+      "type": "Type",
+      "ratedPower": "Puissance nominale",
+      "emission": "Norme d'émission",
+      "torque": "Couple max.",
+      "heapedCapacity": "Capacité de benne à ras bord",
+      "tippingAngle": "Angle de basculement",
+      "transmission": "Transmission",
+      "engine": "Moteur",
+      "machineClass": "Catégorie",
+      "groundClearance": "Garde au sol",
+      "trackConfig": "Configurations de chenilles"
+    },
+    "specValues": {
+      "articulatedDumpTruck": "Tombereau articulé",
+      "fullTime6x6": "6x6 permanent",
+      "fiveSpeedLockup": "5 vitesses avec embrayage de verrouillage",
+      "class30t": "Catégorie 30 tonnes",
+      "autoRetarder": "Automatique avec ralentisseur"
     },
     "items": {
       "excavators": {
         "title": "Pelles Mécaniques",
-        "description": "Pelles mécaniques robustes pour les travaux de terrassement à grande échelle."
+        "description": "Pelles mécaniques robustes pour les travaux de terrassement à grande échelle.",
+        "longDescription": "Pelles sur chenilles Hyundai série HX pour les grands travaux de terrassement, l'excavation de masse et le chargement des camions au front de taille. Notre flotte couvre la catégorie 21–35 tonnes, avec des moteurs de 120–210 kW et des godets de 0,8–2,1 m³.",
+        "features": [
+          "Télématique Hi MATE pour le suivi à distance de l'activité et des performances",
+          "Système de caméras AAVM offrant une vue à 360° autour de la machine",
+          "Détection IMOD : alerte lorsque des personnes ou objets approchent à moins de 5 mètres",
+          "Moteurs Cummins alliant puissance, contrôle précis et coûts d'exploitation réduits"
+        ]
       },
       "bulldozers": {
         "title": "Bulldozers",
-        "description": "Bulldozers puissants pour le déblaiement et la préparation des sites."
+        "description": "Bulldozers puissants pour le déblaiement et la préparation des sites.",
+        "longDescription": "Bouteurs sur chenilles Hyundai puissants pour le défrichage, le nivellement et la préparation des sites avant les travaux miniers et de construction. Nos bulldozers couvrent la catégorie 18–38 tonnes, avec des moteurs de 150–320 kW et des lames de 3,5–7,0 m³.",
+        "features": [
+          "Plateforme de bouteurs sur chenilles Hyundai série HD",
+          "Configurations de chenilles XL et basse pression au sol (LGP) pour les sols meubles ou humides",
+          "Conçus pour le défrichage, le nivellement et la préparation des sites"
+        ]
       },
       "loaders": {
         "title": "Chargeuses Frontales",
-        "description": "Chargeuses polyvalentes pour la manutention et le chargement de matériaux."
+        "description": "Chargeuses polyvalentes pour la manutention et le chargement de matériaux.",
+        "longDescription": "Chargeuses sur pneus Hyundai série HL polyvalentes pour la manutention, le travail sur stocks et le chargement du minerai dans les camions. Nos chargeuses vont de 12 à 25 tonnes, avec des moteurs de 100–180 kW et des godets de 1,8–4,5 m³.",
+        "features": [
+          "Système de pesage embarqué pour mesurer chaque godet et piloter la production",
+          "Mode Smart Power — jusqu'à 5 % d'économie de carburant en travaux lourds",
+          "Vue à 360° AAVM et détection d'objets IMOD à moins de 5 mètres",
+          "Différentiel à blocage hydraulique et cinématique en Z pour de fortes forces de levage et de cavage"
+        ]
       },
       "dumpTrucks": {
         "title": "Camions à Benne Basculante Lourds",
-        "description": "Configurations 6x6 et 8x8 pour tous les terrains."
+        "description": "Configurations 6x6 et 8x8 pour tous les terrains.",
+        "longDescription": "Tombereaux articulés Hyundai pour les longs trajets sur terrains accidentés, en configurations 6x6 et 8x8 pour tous les terrains. Notre modèle phare, le Hyundai HA45A, offre une charge utile nominale de 41 tonnes.",
+        "features": [
+          "Transmission intégrale 6x6 permanente, boîte automatique et ralentisseur",
+          "Suspension avant hydropneumatique autonivelante pour les pistes difficiles",
+          "Angle de basculement de 70° et benne de 26 m³ à ras bord pour un déchargement rapide",
+          "Graissage automatique, écran couleur 7\" et télématique Hi MATE"
+        ]
+      },
+      "tipperTrucks": {
+        "title": "Camions-Bennes",
+        "description": "Camions-bennes 8x4 à haute capacité pour le transport.",
+        "longDescription": "Camions-bennes SAG (Sagmoto) à haute capacité pour le transport de minerai et de matériaux en vrac sur les opérations minières et les chantiers de construction. Bien entretenus et prêts à être déployés dans toute la Sierra Leone.",
+        "features": [
+          "Moteurs diesel Weichai WP12 / WP13 de 420 à 580 ch",
+          "Différentiels à blocage inter-ponts et inter-roues pour la motricité tout-terrain",
+          "Garde au sol de 320 mm à plus de 400 mm sur les modèles tout-terrain",
+          "Châssis renforcés avec traverses supplémentaires",
+          "Options de transmission FAST manuelle / AMT, ZF et Allison automatique"
+        ]
       }
     },
     "card": {
       "viewSpecs": "Voir les Spécifications"
-    }
+    },
+    "fleetRange": "Gamme de la flotte CMS",
+    "referenceModel": "Modèle de référence constructeur",
+    "technology": "Technologie et équipements",
+    "sourceNote": "Données publiées par le constructeur ({{source}}). Les spécifications varient selon le modèle et la configuration.",
+    "brandLabel": "Construit par",
+    "selectMachine": "Choisir une machine",
+    "machineTypes": "Types de machines"
   },
   "keyAttributes": {
+    "eyebrow": "Pourquoi CMS",
     "heading": "Pourquoi Nous Choisir",
     "description": "Notre engagement envers l'excellence guide tout ce que nous faisons.",
+    "points": [
+      "Normes de sécurité internationales",
+      "Connaissance approfondie du terrain ouest-africain",
+      "Flotte entretenue selon des normes rigoureuses",
+      "Support opérationnel 24h/24, 7j/7"
+    ],
     "items": {
       "capacity": {
         "title": "Capacité",
@@ -88,6 +214,60 @@
       }
     }
   },
+  "process": {
+    "eyebrow": "Notre méthode",
+    "heading": "Du Premier Appel à la Livraison Finale",
+    "description": "Une approche intégrée qui comble le fossé entre l'extraction et l'exportation.",
+    "steps": [
+      {
+        "title": "Consulter",
+        "text": "Parlez-nous de votre emplacement, de votre calendrier et de vos exigences — par téléphone, email, WhatsApp ou via notre formulaire."
+      },
+      {
+        "title": "Planifier",
+        "text": "Notre équipe de Freetown prépare une proposition de service personnalisée, adaptée à votre site et à votre calendrier."
+      },
+      {
+        "title": "Déployer",
+        "text": "Nous mobilisons des équipements bien entretenus et du personnel formé partout où vous en avez besoin en Sierra Leone."
+      },
+      {
+        "title": "Livrer et Accompagner",
+        "text": "Du forage du minerai jusqu'à son arrivée au port, vos matériaux circulent efficacement — avec un support 24h/24."
+      }
+    ]
+  },
+  "faq": {
+    "eyebrow": "FAQ",
+    "heading": "Questions Fréquentes",
+    "description": "Réponses rapides sur nos services, notre flotte et notre couverture. Vous ne trouvez pas votre réponse ? Notre équipe est à un appel.",
+    "items": [
+      {
+        "question": "Quels services propose Continental Mining Services ?",
+        "answer": "Nous proposons six services clés : chargement et transport de minerai, forage minier (exploration et trous de mine), transport de machinerie lourde sur remorque plate, mouvement de conteneurs du port au site, location de camions-bennes et location d'équipements de terrassement."
+      },
+      {
+        "question": "Où intervenez-vous en Sierra Leone ?",
+        "answer": "Notre siège est à Freetown et nous déployons équipements et personnel dans toute la Sierra Leone — des districts du nord riches en minerai de fer aux champs de diamants de l'est."
+      },
+      {
+        "question": "Quels équipements sont disponibles à la location ?",
+        "answer": "Notre flotte comprend des pelles mécaniques, des bulldozers, des chargeuses frontales, des compacteurs, des camions-bennes et des tombereaux lourds en configurations 6x6 et 8x8. Les conditions de location sont flexibles pour s'adapter à votre projet."
+      },
+      {
+        "question": "Comment demander un devis ?",
+        "answer": "Écrivez-nous sur WhatsApp ou appelez le +232 75 311632, envoyez un email à info@continental-miningservices.com, ou utilisez notre formulaire de contact. Indiquez votre emplacement, votre calendrier et vos besoins : nous préparerons une proposition personnalisée."
+      },
+      {
+        "question": "Comment gérez-vous la sécurité sur site ?",
+        "answer": "La sécurité est notre culture. Tous les opérateurs suivent une formation rigoureuse, les équipements de protection individuelle sont obligatoires, les machines sont régulièrement inspectées et équipées de télémétrie moderne, et nous respectons les réglementations locales et internationales."
+      },
+      {
+        "question": "Assurez-vous un support en dehors des heures de bureau ?",
+        "answer": "Oui. Nous offrons un support opérationnel 24h/24, 7j/7 afin que vos opérations ne subissent jamais d'arrêt dû à une défaillance d'équipement."
+      }
+    ]
+  },
   "cta": {
     "heading": "Prêt à Optimiser Vos Opérations ?",
     "description": "Contactez-nous dès aujourd'hui pour discuter de vos besoins en logistique minière et en équipements.",
@@ -105,46 +285,81 @@
       "quote": "Demander un Devis"
     },
     "mobile": {
-      "language": "Langue"
+      "language": "Langue",
+      "open": "Ouvrir le menu",
+      "title": "Menu"
     }
   },
   "footer": {
     "description": "Offrant capacité, sécurité et efficacité au secteur minier de la Sierra Leone.",
     "sections": {
       "contact": "Contact",
-      "quickLinks": "Liens Rapides"
+      "quickLinks": "Liens Rapides",
+      "services": "Services",
+      "company": "Entreprise"
     },
-    "location": "Sierra Leone",
+    "location": "Freetown, Sierra Leone",
+    "support": "Support opérationnel 24h/24",
     "links": {
       "home": "Accueil",
       "services": "Services",
       "contact": "Contact",
       "equipmentRental": "Location d'Équipement"
     },
+    "language": "Langue",
+    "backToTop": "Retour en haut",
     "copyright": "Continental Mining Services. Tous droits réservés.",
     "privacyPolicy": "Politique de Confidentialité"
   },
+  "notFound": {
+    "pageMeta": {
+      "title": "Page Introuvable | Continental Mining Services"
+    },
+    "code": "404",
+    "title": "Ce site ne figure pas sur notre carte",
+    "text": "La page que vous recherchez a peut-être été déplacée ou n'existe plus.",
+    "home": "Retour à l'accueil",
+    "services": "Voir nos services"
+  },
   "about": {
     "pageMeta": {
-      "title": "À Propos de Continental Mining Services - Partenaire Minier en Sierra Leone | Continental Mining Services",
+      "title": "À Propos – Partenaire en Logistique Minière en Sierra Leone | Continental Mining",
       "slug": "/about",
-      "description": "Découvrez Continental Mining Services, notre mission en Sierra Leone et notre engagement envers la sécurité et l'excellence opérationnelle."
+      "description": "Découvrez Continental Mining Services : un partenaire en logistique minière basé à Freetown, alliant normes de sécurité internationales et connaissance locale."
     },
     "pageHeader": {
+      "eyebrow": "À propos de CMS",
       "title": "Construire l'Avenir Minier de l'Afrique",
       "subtitle": "Un partenaire dédié pour la logistique lourde et le soutien minier en Afrique de l'Ouest.",
       "breadcrumbs": ["Accueil", "À Propos"]
     },
     "companyProfile": {
+      "eyebrow": "Notre histoire",
       "headline": "Qui Nous Sommes",
       "bodyParagraphs": [
         "Continental Mining Services (CMS) est un fournisseur de premier plan de services de logistique et de soutien minier basé à Freetown, en Sierra Leone. Nous nous spécialisons dans le 'dernier kilomètre' critique des opérations minières—du transport de minerai et du forage de précision au déplacement de machinerie lourde.",
         "Fondée avec une vision de moderniser l'infrastructure minière locale, CMS combine les normes de sécurité internationales avec une connaissance approfondie du terrain ouest-africain. Notre flotte est maintenue selon des normes rigoureuses, garantissant que vos opérations ne rencontrent jamais d'arrêt en raison d'une défaillance d'équipement."
       ],
-      "imageAlt": "Salle de réunion industrielle avec des ingénieurs regardant des plans miniers, éclairage professionnel",
-      "statBadges": ["100% Expertise Locale", "Support Opérationnel 24/7"]
+      "imageAlt": "Ingénieurs et responsables planifiant un projet minier autour d'une table de réunion",
+      "statBadges": ["100% Expertise Locale", "Support Opérationnel 24/7"],
+      "highlights": [
+        {
+          "value": "Freetown",
+          "label": "Siège social"
+        },
+        {
+          "value": "24/7",
+          "label": "Support opérationnel"
+        },
+        {
+          "value": "6",
+          "label": "Services intégrés"
+        }
+      ]
     },
     "missionVisionValues": {
+      "eyebrow": "Ce qui nous anime",
+      "heading": "Mission, Vision et Valeurs",
       "mission": {
         "title": "Notre Mission",
         "text": "Fournir des services de soutien minier fiables, sûrs et efficaces qui permettent à nos clients de maximiser leur potentiel d'extraction tout en minimisant les risques opérationnels."
@@ -164,19 +379,80 @@
       }
     },
     "safetyCommitment": {
+      "eyebrow": "Santé et sécurité",
       "headline": "Normes de Sécurité Intransigeantes",
       "text": "Dans l'industrie minière, la sécurité n'est pas seulement une politique—c'est notre culture. Tous les opérateurs CMS suivent une formation rigoureuse, et notre machinerie est équipée de télémétrie moderne et de fonctionnalités de sécurité pour protéger à la fois le personnel et l'environnement.",
+      "policyTitle": "Politique de Sécurité Minière et Bonnes Pratiques",
+      "imageAlt": "Équipe minière portant des équipements de protection individuelle sur site",
+      "policy": [
+        {
+          "title": "Formation Complète",
+          "text": "Tout le personnel suit une formation rigoureuse à la sécurité avant d'accéder aux sites miniers."
+        },
+        {
+          "title": "Équipements de Protection Individuelle",
+          "text": "Casques, gants, bottes, gilets haute visibilité et protection respiratoire obligatoires."
+        },
+        {
+          "title": "Identification des Dangers",
+          "text": "Évaluation continue des risques et identification des dangers pour prévenir les accidents."
+        },
+        {
+          "title": "Sécurité des Équipements",
+          "text": "Inspection et entretien réguliers de toutes les machines et de tous les véhicules."
+        },
+        {
+          "title": "Préparation aux Urgences",
+          "text": "Plans d'évacuation clairs, exercices réguliers et trousses de premiers secours accessibles."
+        },
+        {
+          "title": "Protection de l'Environnement",
+          "text": "Mesures pour prévenir la contamination et protéger les écosystèmes locaux."
+        },
+        {
+          "title": "Suivi de la Santé",
+          "text": "Contrôles de santé réguliers pour tous les travailleurs afin de détecter et traiter les problèmes tôt."
+        },
+        {
+          "title": "Communication",
+          "text": "Systèmes de communication fiables pour signaler les dangers et les urgences."
+        },
+        {
+          "title": "Conformité",
+          "text": "Respect de toutes les réglementations et normes de sécurité minière locales et internationales."
+        }
+      ],
       "ctaButton": {
         "text": "Voir Notre Politique de Sécurité",
         "link": "#"
       }
     },
     "regionFocus": {
+      "eyebrow": "Où nous intervenons",
       "headline": "Opérant en Sierra Leone",
       "text": "Basés à Freetown, nous comprenons les défis logistiques uniques de la région. Des districts du nord riches en minerai de fer aux champs de diamants de l'est, CMS a la capacité de déployer des équipements et du personnel là où vous en avez le plus besoin.",
-      "mapHighlight": "Sierra Leone"
+      "mapHighlight": "Usine de traitement de minerai sur un site minier en Sierra Leone",
+      "regions": [
+        {
+          "name": "Freetown",
+          "detail": "Siège social et base opérationnelle"
+        },
+        {
+          "name": "Districts du nord",
+          "detail": "Régions minières riches en minerai de fer"
+        },
+        {
+          "name": "Districts de l'est",
+          "detail": "Champs de diamants"
+        },
+        {
+          "name": "Du port au site",
+          "detail": "Transport de conteneurs et de cargaisons dans tout le pays"
+        }
+      ]
     },
     "companyAttributes": {
+      "eyebrow": "Capacités",
       "heading": "Nos Forces Principales",
       "description": "Construit sur une base d'excellence et d'innovation.",
       "items": {
@@ -210,18 +486,21 @@
   },
   "servicesPage": {
     "pageMeta": {
-      "title": "Services Miniers - Transport de Minerai, Forage et Location d'Équipements | Continental Mining Services",
+      "title": "Transport de Minerai, Forage et Location d'Équipements | Continental Mining",
       "slug": "/services",
-      "description": "Solutions minières complètes incluant le transport de minerai, le forage de précision et la logistique lourde en Sierra Leone."
+      "description": "Transport de minerai, forage minier, remorque plate, conteneurs, location de camions-bennes et d'équipements de terrassement en Sierra Leone. Demandez un devis."
     },
     "pageHeader": {
+      "eyebrow": "Nos services",
       "title": "Excellence Opérationnelle",
       "subtitle": "Offrant des solutions efficaces, sûres et évolutives pour le cycle de vie minier.",
       "breadcrumbs": ["Accueil", "Services"]
     },
     "introText": {
+      "eyebrow": "Soutien intégré",
       "headline": "Soutien Minier de Bout en Bout",
-      "text": "Continental Mining Services rationalise vos opérations en comblant le fossé entre l'extraction et l'exportation. Notre approche intégrée garantit que, du moment où le minerai est foré jusqu'au moment où il atteint le port, vos matériaux se déplacent efficacement."
+      "text": "Continental Mining Services rationalise vos opérations en comblant le fossé entre l'extraction et l'exportation. Notre approche intégrée garantit que, du moment où le minerai est foré jusqu'au moment où il atteint le port, vos matériaux se déplacent efficacement.",
+      "jumpTo": "Accéder à un service"
     },
     "detailedList": {
       "oreHaulage": {
@@ -238,7 +517,13 @@
             "description": "Nous garantissons une livraison sécurisée du minerai aux clients."
           }
         ],
-        "ctaText": "Demander un Devis de Transport"
+        "ctaText": "Demander un Devis de Transport",
+        "whatsappText": "Bonjour, je souhaite demander un devis pour des services de transport de minerai.",
+        "keyFacts": [
+          "Camions-bennes à haute capacité",
+          "Chargement par chargeuses",
+          "Conçu pour terrain accidenté"
+        ]
       },
       "mineDrilling": {
         "title": "Services de Forage Minier",
@@ -254,7 +539,13 @@
             "description": "Professionnels qualifiés garantissant des opérations efficaces."
           }
         ],
-        "ctaText": "Discuter des Besoins de Forage"
+        "ctaText": "Discuter des Besoins de Forage",
+        "whatsappText": "Bonjour, je souhaite discuter de mes besoins en forage minier.",
+        "keyFacts": [
+          "Forage d'exploration",
+          "Forage de trous de mine",
+          "Précision et intégrité des échantillons"
+        ]
       },
       "flatbedCargo": {
         "title": "Mouvement de Cargaison sur Remorque Plate",
@@ -274,7 +565,13 @@
             "description": "Services adaptables pour divers besoins de cargaison."
           }
         ],
-        "ctaText": "Obtenir les Tarifs de Remorque Plate"
+        "ctaText": "Obtenir les Tarifs de Remorque Plate",
+        "whatsappText": "Bonjour, je souhaite obtenir les tarifs pour le transport sur remorque plate.",
+        "keyFacts": [
+          "Transport de machinerie lourde",
+          "Tous terrains",
+          "Logistique à grande échelle"
+        ]
       },
       "containerMovement": {
         "title": "Mouvement de Conteneurs",
@@ -290,7 +587,13 @@
             "description": "Garantissant un transport à temps vers les destinations spécifiées."
           }
         ],
-        "ctaText": "Demander des Services de Conteneurs"
+        "ctaText": "Demander des Services de Conteneurs",
+        "whatsappText": "Bonjour, je souhaite obtenir des informations sur vos services de mouvement de conteneurs.",
+        "keyFacts": [
+          "Du port au site",
+          "Sûr et ponctuel",
+          "Chaîne d'approvisionnement"
+        ]
       },
       "tipperTruckRentals": {
         "title": "Location de Camions-Bennes",
@@ -306,7 +609,13 @@
             "description": "Véhicules bien entretenus garantissant une performance constante."
           }
         ],
-        "ctaText": "Voir la Flotte de Camions"
+        "ctaText": "Voir la Flotte de Camions",
+        "whatsappText": "Bonjour, je souhaite connaître la disponibilité et les tarifs de location de camions-bennes.",
+        "keyFacts": [
+          "Camions-bennes SAG (Sagmoto)",
+          "Mines et construction",
+          "Prêts à être déployés"
+        ]
       },
       "earthMovingRental": {
         "title": "Location d'Équipement de Terrassement",
@@ -322,10 +631,17 @@
             "description": "Solutions de location adaptables pour correspondre au calendrier de votre projet."
           }
         ],
-        "ctaText": "Parcourir l'Équipement"
+        "ctaText": "Parcourir l'Équipement",
+        "whatsappText": "Bonjour, je souhaite connaître la disponibilité et les tarifs des équipements de terrassement.",
+        "keyFacts": [
+          "Pelles Hyundai",
+          "Bulldozers et compacteurs",
+          "Location flexible"
+        ]
       }
     },
     "rentalTeaser": {
+      "eyebrow": "Location d'équipements",
       "headline": "Besoin de Machinerie ?",
       "text": "Nous offrons également la location directe de notre flotte d'équipements lourds, y compris des excavatrices, des bulldozers et des compacteurs.",
       "buttonText": "Voir le Catalogue de Location",
@@ -335,15 +651,17 @@
       "headline": "Rationalisez Vos Opérations Aujourd'hui",
       "subheadline": "Contactez notre équipe de Freetown pour une proposition de service personnalisée.",
       "buttonText": "Nous Contacter"
-    }
+    },
+    "keyFactsLabel": "En bref"
   },
   "contactPage": {
     "pageMeta": {
-      "title": "Nous Contacter - Services Miniers à Freetown, Sierra Leone | Continental Mining Services",
+      "title": "Nous Contacter – Freetown, Sierra Leone | Continental Mining Services",
       "slug": "/contact-us",
-      "description": "Contactez Continental Mining Services à Freetown pour des devis sur le transport de minerai, le forage et la location d'équipements."
+      "description": "Contactez Continental Mining Services à Freetown pour vos devis : transport de minerai, forage, logistique et location d'équipements. Appel ou WhatsApp +232 75 311632."
     },
     "pageHeader": {
+      "eyebrow": "Contact",
       "breadcrumbs": ["Accueil", "Contact"],
       "title": "Démarrez Votre Projet",
       "subtitle": "Contactez notre équipe pour des demandes de renseignements, la disponibilité de la flotte et les devis de projet."
@@ -360,10 +678,20 @@
       },
       "phone": {
         "label": "Appelez-nous"
-      }
+      },
+      "whatsapp": {
+        "label": "WhatsApp",
+        "value": "Discutez avec notre équipe"
+      },
+      "support": {
+        "label": "Support Opérationnel",
+        "value": "Disponible 24h/24, 7j/7"
+      },
+      "follow": "Suivez-nous"
     },
     "form": {
       "title": "Envoyer un Message",
+      "intro": "Dites-nous ce dont vous avez besoin et nous vous répondrons avec une proposition personnalisée.",
       "fields": {
         "fullName": {
           "label": "Nom Complet",
@@ -393,10 +721,48 @@
         "Location d'Équipement",
         "Logistique/Cargaison"
       ],
-      "submitButton": "Envoyer le Message"
+      "optional": "facultatif",
+      "submitButton": "Envoyer le Message",
+      "whatsappButton": "Envoyer plutôt via WhatsApp",
+      "emailSubject": "Demande via le site web",
+      "successTitle": "Presque terminé !",
+      "successText": "Votre application de messagerie devrait s'ouvrir avec votre message prêt à être envoyé. Vous préférez le chat instantané ? Envoyez les mêmes informations sur WhatsApp.",
+      "sendAnother": "Modifier le message"
     },
     "map": {
-      "location": "Freetown, Sierra Leone"
+      "eyebrow": "Nous trouver",
+      "location": "Freetown, Sierra Leone",
+      "title": "Carte de Freetown, Sierra Leone",
+      "directions": "Obtenir l'itinéraire"
     }
+  },
+  "chain": {
+    "eyebrow": "La chaîne logistique minière",
+    "heading": "De la Mine au Port",
+    "description": "Nous comblons le fossé entre l'extraction et l'exportation. Découvrez comment nos services s'enchaînent — du forage du minerai jusqu'à son arrivée au port.",
+    "stage": "Étape",
+    "viewService": "Voir le service",
+    "steps": [
+      {
+        "title": "Forer",
+        "text": "Forage d'exploration et de trous de mine avec des installations modernes, garantissant la précision de profondeur et l'intégrité des échantillons essentielles à l'évaluation géologique et au dynamitage."
+      },
+      {
+        "title": "Charger",
+        "text": "Pelles et chargeuses frontales chargent les matériaux extraits de manière efficace et sûre au front de taille, pour que les camions et la production avancent."
+      },
+      {
+        "title": "Transporter",
+        "text": "Camions-bennes et tombereaux à haute capacité transportent le minerai sur le terrain accidenté des districts miniers de la Sierra Leone."
+      },
+      {
+        "title": "Déplacer",
+        "text": "Les remorques plates transportent machines et équipements lourds sur tous les terrains, avec un chargement et un déchargement rationalisés."
+      },
+      {
+        "title": "Expédier",
+        "text": "Les conteneurs circulent en toute sécurité et à temps entre le port et votre site, au service de votre chaîne d'approvisionnement."
+      }
+    ]
   }
 }

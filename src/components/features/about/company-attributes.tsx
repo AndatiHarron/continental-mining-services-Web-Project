@@ -1,200 +1,83 @@
-import Autoplay from "embla-carousel-autoplay";
-import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
-// Import capacity images
 import ca1 from "@/assets/about-us/capacity/ca-01.jpeg";
 import ca2 from "@/assets/about-us/capacity/ca-02.jpg";
 import ca3 from "@/assets/about-us/capacity/ca-03.jpg";
 import ca4 from "@/assets/about-us/capacity/ca-04.jpg";
-// Import safety images
 import sa1 from "@/assets/about-us/safety/sa-01.jpg";
 import sa2 from "@/assets/about-us/safety/sa-02.jpg";
-// Import technology images
 import tech1 from "@/assets/about-us/technology/tech-01.jpg";
 import tech2 from "@/assets/about-us/technology/tech-02.jpg";
-// Import versatility image
 import ve1 from "@/assets/about-us/versatility/ve-01.webp";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
+import { CornerBrackets } from "@/components/ui/corner-brackets";
+import { ImageGallery } from "@/components/ui/image-gallery";
+import { Reveal } from "@/components/ui/reveal";
+import { SectionHeading } from "@/components/ui/section-heading";
+import { renderEmphasis } from "@/lib/rich-text";
 
-const BOLD_MARKER_REGEX = /\*\*/;
+const ATTRIBUTES = [
+  { key: "capacity", images: [ca1, ca2, ca3, ca4] },
+  { key: "versatility", images: [ve1] },
+  { key: "safety", images: [sa1, sa2] },
+  { key: "technology", images: [tech1, tech2] },
+] as const;
 
 export const CompanyAttributes = () => {
   const { t } = useTranslation();
 
-  // Image mapping for attributes
-  const attributeImages = {
-    capacity: [ca1, ca2, ca3, ca4],
-    versatility: [ve1],
-    safety: [sa1, sa2],
-    technology: [tech1, tech2],
-  };
-
-  const attributes = [
-    {
-      key: "capacity",
-    },
-    {
-      key: "versatility",
-    },
-    {
-      key: "safety",
-    },
-    {
-      key: "technology",
-    },
-  ];
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease: "easeOut" as const },
-    },
-  };
-
   return (
-    <section className="bg-white py-24">
+    <section className="bg-white py-24 md:py-32">
       <div className="container mx-auto px-4 md:px-6">
-        <motion.div
-          className="mx-auto mb-16 max-w-3xl text-center"
-          initial={{ opacity: 0, y: 20 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          whileInView={{ opacity: 1, y: 0 }}
-        >
-          <h2 className="mb-4 font-bold font-heading text-3xl text-primary md:text-4xl">
-            {t("about.companyAttributes.heading")}
-          </h2>
-          <p className="text-lg text-muted-foreground">
-            {t("about.companyAttributes.description")}
-          </p>
-        </motion.div>
+        <SectionHeading
+          className="mb-14"
+          description={t("about.companyAttributes.description")}
+          eyebrow={t("about.companyAttributes.eyebrow")}
+          title={t("about.companyAttributes.heading")}
+        />
 
-        <motion.div
-          className="grid grid-cols-1 gap-6 md:grid-cols-2"
-          initial="hidden"
-          variants={containerVariants}
-          viewport={{ once: true }}
-          whileInView="visible"
-        >
-          {attributes.map((attr) => {
-            const title = t(`about.companyAttributes.items.${attr.key}.title`);
-            const description = t(
-              `about.companyAttributes.items.${attr.key}.description`
-            );
-            const boldText = t(
-              `about.companyAttributes.items.${attr.key}.boldText`
-            );
-
-            // Split description by ** markers and bold the key phrase
-            const parts = description.split(BOLD_MARKER_REGEX);
-            const hasBold = parts.length > 1;
-
+        <ul className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
+          {ATTRIBUTES.map((attr, index) => {
+            const base = `about.companyAttributes.items.${attr.key}`;
+            const title = t(`${base}.title`);
             return (
-              <motion.div
-                className="group overflow-hidden rounded-2xl border border-white/40 bg-white p-8 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/5"
-                key={attr.key}
-                variants={itemVariants}
-              >
-                {/* Image Area */}
-                {(() => {
-                  const images =
-                    attributeImages[attr.key as keyof typeof attributeImages];
-
-                  if (images.length > 1) {
-                    // Multiple images - use carousel
-                    return (
-                      <div className="relative mb-6 h-64 overflow-hidden rounded-xl bg-gray-100">
-                        <Carousel
-                          className="h-full w-full"
-                          plugins={[
-                            Autoplay({
-                              delay: 5000,
-                            }),
-                          ]}
-                        >
-                          <CarouselContent className="h-full">
-                            {images.map((img, imgIndex) => (
-                              <CarouselItem
-                                className="h-full w-full"
-                                key={`${attr.key}-img-${imgIndex}`}
-                              >
-                                <img
-                                  alt={`${title} ${imgIndex + 1}`}
-                                  className="h-full w-full object-cover"
-                                  height={400}
-                                  src={img}
-                                  title={`${title} ${imgIndex + 1}`}
-                                  width={600}
-                                />
-                              </CarouselItem>
-                            ))}
-                          </CarouselContent>
-                          <div className="absolute top-1/2 left-2 -translate-y-1/2 opacity-0 transition-opacity group-hover:opacity-100">
-                            <CarouselPrevious className="static h-8 w-8 translate-y-0 bg-white/80 hover:bg-white" />
-                          </div>
-                          <div className="absolute top-1/2 right-2 -translate-y-1/2 opacity-0 transition-opacity group-hover:opacity-100">
-                            <CarouselNext className="static h-8 w-8 translate-y-0 bg-white/80 hover:bg-white" />
-                          </div>
-                        </Carousel>
-                      </div>
-                    );
-                  }
-                  // Single image - use simple img element
-                  return (
-                    <div className="relative mb-6 h-64 overflow-hidden rounded-xl bg-gray-100">
-                      <img
-                        alt={title}
-                        className="h-full w-full object-cover"
-                        height={400}
-                        src={images[0]}
-                        title={title}
-                        width={600}
-                      />
-                    </div>
-                  );
-                })()}
-
-                {/* Content */}
-                <div>
-                  <h3 className="mb-4 font-bold font-heading text-2xl text-primary">
-                    {title}
-                  </h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {hasBold
-                      ? parts.map((part) =>
-                          part === boldText ? (
-                            <span className="font-bold text-primary" key={part}>
-                              {part}
+              <li key={attr.key}>
+                <Reveal className="h-full" delay={index * 0.08}>
+                  <div className="tilt group relative h-[26rem] overflow-hidden rounded-[1.75rem] shadow-lg ring-1 ring-black/5 transition-shadow duration-500 hover:shadow-2xl hover:shadow-primary/25 md:h-[30rem]">
+                    <ImageGallery
+                      alt={title}
+                      className="absolute inset-0"
+                      images={[...attr.images]}
+                      sizes="(min-width: 1280px) 25vw, (min-width: 768px) 50vw, 100vw"
+                    >
+                      <span className="pointer-events-none absolute inset-0 z-10 bg-linear-to-t from-black/90 via-black/30 to-transparent" />
+                      <span className="pointer-events-none absolute inset-0 z-10 bg-linear-to-t from-primary/80 via-primary/15 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                      <CornerBrackets className="scale-95 opacity-0 group-hover:scale-100 group-hover:opacity-100" />
+                      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 p-6 pb-10 text-white">
+                        <span className="mb-1 block font-readout text-sm text-white/70 tracking-wider">
+                          {String(index + 1).padStart(2, "0")} /{" "}
+                          {String(ATTRIBUTES.length).padStart(2, "0")}
+                        </span>
+                        <h3 className="font-bold font-heading text-2xl text-white md:text-3xl">
+                          {title}
+                        </h3>
+                        <div className="grid grid-rows-[1fr] transition-all duration-500 md:grid-rows-[0fr] md:opacity-0 md:group-hover:grid-rows-[1fr] md:group-hover:opacity-100">
+                          <p className="overflow-hidden text-white/85 leading-relaxed">
+                            <span className="block pt-2">
+                              {renderEmphasis(
+                                t(`${base}.description`),
+                                t(`${base}.boldText`),
+                                "font-semibold text-white"
+                              )}
                             </span>
-                          ) : (
-                            <span key={part}>{part}</span>
-                          )
-                        )
-                      : description}
-                  </p>
-                </div>
-              </motion.div>
+                          </p>
+                        </div>
+                      </div>
+                    </ImageGallery>
+                  </div>
+                </Reveal>
+              </li>
             );
           })}
-        </motion.div>
+        </ul>
       </div>
     </section>
   );

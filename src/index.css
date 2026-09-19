@@ -21,7 +21,9 @@
   --color-popover-foreground: hsl(var(--popover-foreground));
 
   --color-primary: hsl(var(--primary)); /* Main brand color */
-  --color-primary-foreground: hsl(var(--primary-foreground)); /* Text on primary */
+  --color-primary-foreground: hsl(
+    var(--primary-foreground)
+  ); /* Text on primary */
 
   --color-secondary: hsl(var(--secondary)); /* Secondary brand (accent blue) */
   --color-secondary-foreground: hsl(var(--secondary-foreground));
@@ -40,8 +42,8 @@
   --color-ring: hsl(var(--ring)); /* Focus ring */
 
   /* 🔵 Custom brand colors (replacing maroon) */
-  --color-brand: #456DC7; /* Main brand blue */
-  --color-brand-dark: #2E51AB; /* Darker brand blue */
+  --color-brand: #456dc7; /* Main brand blue */
+  --color-brand-dark: #2e51ab; /* Darker brand blue */
 
   /* Fonts */
   --font-logo: "Oswald", sans-serif; /* Logo font */
@@ -53,13 +55,67 @@
   --animate-accordion-up: accordion-up 0.2s ease-out;
 
   @keyframes accordion-down {
-    from { height: 0; }
-    to { height: var(--radix-accordion-content-height); }
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
   }
 
   @keyframes accordion-up {
-    from { height: var(--radix-accordion-content-height); }
-    to { height: 0; }
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-scroll-cue: scroll-cue 1.8s ease-in-out infinite;
+  --animate-hero-zoom: hero-zoom 24s ease-out forwards;
+  --animate-progress: progress linear forwards;
+
+  @keyframes progress {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  @keyframes hero-zoom {
+    from {
+      transform: scale(1.12);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes scroll-cue {
+    0% {
+      transform: translateY(0);
+      opacity: 0;
+    }
+    30% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(14px);
+      opacity: 0;
+    }
   }
 }
 
@@ -139,6 +195,36 @@
     @apply border-border; /* Apply default border color */
   }
 
+  html,
+  body {
+    /* Slide-in animations must never cause sideways scrolling on phones */
+    overflow-x: clip;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem; /* Keep anchored sections clear of the fixed navbar */
+  }
+
+  ::selection {
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
   body {
     @apply font-body antialiased text-foreground;
 
@@ -152,25 +238,178 @@
   }
 
   /* Headings: Montserrat Bold */
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-heading font-bold tracking-tight text-balance;
-    font-family: 'Montserrat', sans-serif;
+    font-family: "Montserrat", sans-serif;
     font-weight: 700;
   }
 
   /* Subtitles: Montserrat SemiBold Italic */
-  .subtitle, .subtitle-italic {
+  .subtitle,
+  .subtitle-italic {
     @apply font-heading italic text-balance;
-    font-family: 'Montserrat', sans-serif;
+    font-family: "Montserrat", sans-serif;
     font-weight: 600;
     font-style: italic;
   }
 
   /* Body: Montserrat Regular */
-  body, p, .body-text {
+  body,
+  p,
+  .body-text {
     @apply font-body antialiased text-foreground;
-    font-family: 'Montserrat', sans-serif;
+    font-family: "Montserrat", sans-serif;
     font-weight: 400;
     font-style: normal;
+  }
+}
+/* Decorative patterns built only from the existing palette */
+@utility bg-grid-light {
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.06) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+@utility bg-grid-primary {
+  background-image:
+    linear-gradient(to right, hsl(var(--primary) / 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, hsl(var(--primary) / 0.07) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+@utility mask-fade-y {
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black 15%,
+    black 85%,
+    transparent
+  );
+}
+
+@utility mask-fade-x {
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 10%,
+    black 90%,
+    transparent
+  );
+}
+
+/* Cursor-following glow on cards (coordinates set by Layout) */
+@layer components {
+  .spotlight {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .spotlight::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    background: radial-gradient(
+      380px circle at var(--mx, 50%) var(--my, 50%),
+      hsl(var(--primary) / 0.13),
+      transparent 45%
+    );
+  }
+
+  .spotlight-inverted::after {
+    background: radial-gradient(
+      380px circle at var(--mx, 50%) var(--my, 50%),
+      rgb(255 255 255 / 0.11),
+      transparent 45%
+    );
+  }
+
+  .spotlight:hover::after {
+    opacity: 1;
+  }
+
+  /* Industrial numerals / spec readouts */
+  .font-readout {
+    font-family: "Oswald", sans-serif;
+    font-feature-settings: "tnum";
+    letter-spacing: 0.01em;
+  }
+}
+
+/* 3D tilt for interactive tiles (angles set by Layout on mouse move) */
+@layer components {
+  .tilt {
+    transform: perspective(1100px) rotateX(var(--rx, 0deg))
+      rotateY(var(--ry, 0deg));
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+  }
+
+  .tilt[data-tilting="true"] {
+    transition-duration: 0.12s;
+  }
+
+  /* Diagonal light sweep for banners */
+  .shine {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      115deg,
+      transparent 30%,
+      rgb(255 255 255 / 0.14) 45%,
+      rgb(255 255 255 / 0.04) 55%,
+      transparent 70%
+    );
+    background-size: 250% 100%;
+    animation: shine 7s ease-in-out infinite;
+  }
+
+  @keyframes shine {
+    0% {
+      background-position: 130% 0;
+    }
+    60%,
+    100% {
+      background-position: -130% 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tilt {
+      transform: none;
+    }
+  }
+}
+
+/* Loading shimmer shown behind photos until they decode */
+@utility img-skeleton {
+  background-color: var(--color-gray-900);
+  background-image: linear-gradient(
+    110deg,
+    var(--color-gray-900) 20%,
+    var(--color-gray-800) 35%,
+    var(--color-gray-900) 50%
+  );
+  background-size: 250% 100%;
+  animation: skeleton 1.6s linear infinite;
+}
+
+@keyframes skeleton {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -150% 0;
   }
 }

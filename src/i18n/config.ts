@@ -13,6 +13,23 @@ import frTranslation from "@/locales/fr/translation.json";
 
 const i18n = createInstance();
 
+/** Key used by i18next-browser-languagedetector's localStorage cache */
+const LANGUAGE_STORAGE_KEY = "i18nextLng";
+
+/**
+ * The visitor's previously chosen language, read before init() runs —
+ * init() forces "en" (to match the server render) and overwrites the cache.
+ */
+export const savedLanguage: string | null = (() => {
+  try {
+    return typeof window === "undefined"
+      ? null
+      : window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
+  } catch {
+    return null;
+  }
+})();
+
 i18n
   // load translation using http -> see /public/locales (i.e. https://github.com/i18next/react-i18next/tree/master/example/react/public/locales)
   // learn more: https://github.com/i18next/i18next-http-backend
@@ -28,7 +45,7 @@ i18n
   .init({
     fallbackLng: "fr",
     lng: "en",
-    debug: true,
+    debug: false,
     resources: {
       en: {
         translation: enTranslation,

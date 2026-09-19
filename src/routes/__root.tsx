@@ -10,60 +10,81 @@ import {
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 import "@fontsource/inter/index.css";
-import "@fontsource/montserrat/index.css";
-import "@fontsource/oswald/index.css";
+import "@fontsource/montserrat/300.css";
+import "@fontsource/montserrat/400.css";
+import "@fontsource/montserrat/500.css";
+import "@fontsource/montserrat/600.css";
+import "@fontsource/montserrat/700.css";
+import "@fontsource/montserrat/800.css";
+import "@fontsource/oswald/400.css";
+import "@fontsource/oswald/500.css";
+import "@fontsource/oswald/600.css";
+import "@fontsource/oswald/700.css";
 
-// Import the generated route tree
 import "@/index.css";
-import "@/i18n/config";
 import i18n from "@/i18n/config";
-import { getCurrentLanguage } from "@/utils/seo";
-
-const BASE_URL =
-  typeof window !== "undefined"
-    ? window.location.origin
-    : import.meta.env.VITE_BASE_URL || "https://continental-mining.vercel.app";
+import { SITE } from "@/lib/site";
+import {
+  getCurrentLanguage,
+  getTranslations,
+  organizationJsonLd,
+  websiteJsonLd,
+} from "@/utils/seo";
 
 export const Route = createRootRoute({
   head: () => {
-    const currentLang = getCurrentLanguage();
-    const ogLocale = currentLang === "fr" ? "fr_FR" : "en_US";
+    const translations = getTranslations();
 
     return {
       meta: [
-        {
-          charSet: "utf-8",
-        },
+        { charSet: "utf-8" },
         {
           name: "viewport",
-          content: "width=device-width, initial-scale=1",
+          content: "width=device-width, initial-scale=1, viewport-fit=cover",
         },
+        { title: translations.home.pageMeta.title },
         {
-          title:
-            "Mining Logistics Services in Sierra Leone | Continental Mining",
+          name: "description",
+          content: translations.home.pageMeta.description,
         },
-        {
-          property: "og:site_name",
-          content: "Continental Mining Services",
-        },
-        {
-          property: "og:type",
-          content: "website",
-        },
-        {
-          property: "og:locale",
-          content: ogLocale,
-        },
-        {
-          name: "twitter:card",
-          content: "summary_large_image",
-        },
+        { name: "author", content: SITE.name },
+        { name: "format-detection", content: "telephone=yes" },
+        { name: "geo.region", content: SITE.countryCode },
+        { name: "geo.placename", content: SITE.city },
+        { property: "og:site_name", content: SITE.name },
+        { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
       ],
       links: [
         {
-          rel: "alternate",
-          hrefLang: "x-default",
-          href: BASE_URL,
+          rel: "icon",
+          type: "image/png",
+          sizes: "48x48",
+          href: "/favicon.png",
+        },
+        {
+          rel: "icon",
+          type: "image/png",
+          sizes: "192x192",
+          href: "/logo-192.png",
+        },
+        {
+          rel: "apple-touch-icon",
+          sizes: "180x180",
+          href: "/apple-touch-icon.png",
+        },
+        { rel: "manifest", href: "/manifest.json" },
+      ],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify(
+            organizationJsonLd(translations.footer.description)
+          ),
+        },
+        {
+          type: "application/ld+json",
+          children: JSON.stringify(websiteJsonLd()),
         },
       ],
     };
@@ -75,10 +96,7 @@ function RootComponent() {
   const [lang, setLang] = useState<string>(getCurrentLanguage());
 
   useEffect(() => {
-    const updateLang = () => {
-      setLang(getCurrentLanguage());
-    };
-
+    const updateLang = () => setLang(getCurrentLanguage());
     updateLang();
     i18n.on("languageChanged", updateLang);
 

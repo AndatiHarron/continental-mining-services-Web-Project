@@ -4,7 +4,7 @@ import Url from "url";
 import { w as whatwgUrl } from "./whatwg-url.mjs";
 import https from "https";
 import zlib from "zlib";
-import { b as getAugmentedNamespace } from "../_chunks/_libs/react.mjs";
+import { c as getAugmentedNamespace } from "../_chunks/_libs/react.mjs";
 const Readable = Stream.Readable;
 const BUFFER = /* @__PURE__ */ Symbol("buffer");
 const TYPE = /* @__PURE__ */ Symbol("type");

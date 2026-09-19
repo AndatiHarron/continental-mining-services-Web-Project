@@ -1,7 +1,7 @@
 import { r as reactExports, j as jsxRuntimeExports } from "../react.mjs";
 import { t as tabbable, i as isTabbable, f as focusable } from "../../../_libs/tabbable.mjs";
 import { a as isHTMLElement, b as isShadowRoot, c as getComputedStyle$1, d as getNodeName, e as isNode, g as getWindow, f as isWebKit$1, h as isElement, j as isLastTraversableNode, k as getParentNode } from "../@floating-ui/utils.mjs";
-import { m as mergeObjects, f as formatErrorMessage, u as useIsoLayoutEffect, a as useStableCallback, E as EMPTY_OBJECT, b as useMergedRefs, c as useMergedRefsN, g as getReactElementRef, d as useId, i as isAndroid, e as isJSDOM, o as ownerDocument, h as isSafari, v as visuallyHidden, j as useValueAsRef, k as useTimeout, l as useAnimationFrame, n as isWebKit, T as Timeout, R as ReactStore, p as createSelector, A as AnimationFrame, q as useRefWithInit, r as inertValue, s as isIOS, t as useEnhancedClickHandler, w as useScrollLock, x as useOnFirstRender } from "./utils.mjs";
+import { m as mergeObjects, f as formatErrorMessage, u as useIsoLayoutEffect, a as useStableCallback, E as EMPTY_OBJECT, b as useMergedRefs, c as useMergedRefsN, g as getReactElementRef, d as useId, i as isAndroid, e as isJSDOM, o as ownerDocument, h as isSafari, v as visuallyHidden, j as useValueAsRef, k as useTimeout, l as useAnimationFrame, n as isWebKit, T as Timeout, R as ReactStore, p as createSelector, A as AnimationFrame, q as useRefWithInit, r as inertValue, s as useEnhancedClickHandler, t as isIOS, w as useScrollLock, x as useOnFirstRender } from "./utils.mjs";
 import { r as reactDomExports } from "../react-dom.mjs";
 const EMPTY_PROPS = {};
 function mergeProps$1(a, b, c, d, e) {
@@ -3330,6 +3330,25 @@ function DialogRoot(props) {
     }) : children
   });
 }
+const DialogTitle = /* @__PURE__ */ reactExports.forwardRef(function DialogTitle2(componentProps, forwardedRef) {
+  const {
+    render,
+    className,
+    id: idProp,
+    ...elementProps
+  } = componentProps;
+  const {
+    store
+  } = useDialogRootContext();
+  const id = useBaseUiId(idProp);
+  store.useSyncedValueWithCleanup("titleElementId", id);
+  return useRenderElement("h2", componentProps, {
+    ref: forwardedRef,
+    props: [{
+      id
+    }, elementProps]
+  });
+});
 const DialogTrigger = /* @__PURE__ */ reactExports.forwardRef(function DialogTrigger2(componentProps, forwardedRef) {
   const {
     render,
@@ -3388,6 +3407,7 @@ export {
   DialogTrigger as a,
   DialogPopup as b,
   DialogClose as c,
-  DialogPortal as d,
-  DialogBackdrop as e
+  DialogTitle as d,
+  DialogPortal as e,
+  DialogBackdrop as f
 };

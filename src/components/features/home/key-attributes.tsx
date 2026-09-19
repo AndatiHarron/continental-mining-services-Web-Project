@@ -1,207 +1,237 @@
-/** biome-ignore-all lint/correctness/useImageSize: Easier to adjust sizes */
-import Autoplay from "embla-carousel-autoplay";
-import { motion } from "framer-motion";
+import {
+  CheckmarkCircle02Icon,
+  WhatsappIcon,
+} from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { useInView, useReducedMotion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-// Import capacity images
 import ca1 from "@/assets/home/capacity/ca-01.jpeg";
 import ca2 from "@/assets/home/capacity/ca-02.jpg";
 import ca3 from "@/assets/home/capacity/ca-03.jpg";
 import ca4 from "@/assets/home/capacity/ca-04.jpg";
-// Import efficiency images
 import ef1 from "@/assets/home/efficiency/ef-01.jpeg";
 import ef2 from "@/assets/home/efficiency/ef-02.jpg";
 import ef3 from "@/assets/home/efficiency/ef-03.png";
-// Import reliability images
+import whyChooseUsBg from "@/assets/home/home_why_choose_us.webp";
 import re1 from "@/assets/home/reliability/re-01.jpg";
 import re2 from "@/assets/home/reliability/re-02.webp";
-// Import versatility image
 import ve1 from "@/assets/home/versatility/ve-01.webp";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
+import { CornerBrackets } from "@/components/ui/corner-brackets";
+import { ctaVariants } from "@/components/ui/cta";
+import { ImageGallery } from "@/components/ui/image-gallery";
+import { Reveal } from "@/components/ui/reveal";
+import { SectionHeading } from "@/components/ui/section-heading";
+import { renderEmphasis } from "@/lib/rich-text";
+import { whatsappLink } from "@/lib/site";
+import { cn } from "@/lib/utils";
 
-const BOLD_MARKER_REGEX = /\*\*/;
+const ATTRIBUTES = [
+  { key: "capacity", images: [ca1, ca2, ca3, ca4] },
+  { key: "reliability", images: [re1, re2] },
+  { key: "efficiency", images: [ef1, ef2, ef3] },
+  { key: "versatility", images: [ve1] },
+] as const;
 
-import whyChooseUsBg from "@/assets/home/home_why_choose_us.webp";
+const PANEL_MS = 6500;
 
 export const KeyAttributes = () => {
   const { t } = useTranslation();
+  const reduceMotion = useReducedMotion();
+  const panelsRef = useRef<HTMLUListElement>(null);
+  const inView = useInView(panelsRef, { margin: "-15% 0px" });
+  const [active, setActive] = useState(0);
+  const [hovering, setHovering] = useState(false);
+  const points = t("keyAttributes.points", { returnObjects: true }) as string[];
+  const cycling = inView && !hovering && !reduceMotion;
 
-  // Image mapping for attributes
-  const attributeImages = {
-    capacity: [ca1, ca2, ca3, ca4],
-    reliability: [re1, re2],
-    efficiency: [ef1, ef2, ef3],
-    versatility: [ve1],
-  };
-
-  const attributes = [
-    {
-      key: "capacity",
-    },
-    {
-      key: "reliability",
-    },
-    {
-      key: "efficiency",
-    },
-    {
-      key: "versatility",
-    },
-  ];
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease: "easeOut" as const },
-    },
-  };
+  useEffect(() => {
+    if (!cycling) {
+      return;
+    }
+    const timer = window.setTimeout(
+      () => setActive((a) => (a + 1) % ATTRIBUTES.length),
+      PANEL_MS
+    );
+    return () => window.clearTimeout(timer);
+  }, [active, cycling]);
 
   return (
-    <section className="relative overflow-hidden py-24 text-white">
-      {/* Background image */}
+    <section className="relative isolate overflow-hidden bg-black py-24 text-white md:py-32">
       <img
+        alt=""
+        aria-hidden="true"
+        className="absolute inset-0 -z-20 h-full w-full object-cover opacity-35"
+        decoding="async"
+        height={1080}
+        loading="lazy"
         src={whyChooseUsBg}
-        alt="Why Choose Us background"
-        className="absolute inset-0 h-full w-full object-cover object-center opacity-60 -z-10"
-        style={{ filter: "brightness(0.6)" }}
+        width={1920}
       />
-      {/* Overlay for extra darkening */}
-      <div className="absolute inset-0 bg-black/60 -z-10" />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10 bg-linear-to-br from-black via-black/85 to-primary/45"
+      />
+      <div
+        aria-hidden="true"
+        className="mask-fade-y absolute inset-0 -z-10 bg-grid-light"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute -right-40 bottom-0 -z-10 h-[30rem] w-[30rem] rounded-full bg-primary/25 blur-[140px]"
+      />
+
       <div className="container mx-auto px-4 md:px-6">
-        <motion.div
-          className="mx-auto mb-16 max-w-3xl text-center"
-          initial={{ opacity: 0, y: 20 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          whileInView={{ opacity: 1, y: 0 }}
-        >
-          <h2 className="mb-4 font-bold font-heading text-3xl text-white md:text-4xl">
-            {t("keyAttributes.heading")}
-          </h2>
-          <p className="text-lg text-white/80">
-            {t("keyAttributes.description")}
-          </p>
-        </motion.div>
+        <div className="mb-14 grid items-end gap-10 lg:grid-cols-[1.1fr_1fr]">
+          <SectionHeading
+            align="left"
+            description={t("keyAttributes.description")}
+            eyebrow={t("keyAttributes.eyebrow")}
+            title={t("keyAttributes.heading")}
+            tone="inverted"
+          />
+          <Reveal delay={0.1}>
+            <ul className="grid gap-3 sm:grid-cols-2">
+              {points.map((point) => (
+                <li
+                  className="spotlight spotlight-inverted flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.06] px-4 py-3 text-white/90 backdrop-blur"
+                  key={point}
+                >
+                  <HugeiconsIcon
+                    className="h-5 w-5 shrink-0 text-white"
+                    icon={CheckmarkCircle02Icon}
+                  />
+                  <span className="text-sm">{point}</span>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+        </div>
 
-        <motion.div
-          className="grid grid-cols-1 gap-6 md:grid-cols-2"
-          initial="hidden"
-          variants={containerVariants}
-          viewport={{ once: true }}
-          whileInView="visible"
-        >
-          {attributes.map((attr) => {
-            const title = t(`keyAttributes.items.${attr.key}.title`);
-            const description = t(
-              `keyAttributes.items.${attr.key}.description`
-            );
-            const boldText = t(`keyAttributes.items.${attr.key}.boldText`);
+        <Reveal>
+          <ul
+            className="flex flex-col gap-3 md:h-[34rem] md:flex-row"
+            onMouseLeave={() => setHovering(false)}
+            ref={panelsRef}
+          >
+            {ATTRIBUTES.map((attr, index) => {
+              const base = `keyAttributes.items.${attr.key}`;
+              const title = t(`${base}.title`);
+              const isActive = index === active;
 
-            // Split description by ** markers and bold the key phrase
-            const parts = description.split(BOLD_MARKER_REGEX);
-            const hasBold = parts.length > 1;
+              return (
+                <li
+                  className={cn(
+                    "relative min-w-0 overflow-hidden rounded-[1.75rem] ring-1 ring-white/10 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]",
+                    isActive
+                      ? "h-[26rem] md:h-auto md:flex-[5]"
+                      : "h-20 md:h-auto md:flex-[1]"
+                  )}
+                  key={attr.key}
+                  onMouseEnter={() => {
+                    setHovering(true);
+                    setActive(index);
+                  }}
+                >
+                  <button
+                    aria-expanded={isActive}
+                    className="absolute inset-0 z-30 h-full w-full cursor-pointer rounded-[1.75rem] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white/50"
+                    onClick={() => setActive(index)}
+                    onFocus={() => setActive(index)}
+                    type="button"
+                  >
+                    <span className="sr-only">{title}</span>
+                  </button>
 
-            return (
-              <motion.div
-                className="group overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-sm transition-all duration-300 hover:bg-white/10 hover:shadow-xl"
-                key={attr.key}
-                variants={itemVariants}
-              >
-                {/* Image Area */}
-                {(() => {
-                  const images =
-                    attributeImages[attr.key as keyof typeof attributeImages];
+                  <ImageGallery
+                    active={isActive}
+                    alt={title}
+                    className="absolute inset-0 rounded-[1.75rem]"
+                    hoverControls={false}
+                    images={[...attr.images]}
+                    showControls={false}
+                    sizes="(min-width: 768px) 60vw, 100vw"
+                  />
+                  <div
+                    className={cn(
+                      "pointer-events-none absolute inset-0 z-10 transition-colors duration-700",
+                      isActive
+                        ? "bg-linear-to-t from-black/90 via-black/30 to-transparent"
+                        : "bg-black/65"
+                    )}
+                  />
+                  <CornerBrackets
+                    className={cn(
+                      isActive ? "opacity-100" : "opacity-0",
+                      "hidden md:block"
+                    )}
+                  />
 
-                  if (images.length > 1) {
-                    // Multiple images - use carousel
-                    return (
-                      <div className="relative mb-6 h-64 overflow-hidden rounded-xl bg-gray-100">
-                        <Carousel
-                          className="h-full w-full"
-                          plugins={[
-                            Autoplay({
-                              delay: 5000,
-                            }),
-                          ]}
-                        >
-                          <CarouselContent className="ml-0 h-64">
-                            {images.map((img, imgIndex) => (
-                              <CarouselItem
-                                className="relative h-64 w-full pl-0"
-                                key={`${attr.key}-img-${imgIndex}`}
-                              >
-                                <img
-                                  alt={`${title} ${imgIndex + 1}`}
-                                  className="absolute inset-0 h-full w-full object-cover object-center"
-                                  src={img}
-                                  title={`${title} ${imgIndex + 1}`}
-                                />
-                              </CarouselItem>
-                            ))}
-                          </CarouselContent>
-                          <div className="absolute top-1/2 left-2 z-10 -translate-y-1/2 opacity-0 transition-opacity group-hover:opacity-100">
-                            <CarouselPrevious className="static h-8 w-8 translate-y-0 bg-white/80 hover:bg-white" />
-                          </div>
-                          <div className="absolute top-1/2 right-2 z-10 -translate-y-1/2 opacity-0 transition-opacity group-hover:opacity-100">
-                            <CarouselNext className="static h-8 w-8 translate-y-0 bg-white/80 hover:bg-white" />
-                          </div>
-                        </Carousel>
-                      </div>
-                    );
-                  }
-                  // Single image - use simple img element
-                  return (
-                    <div className="relative mb-6 h-64 overflow-hidden rounded-xl bg-gray-100">
-                      <img
-                        alt={title}
-                        className="h-full w-full object-cover object-center"
-                        src={images[0]}
-                        title={title}
-                      />
-                    </div>
-                  );
-                })()}
+                  {/* Collapsed label */}
+                  <div
+                    className={cn(
+                      "pointer-events-none absolute inset-0 z-20 flex items-center gap-4 px-6 transition-opacity duration-300 md:flex-col md:justify-end md:px-0 md:pb-8",
+                      isActive ? "opacity-0" : "opacity-100"
+                    )}
+                  >
+                    <span className="font-readout text-2xl text-white/80">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span className="font-bold font-heading text-lg text-white uppercase tracking-[0.2em] md:rotate-180 md:[writing-mode:vertical-rl]">
+                      {title}
+                    </span>
+                  </div>
 
-                {/* Content */}
-                <div>
-                  <h3 className="mb-4 font-bold font-heading text-2xl text-white">
-                    {title}
-                  </h3>
-                  <p className="text-white/80 leading-relaxed">
-                    {hasBold
-                      ? parts.map((part) =>
-                          part === boldText ? (
-                            <span className="font-bold text-white" key={part}>
-                              {part}
-                            </span>
-                          ) : (
-                            <span key={part}>{part}</span>
-                          )
-                        )
-                      : description}
-                  </p>
-                </div>
-              </motion.div>
-            );
-          })}
-        </motion.div>
+                  {/* Expanded content */}
+                  <div
+                    className={cn(
+                      "pointer-events-none absolute inset-x-0 bottom-0 z-20 p-6 transition-all duration-500 md:p-10",
+                      isActive
+                        ? "translate-y-0 opacity-100 delay-200"
+                        : "translate-y-6 opacity-0"
+                    )}
+                  >
+                    <p className="mb-2 font-readout text-sm text-white/70 uppercase tracking-[0.25em]">
+                      {String(index + 1).padStart(2, "0")} /{" "}
+                      {String(ATTRIBUTES.length).padStart(2, "0")}
+                    </p>
+                    <h3 className="mb-3 font-bold font-heading text-3xl text-white md:text-5xl">
+                      {title}
+                    </h3>
+                    <p className="max-w-xl text-lg text-white/80 leading-relaxed">
+                      {renderEmphasis(
+                        t(`${base}.description`),
+                        t(`${base}.boldText`),
+                        "font-semibold text-white"
+                      )}
+                    </p>
+                    {isActive && cycling && (
+                      <span className="mt-6 block h-[3px] max-w-xs overflow-hidden rounded-full bg-white/20">
+                        <span
+                          className="block h-full origin-left animate-progress bg-white"
+                          key={`panel-progress-${active}`}
+                          style={{ animationDuration: `${PANEL_MS}ms` }}
+                        />
+                      </span>
+                    )}
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        </Reveal>
+
+        <Reveal className="mt-12 flex justify-center" delay={0.1}>
+          <a
+            className={ctaVariants({ variant: "primary", size: "lg" })}
+            href={whatsappLink(t("common.whatsappGeneric"))}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <HugeiconsIcon className="h-5 w-5" icon={WhatsappIcon} />
+            {t("common.requestQuote")}
+          </a>
+        </Reveal>
       </div>
     </section>
   );

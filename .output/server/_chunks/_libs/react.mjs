@@ -535,8 +535,8 @@ var jsxRuntimeExports = /* @__PURE__ */ requireJsxRuntime();
 export {
   React as R,
   requireReact as a,
-  getAugmentedNamespace as b,
-  React$1 as c,
+  React$1 as b,
+  getAugmentedNamespace as c,
   getDefaultExportFromCjs as g,
   jsxRuntimeExports as j,
   reactExports as r

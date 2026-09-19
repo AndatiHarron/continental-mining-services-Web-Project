@@ -71,6 +71,10 @@ const millisecondsToSeconds = /* @__NO_SIDE_EFFECTS__ */ (milliseconds) => milli
 function velocityPerSecond(velocity, frameDuration) {
   return frameDuration ? velocity * (1e3 / frameDuration) : 0;
 }
+const wrap = (min, max, v) => {
+  const rangeSize = max - min;
+  return ((v - min) % rangeSize + rangeSize) % rangeSize + min;
+};
 const calcBezier = (t, a1, a2) => (((1 - 3 * a2 + 3 * a1) * t + (3 * a2 - 6 * a1)) * t + 3 * a1) * t;
 const subdivisionPrecision = 1e-7;
 const subdivisionMaxIterations = 12;
@@ -110,6 +114,9 @@ const easeInOut = /* @__PURE__ */ cubicBezier(0.42, 0, 0.58, 1);
 const isEasingArray = (ease) => {
   return Array.isArray(ease) && typeof ease[0] !== "number";
 };
+function getEasingForSegment(easing, i) {
+  return isEasingArray(easing) ? easing[wrap(0, easing.length, i)] : easing;
+}
 const isBezierDefinition = (easing) => Array.isArray(easing) && typeof easing[0] === "number";
 const easingLookup = {
   linear: noop,
@@ -146,20 +153,21 @@ export {
   easeInOut as d,
   easingDefinitionToFunction as e,
   memo as f,
-  isBezierDefinition as g,
-  circInOut as h,
+  getEasingForSegment as g,
+  isBezierDefinition as h,
   invariant as i,
-  backInOut as j,
-  anticipate as k,
-  isNumericalString as l,
+  circInOut as j,
+  backInOut as k,
+  anticipate as l,
   millisecondsToSeconds as m,
   noop as n,
-  isZeroValueString as o,
+  isNumericalString as o,
   pipe as p,
-  isObject as q,
-  circOut as r,
+  isZeroValueString as q,
+  removeItem as r,
   secondsToMilliseconds as s,
-  addUniqueItem as t,
-  removeItem as u,
-  velocityPerSecond as v
+  isObject as t,
+  circOut as u,
+  velocityPerSecond as v,
+  addUniqueItem as w
 };

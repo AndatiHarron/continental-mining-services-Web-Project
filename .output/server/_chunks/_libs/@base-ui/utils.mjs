@@ -1,4 +1,4 @@
-import { r as reactExports, c as React } from "../react.mjs";
+import { r as reactExports, b as React } from "../react.mjs";
 import { c as createSelectorCreator, l as lruMemoize } from "../../../_libs/reselect.mjs";
 import { w as withSelectorExports, s as shimExports } from "../../../_libs/use-sync-external-store.mjs";
 import { g as getWindow, i as isOverflowElement } from "../@floating-ui/utils.mjs";
@@ -938,8 +938,8 @@ export {
   createSelector as p,
   useRefWithInit as q,
   inertValue as r,
-  isIOS as s,
-  useEnhancedClickHandler as t,
+  useEnhancedClickHandler as s,
+  isIOS as t,
   useIsoLayoutEffect as u,
   visuallyHidden as v,
   useScrollLock as w,

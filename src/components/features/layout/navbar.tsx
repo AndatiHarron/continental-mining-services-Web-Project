@@ -1,176 +1,239 @@
-import { AiPhoneIcon, MailIcon, MenuIcon } from "@hugeicons/core-free-icons";
+import {
+  ArrowRight01Icon,
+  Call02Icon,
+  Mail01Icon,
+  Menu01Icon,
+  WhatsappIcon,
+} from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { RegionToggle } from "@/components/features/localization/region-toggle";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { ctaVariants } from "@/components/ui/cta";
+import {
+  Sheet,
+  SheetContent,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { SITE, whatsappLink } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import logo from "@/logo.png";
+
+const SCROLL_THRESHOLD_PX = 24;
+
+type NavItem = {
+  labelKey: string;
+  to: string;
+  hash?: string;
+  exact?: boolean;
+};
+
+const NAV_ITEMS: NavItem[] = [
+  { labelKey: "nav.links.home", to: "/", exact: true },
+  { labelKey: "nav.links.services", to: "/services" },
+  { labelKey: "nav.links.fleetRentals", to: "/", hash: "fleet" },
+  { labelKey: "nav.links.aboutUs", to: "/about" },
+  { labelKey: "nav.links.contact", to: "/contact-us" },
+];
 
 export const Navbar = () => {
   const { t } = useTranslation();
   const [isScrolled, setIsScrolled] = useState(false);
-  const location = useRouterState({
-    select: (state) => state.location.pathname,
-  });
-  const isHome = location === "/";
+  const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-
-    window.addEventListener("scroll", handleScroll);
+    const handleScroll = () =>
+      setIsScrolled(window.scrollY > SCROLL_THRESHOLD_PX);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const navClass = cn(
-    "fixed top-0 right-0 left-0 z-50 border-transparent border-b transition-all duration-500 ease-in-out",
-    {
-      "border-white/10 bg-primary/95 py-3 shadow-lg backdrop-blur-md":
-        isScrolled || !isHome,
-      "bg-transparent py-6": !isScrolled && isHome,
-    }
-  );
+  // Close the mobile menu whenever the route changes
+  // biome-ignore lint/correctness/useExhaustiveDependencies: pathname is the trigger
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
 
-  const linkClass =
-    "relative text-white font-heading font-medium tracking-wide text-sm uppercase transition-colors group";
+  const quoteHref = whatsappLink(t("common.whatsappGeneric"));
 
   return (
-    <nav className={navClass}>
-      <div className="container mx-auto flex items-center justify-between px-4 md:px-6">
+    <header
+      className={cn(
+        "fixed inset-x-0 top-0 z-50 transition-all duration-500 ease-out",
+        isScrolled
+          ? "border-white/10 border-b bg-primary/95 py-2 shadow-black/10 shadow-lg backdrop-blur-md"
+          : "bg-linear-to-b from-black/60 to-transparent py-4 md:py-5"
+      )}
+    >
+      <div className="container mx-auto flex items-center justify-between gap-6 px-4 md:px-6">
         <Link
-          className="relative z-50 font-bold font-logo text-3xl text-white tracking-tighter transition-transform hover:scale-105 md:text-4xl flex items-center gap-2"
+          aria-label={SITE.name}
+          className="relative z-50 flex shrink-0 items-center transition-transform hover:scale-105"
           to="/"
         >
           <img
+            alt={`${SITE.name} logo`}
+            className={cn(
+              "w-auto transition-all duration-500",
+              isScrolled ? "h-12" : "h-14 md:h-16"
+            )}
+            height={64}
             src={logo}
-            alt="Continental Mining Logo"
-            className="h-[58px] w-auto"
-            height={58}
+            width={52}
           />
         </Link>
 
-        {/* Desktop Nav */}
-        <div className="hidden items-center gap-8 md:flex">
-          <Link className={linkClass} to="/">
-            {t("nav.links.home")}
-            <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-secondary transition-all duration-300 group-hover:w-full" />
-          </Link>
-          <Link className={linkClass} to="/services">
-            {t("nav.links.services")}
-            <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-secondary transition-all duration-300 group-hover:w-full" />
-          </Link>
-          <Link className={linkClass} to="/contact-us">
-            {t("nav.links.contact")}
-            <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-secondary transition-all duration-300 group-hover:w-full" />
-          </Link>
-          <Link className={linkClass} to="/about">
-            {t("nav.links.aboutUs")}
-            <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-secondary transition-all duration-300 group-hover:w-full" />
-          </Link>
+        {/* Desktop navigation */}
+        <nav aria-label="Main" className="hidden lg:block">
+          <ul className="flex items-center gap-1 rounded-full border border-white/10 bg-white/5 p-1 backdrop-blur-md">
+            {NAV_ITEMS.map((item) => (
+              <li key={item.labelKey}>
+                <Link
+                  activeOptions={{
+                    exact: item.exact,
+                    includeHash: Boolean(item.hash),
+                  }}
+                  className="block rounded-full px-4 py-2 font-heading font-medium text-sm text-white/80 tracking-wide transition-all hover:bg-white/10 hover:text-white data-[status=active]:bg-white data-[status=active]:text-primary data-[status=active]:shadow-md"
+                  hash={item.hash}
+                  to={item.to}
+                >
+                  {t(item.labelKey)}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
 
-          <div className="flex items-center gap-4 border-white/20 border-l pl-4">
-            <RegionToggle />
-            <a
-              href="https://wa.me/23275311632?text=Hello%2C%20I%20would%20like%20to%20request%20a%20quote.%20You%20can%20also%20reach%20me%20at%20info@continental-miningservices.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Button className="bg-secondary font-heading font-semibold text-white shadow-lg transition-all hover:-translate-y-0.5 hover:bg-secondary/90 hover:shadow-secondary/20">
-                {t("nav.button.quote")}
-              </Button>
-            </a>
-          </div>
+        <div className="hidden items-center gap-4 lg:flex">
+          <a
+            className="hidden items-center gap-2 font-medium text-sm text-white/80 transition-colors hover:text-white xl:flex"
+            href={SITE.phoneHref}
+          >
+            <HugeiconsIcon className="h-4 w-4" icon={Call02Icon} />
+            {SITE.phone}
+          </a>
+          <RegionToggle />
+          <a
+            className={ctaVariants({ variant: "primary", size: "sm" })}
+            href={quoteHref}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            {t("nav.button.quote")}
+            <HugeiconsIcon
+              className="h-4 w-4 transition-transform group-hover/cta:translate-x-0.5"
+              icon={ArrowRight01Icon}
+            />
+          </a>
         </div>
 
-        {/* Mobile Nav */}
-        <div className="md:hidden">
-          <Sheet>
+        {/* Mobile navigation */}
+        <div className="flex items-center gap-3 lg:hidden">
+          <RegionToggle />
+          <Sheet onOpenChange={setMenuOpen} open={menuOpen}>
             <SheetTrigger
               render={
                 <Button
-                  className="text-white hover:bg-white/10 hover:text-secondary"
+                  aria-label={t("nav.mobile.open")}
+                  className="h-11 w-11 rounded-full border border-white/20 bg-white/5 text-white backdrop-blur hover:bg-white/15 hover:text-white"
                   size="icon"
                   variant="ghost"
                 >
-                  <HugeiconsIcon className="h-7 w-7" icon={MenuIcon} />
+                  <HugeiconsIcon className="h-6 w-6" icon={Menu01Icon} />
                 </Button>
               }
             />
             <SheetContent
-              className="w-[300px] border-l-white/10 bg-primary/95 text-white backdrop-blur-xl"
+              className="w-[88vw] max-w-sm border-l-white/10 bg-primary text-white"
               side="right"
             >
-              <div className="flex h-full flex-col justify-between py-6">
-                <div className="mt-8 flex flex-col gap-8 px-2">
-                  <div className="flex items-center justify-between border-white/10 border-b pb-4">
-                    <span className="font-bold font-logo text-2xl">MENU</span>
-                    <RegionToggle />
-                  </div>
-
-                  <nav className="flex flex-col gap-6">
-                    <Link
-                      className="font-bold font-heading text-2xl transition-colors hover:text-secondary"
-                      to="/"
-                    >
-                      {t("nav.links.home")}
-                    </Link>
-                    <Link
-                      className="font-bold font-heading text-2xl transition-colors hover:text-secondary"
-                      to="/services"
-                    >
-                      {t("nav.links.services")}
-                    </Link>
-                    <Link
-                      className="font-bold font-heading text-2xl transition-colors hover:text-secondary"
-                      to="/contact-us"
-                    >
-                      {t("nav.links.contact")}
-                    </Link>
-                    <Link
-                      className="font-bold font-heading text-2xl transition-colors hover:text-secondary"
-                      to="/about"
-                    >
-                      {t("nav.links.aboutUs")}
-                    </Link>
-                  </nav>
+              <div className="relative flex h-full flex-col overflow-y-auto">
+                <div
+                  aria-hidden="true"
+                  className="absolute inset-0 bg-grid-light opacity-50"
+                />
+                <div className="relative flex items-center gap-3 border-white/10 border-b p-6">
+                  <img
+                    alt=""
+                    className="h-12 w-auto"
+                    height={48}
+                    src={logo}
+                    width={39}
+                  />
+                  <SheetTitle className="font-bold font-heading text-lg text-white">
+                    {t("nav.mobile.title")}
+                  </SheetTitle>
                 </div>
 
-                <div className="flex flex-col gap-6 px-2">
-                  <div className="space-y-4 rounded-xl bg-white/5 p-6">
-                    <div className="flex items-center gap-3 text-white/90">
+                <nav aria-label="Mobile" className="relative flex-1 p-6">
+                  <ul className="space-y-1">
+                    {NAV_ITEMS.map((item, index) => (
+                      <li key={item.labelKey}>
+                        <Link
+                          activeOptions={{
+                            exact: item.exact,
+                            includeHash: Boolean(item.hash),
+                          }}
+                          className="group flex items-center justify-between rounded-2xl px-4 py-4 font-bold font-heading text-2xl text-white/85 transition-colors hover:bg-white/10 hover:text-white data-[status=active]:bg-white/10 data-[status=active]:text-white"
+                          hash={item.hash}
+                          onClick={() => setMenuOpen(false)}
+                          to={item.to}
+                        >
+                          <span>
+                            <span className="mr-3 font-medium text-sm text-white/40">
+                              {String(index + 1).padStart(2, "0")}
+                            </span>
+                            {t(item.labelKey)}
+                          </span>
+                          <HugeiconsIcon
+                            className="h-5 w-5 opacity-40 transition-all group-hover:translate-x-1 group-hover:opacity-100"
+                            icon={ArrowRight01Icon}
+                          />
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </nav>
+
+                <div className="relative space-y-4 p-6">
+                  <div className="space-y-3 rounded-2xl border border-white/10 bg-white/5 p-5">
+                    <a
+                      className="flex items-center gap-3 text-sm text-white/90 hover:text-white"
+                      href={SITE.phoneHref}
+                    >
                       <HugeiconsIcon
-                        className="h-5 w-5 shrink-0 text-secondary"
-                        icon={AiPhoneIcon}
+                        className="h-5 w-5 shrink-0"
+                        icon={Call02Icon}
                       />
-                      <span className="font-medium text-sm">
-                        +232 75 311632
-                      </span>
-                    </div>
-                    <div className="flex items-start gap-3 text-white/90">
+                      {SITE.phone}
+                    </a>
+                    <a
+                      className="flex items-start gap-3 text-sm text-white/90 hover:text-white"
+                      href={`mailto:${SITE.email}`}
+                    >
                       <HugeiconsIcon
-                        className="mt-0.5 h-5 w-5 shrink-0 text-secondary"
-                        icon={MailIcon}
+                        className="h-5 w-5 shrink-0"
+                        icon={Mail01Icon}
                       />
-                      <span className="min-w-0 break-words font-medium text-sm">
-                        info@continentalminingservices.com
-                      </span>
-                    </div>
+                      <span className="min-w-0 break-all">{SITE.email}</span>
+                    </a>
                   </div>
                   <a
-                    href="https://wa.me/23275311632?text=Hello%2C%20I%20would%20like%20to%20request%20a%20quote.%20You%20can%20also%20reach%20me%20at%20info@continental-miningservices.com"
-                    target="_blank"
+                    className={cn(
+                      ctaVariants({ variant: "white", size: "lg" }),
+                      "w-full"
+                    )}
+                    href={quoteHref}
                     rel="noopener noreferrer"
+                    target="_blank"
                   >
-                    <Button
-                      className="w-full bg-secondary font-bold text-white shadow-lg shadow-secondary/20 hover:bg-secondary/90"
-                      size="lg"
-                    >
-                      {t("nav.button.quote")}
-                    </Button>
+                    <HugeiconsIcon className="h-5 w-5" icon={WhatsappIcon} />
+                    {t("nav.button.quote")}
                   </a>
                 </div>
               </div>
@@ -178,6 +241,6 @@ export const Navbar = () => {
           </Sheet>
         </div>
       </div>
-    </nav>
+    </header>
   );
 };

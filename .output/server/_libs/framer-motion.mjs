@@ -1,6 +1,6 @@
 import { r as reactExports, j as jsxRuntimeExports } from "../_chunks/_libs/react.mjs";
-import { g as getFeatureDefinitions, s as setFeatureDefinitions, i as isMotionValue, a as isControllingVariants, b as isVariantLabel, c as isForcedMotionValue, d as buildHTMLStyles, e as buildSVGAttrs, f as isSVGTag, r as resolveMotionValue, h as isVariantNode, j as isAnimationControls, k as resolveVariantFromProps, l as scrapeMotionValuesFromProps, m as scrapeMotionValuesFromProps$1, o as optimizedAppearDataAttribute, S as SVGVisualElement, H as HTMLVisualElement, F as Feature, n as createAnimationState, p as resolveVariant, q as isPrimaryPointer, t as addDomEvent, u as frameData, v as frame, w as cancelFrame, x as mixNumber, y as calcLength, z as createBox, A as eachAxis, B as measurePageBox, C as convertBoxToBoundingBox, D as convertBoundingBoxToBox, E as addValueToWillChange, G as animateMotionValue, I as setDragLock, J as resize, K as percent, L as isElementTextInput, M as microtask, N as globalProjectionState, O as HTMLProjectionNode, P as hover, Q as press, R as supportsViewTimeline, T as supportsScrollTimeline, U as isHTMLElement, V as interpolate, W as defaultOffset$1, X as observeTimeline, Y as motionValue, Z as collectMotionValues, _ as transform } from "./motion-dom.mjs";
-import { p as pipe, s as secondsToMilliseconds, m as millisecondsToSeconds, a as progress, c as clamp, n as noop, v as velocityPerSecond, i as invariant } from "./motion-utils.mjs";
+import { i as isHTMLElement, g as getFeatureDefinitions, s as setFeatureDefinitions, a as isMotionValue, r as resolveTransition, b as isControllingVariants, c as isVariantLabel, d as isForcedMotionValue, e as buildHTMLStyles, f as buildSVGAttrs, h as isSVGTag, j as resolveMotionValue, k as isVariantNode, l as isAnimationControls, m as resolveVariantFromProps, n as scrapeMotionValuesFromProps, o as scrapeMotionValuesFromProps$1, p as optimizedAppearDataAttribute, S as SVGVisualElement, H as HTMLVisualElement, F as Feature, q as createAnimationState, t as resolveVariant, u as isPrimaryPointer, v as addDomEvent, w as frameData, x as frame, y as cancelFrame, z as mixNumber, A as calcLength, B as createBox, C as eachAxis, D as measurePageBox, E as convertBoxToBoundingBox, G as convertBoundingBoxToBox, I as addValueToWillChange, J as animateMotionValue, K as setDragLock, L as resize, M as percent, N as isElementTextInput, O as microtask, P as globalProjectionState, Q as HTMLProjectionNode, R as hover, T as press, U as supportsViewTimeline, V as supportsScrollTimeline, W as interpolate, X as defaultOffset$1, Y as observeTimeline, Z as motionValue, _ as collectMotionValues, $ as transform, a0 as attachFollow, a1 as hasReducedMotionListener, a2 as initPrefersReducedMotion, a3 as prefersReducedMotion, a4 as resolveElements, a5 as createGeneratorEasing, a6 as fillOffset, a7 as isGenerator, a8 as isSVGElement, a9 as isSVGSVGElement, aa as visualElementStore, ab as ObjectVisualElement, ac as animateSingleValue, ad as animateTarget, ae as spring, af as GroupAnimationWithThen } from "./motion-dom.mjs";
+import { p as pipe, s as secondsToMilliseconds, m as millisecondsToSeconds, a as progress, c as clamp, n as noop, v as velocityPerSecond, i as invariant, g as getEasingForSegment, r as removeItem } from "./motion-utils.mjs";
 const LayoutGroupContext = reactExports.createContext({});
 function useConstant(init) {
   const ref = reactExports.useRef(null);
@@ -17,6 +17,153 @@ const MotionConfigContext = reactExports.createContext({
   isStatic: false,
   reducedMotion: "never"
 });
+function setRef(ref, value) {
+  if (typeof ref === "function") {
+    return ref(value);
+  } else if (ref !== null && ref !== void 0) {
+    ref.current = value;
+  }
+}
+function composeRefs(...refs) {
+  return (node) => {
+    let hasCleanup = false;
+    const cleanups = refs.map((ref) => {
+      const cleanup = setRef(ref, node);
+      if (!hasCleanup && typeof cleanup === "function") {
+        hasCleanup = true;
+      }
+      return cleanup;
+    });
+    if (hasCleanup) {
+      return () => {
+        for (let i = 0; i < cleanups.length; i++) {
+          const cleanup = cleanups[i];
+          if (typeof cleanup === "function") {
+            cleanup();
+          } else {
+            setRef(refs[i], null);
+          }
+        }
+      };
+    }
+  };
+}
+function useComposedRefs(...refs) {
+  return reactExports.useCallback(composeRefs(...refs), refs);
+}
+class PopChildMeasure extends reactExports.Component {
+  getSnapshotBeforeUpdate(prevProps) {
+    const element = this.props.childRef.current;
+    if (isHTMLElement(element) && prevProps.isPresent && !this.props.isPresent && this.props.pop !== false) {
+      const parent = element.offsetParent;
+      const parentWidth = isHTMLElement(parent) ? parent.offsetWidth || 0 : 0;
+      const parentHeight = isHTMLElement(parent) ? parent.offsetHeight || 0 : 0;
+      const computedStyle = getComputedStyle(element);
+      const size = this.props.sizeRef.current;
+      size.height = parseFloat(computedStyle.height);
+      size.width = parseFloat(computedStyle.width);
+      size.top = element.offsetTop;
+      size.left = element.offsetLeft;
+      size.right = parentWidth - size.width - size.left;
+      size.bottom = parentHeight - size.height - size.top;
+    }
+    return null;
+  }
+  /**
+   * Required with getSnapshotBeforeUpdate to stop React complaining.
+   */
+  componentDidUpdate() {
+  }
+  render() {
+    return this.props.children;
+  }
+}
+function PopChild({ children, isPresent, anchorX, anchorY, root, pop }) {
+  const id2 = reactExports.useId();
+  const ref = reactExports.useRef(null);
+  const size = reactExports.useRef({
+    width: 0,
+    height: 0,
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0
+  });
+  const { nonce } = reactExports.useContext(MotionConfigContext);
+  const childRef = children.props?.ref ?? children?.ref;
+  const composedRef = useComposedRefs(ref, childRef);
+  reactExports.useInsertionEffect(() => {
+    const { width, height, top, left, right, bottom } = size.current;
+    if (isPresent || pop === false || !ref.current || !width || !height)
+      return;
+    const x = anchorX === "left" ? `left: ${left}` : `right: ${right}`;
+    const y = anchorY === "bottom" ? `bottom: ${bottom}` : `top: ${top}`;
+    ref.current.dataset.motionPopId = id2;
+    const style = document.createElement("style");
+    if (nonce)
+      style.nonce = nonce;
+    const parent = root ?? document.head;
+    parent.appendChild(style);
+    if (style.sheet) {
+      style.sheet.insertRule(`
+          [data-motion-pop-id="${id2}"] {
+            position: absolute !important;
+            width: ${width}px !important;
+            height: ${height}px !important;
+            ${x}px !important;
+            ${y}px !important;
+          }
+        `);
+    }
+    return () => {
+      ref.current?.removeAttribute("data-motion-pop-id");
+      if (parent.contains(style)) {
+        parent.removeChild(style);
+      }
+    };
+  }, [isPresent]);
+  return jsxRuntimeExports.jsx(PopChildMeasure, { isPresent, childRef: ref, sizeRef: size, pop, children: pop === false ? children : reactExports.cloneElement(children, { ref: composedRef }) });
+}
+const PresenceChild = ({ children, initial, isPresent, onExitComplete, custom, presenceAffectsLayout, mode, anchorX, anchorY, root }) => {
+  const presenceChildren = useConstant(newChildrenMap);
+  const id2 = reactExports.useId();
+  let isReusedContext = true;
+  let context = reactExports.useMemo(() => {
+    isReusedContext = false;
+    return {
+      id: id2,
+      initial,
+      isPresent,
+      custom,
+      onExitComplete: (childId) => {
+        presenceChildren.set(childId, true);
+        for (const isComplete of presenceChildren.values()) {
+          if (!isComplete)
+            return;
+        }
+        onExitComplete && onExitComplete();
+      },
+      register: (childId) => {
+        presenceChildren.set(childId, false);
+        return () => presenceChildren.delete(childId);
+      }
+    };
+  }, [isPresent, presenceChildren, onExitComplete]);
+  if (presenceAffectsLayout && isReusedContext) {
+    context = { ...context };
+  }
+  reactExports.useMemo(() => {
+    presenceChildren.forEach((_, key) => presenceChildren.set(key, false));
+  }, [isPresent]);
+  reactExports.useEffect(() => {
+    !isPresent && !presenceChildren.size && onExitComplete && onExitComplete();
+  }, [isPresent]);
+  children = jsxRuntimeExports.jsx(PopChild, { pop: mode === "popLayout", isPresent, anchorX, anchorY, root, children });
+  return jsxRuntimeExports.jsx(PresenceContext.Provider, { value: context, children });
+};
+function newChildrenMap() {
+  return /* @__PURE__ */ new Map();
+}
 function usePresence(subscribe = true) {
   const context = reactExports.useContext(PresenceContext);
   if (context === null)
@@ -31,6 +178,87 @@ function usePresence(subscribe = true) {
   const safeToRemove = reactExports.useCallback(() => subscribe && onExitComplete && onExitComplete(id2), [id2, onExitComplete, subscribe]);
   return !isPresent && onExitComplete ? [false, safeToRemove] : [true];
 }
+const getChildKey = (child) => child.key || "";
+function onlyElements(children) {
+  const filtered = [];
+  reactExports.Children.forEach(children, (child) => {
+    if (reactExports.isValidElement(child))
+      filtered.push(child);
+  });
+  return filtered;
+}
+const AnimatePresence = ({ children, custom, initial = true, onExitComplete, presenceAffectsLayout = true, mode = "sync", propagate = false, anchorX = "left", anchorY = "top", root }) => {
+  const [isParentPresent, safeToRemove] = usePresence(propagate);
+  const presentChildren = reactExports.useMemo(() => onlyElements(children), [children]);
+  const presentKeys = propagate && !isParentPresent ? [] : presentChildren.map(getChildKey);
+  const isInitialRender = reactExports.useRef(true);
+  const pendingPresentChildren = reactExports.useRef(presentChildren);
+  const exitComplete = useConstant(() => /* @__PURE__ */ new Map());
+  const exitingComponents = reactExports.useRef(/* @__PURE__ */ new Set());
+  const [diffedChildren, setDiffedChildren] = reactExports.useState(presentChildren);
+  const [renderedChildren, setRenderedChildren] = reactExports.useState(presentChildren);
+  useIsomorphicLayoutEffect(() => {
+    isInitialRender.current = false;
+    pendingPresentChildren.current = presentChildren;
+    for (let i = 0; i < renderedChildren.length; i++) {
+      const key = getChildKey(renderedChildren[i]);
+      if (!presentKeys.includes(key)) {
+        if (exitComplete.get(key) !== true) {
+          exitComplete.set(key, false);
+        }
+      } else {
+        exitComplete.delete(key);
+        exitingComponents.current.delete(key);
+      }
+    }
+  }, [renderedChildren, presentKeys.length, presentKeys.join("-")]);
+  const exitingChildren = [];
+  if (presentChildren !== diffedChildren) {
+    let nextChildren = [...presentChildren];
+    for (let i = 0; i < renderedChildren.length; i++) {
+      const child = renderedChildren[i];
+      const key = getChildKey(child);
+      if (!presentKeys.includes(key)) {
+        nextChildren.splice(i, 0, child);
+        exitingChildren.push(child);
+      }
+    }
+    if (mode === "wait" && exitingChildren.length) {
+      nextChildren = exitingChildren;
+    }
+    setRenderedChildren(onlyElements(nextChildren));
+    setDiffedChildren(presentChildren);
+    return null;
+  }
+  const { forceRender } = reactExports.useContext(LayoutGroupContext);
+  return jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: renderedChildren.map((child) => {
+    const key = getChildKey(child);
+    const isPresent = propagate && !isParentPresent ? false : presentChildren === renderedChildren || presentKeys.includes(key);
+    const onExit = () => {
+      if (exitingComponents.current.has(key)) {
+        return;
+      }
+      if (exitComplete.has(key)) {
+        exitingComponents.current.add(key);
+        exitComplete.set(key, true);
+      } else {
+        return;
+      }
+      let isEveryExitComplete = true;
+      exitComplete.forEach((isExitComplete) => {
+        if (!isExitComplete)
+          isEveryExitComplete = false;
+      });
+      if (isEveryExitComplete) {
+        forceRender?.();
+        setRenderedChildren(pendingPresentChildren.current);
+        propagate && safeToRemove?.();
+        onExitComplete && onExitComplete();
+      }
+    };
+    return jsxRuntimeExports.jsx(PresenceChild, { isPresent, initial: !isInitialRender.current || initial ? void 0 : false, custom, presenceAffectsLayout, mode, root, onExitComplete: isPresent ? void 0 : onExit, anchorX, anchorY, children: child }, key);
+  }) });
+};
 const LazyContext = reactExports.createContext({ strict: false });
 const featureProps = {
   animation: [
@@ -140,20 +368,34 @@ function filterProps(props, isDom, forwardMotionProps) {
   }
   return filteredProps;
 }
+function MotionConfig({ children, isValidProp, ...config }) {
+  isValidProp && loadExternalIsValidProp(isValidProp);
+  const parentConfig = reactExports.useContext(MotionConfigContext);
+  config = { ...parentConfig, ...config };
+  config.transition = resolveTransition(config.transition, parentConfig.transition);
+  config.isStatic = useConstant(() => config.isStatic);
+  const context = reactExports.useMemo(() => config, [
+    JSON.stringify(config.transition),
+    config.transformPagePoint,
+    config.reducedMotion,
+    config.skipAnimations
+  ]);
+  return jsxRuntimeExports.jsx(MotionConfigContext.Provider, { value: context, children });
+}
 const MotionContext = /* @__PURE__ */ reactExports.createContext({});
 function getCurrentTreeVariants(props, context) {
   if (isControllingVariants(props)) {
-    const { initial, animate } = props;
+    const { initial, animate: animate2 } = props;
     return {
       initial: initial === false || isVariantLabel(initial) ? initial : void 0,
-      animate: isVariantLabel(animate) ? animate : void 0
+      animate: isVariantLabel(animate2) ? animate2 : void 0
     };
   }
   return props.inherit !== false ? context : {};
 }
 function useCreateMotionContext(props) {
-  const { initial, animate } = getCurrentTreeVariants(props, reactExports.useContext(MotionContext));
-  return reactExports.useMemo(() => ({ initial, animate }), [variantLabelsAsDependency(initial), variantLabelsAsDependency(animate)]);
+  const { initial, animate: animate2 } = getCurrentTreeVariants(props, reactExports.useContext(MotionContext));
+  return reactExports.useMemo(() => ({ initial, animate: animate2 }), [variantLabelsAsDependency(initial), variantLabelsAsDependency(animate2)]);
 }
 function variantLabelsAsDependency(prop) {
   return Array.isArray(prop) ? prop.join(" ") : prop;
@@ -296,18 +538,18 @@ function makeLatestValues(props, context, presenceContext, scrapeMotionValues) {
   for (const key in motionValues) {
     values[key] = resolveMotionValue(motionValues[key]);
   }
-  let { initial, animate } = props;
+  let { initial, animate: animate2 } = props;
   const isControllingVariants$1 = isControllingVariants(props);
   const isVariantNode$1 = isVariantNode(props);
   if (context && isVariantNode$1 && !isControllingVariants$1 && props.inherit !== false) {
     if (initial === void 0)
       initial = context.initial;
-    if (animate === void 0)
-      animate = context.animate;
+    if (animate2 === void 0)
+      animate2 = context.animate;
   }
   let isInitialAnimationBlocked = presenceContext ? presenceContext.initial === false : false;
   isInitialAnimationBlocked = isInitialAnimationBlocked || initial === false;
-  const variantToSet = isInitialAnimationBlocked ? animate : initial;
+  const variantToSet = isInitialAnimationBlocked ? animate2 : initial;
   if (variantToSet && typeof variantToSet !== "boolean" && !isAnimationControls(variantToSet)) {
     const list = Array.isArray(variantToSet) ? variantToSet : [variantToSet];
     for (let i = 0; i < list.length; i++) {
@@ -565,9 +807,9 @@ class AnimationFeature extends Feature {
     node.animationState || (node.animationState = createAnimationState(node));
   }
   updateAnimationControlsSubscription() {
-    const { animate } = this.node.getProps();
-    if (isAnimationControls(animate)) {
-      this.unmountControls = animate.subscribe(this.node);
+    const { animate: animate2 } = this.node.getProps();
+    if (isAnimationControls(animate2)) {
+      this.unmountControls = animate2.subscribe(this.node);
     }
   }
   /**
@@ -577,9 +819,9 @@ class AnimationFeature extends Feature {
     this.updateAnimationControlsSubscription();
   }
   update() {
-    const { animate } = this.node.getProps();
+    const { animate: animate2 } = this.node.getProps();
     const { animate: prevAnimate } = this.node.prevProps || {};
-    if (animate !== prevAnimate) {
+    if (animate2 !== prevAnimate) {
       this.updateAnimationControlsSubscription();
     }
   }
@@ -2322,8 +2564,432 @@ function useMapTransform(inputValue, inputRange, outputMap, options) {
   }
   return output;
 }
+function useFollowValue(source, options = {}) {
+  const { isStatic } = reactExports.useContext(MotionConfigContext);
+  const getFromSource = () => isMotionValue(source) ? source.get() : source;
+  if (isStatic) {
+    return useTransform(getFromSource);
+  }
+  const value = useMotionValue(getFromSource());
+  reactExports.useInsertionEffect(() => {
+    return attachFollow(value, source, options);
+  }, [value, JSON.stringify(options)]);
+  return value;
+}
+function useSpring(source, options = {}) {
+  return useFollowValue(source, { type: "spring", ...options });
+}
+function useReducedMotion() {
+  !hasReducedMotionListener.current && initPrefersReducedMotion();
+  const [shouldReduceMotion] = reactExports.useState(prefersReducedMotion.current);
+  return shouldReduceMotion;
+}
+function isDOMKeyframes(keyframes) {
+  return typeof keyframes === "object" && !Array.isArray(keyframes);
+}
+function resolveSubjects(subject, keyframes, scope, selectorCache) {
+  if (subject == null) {
+    return [];
+  }
+  if (typeof subject === "string" && isDOMKeyframes(keyframes)) {
+    return resolveElements(subject, scope, selectorCache);
+  } else if (subject instanceof NodeList) {
+    return Array.from(subject);
+  } else if (Array.isArray(subject)) {
+    return subject.filter((s) => s != null);
+  } else {
+    return [subject];
+  }
+}
+function calculateRepeatDuration(duration, repeat, _repeatDelay) {
+  return duration * (repeat + 1);
+}
+function calcNextTime(current, next, prev, labels) {
+  if (typeof next === "number") {
+    return next;
+  } else if (next.startsWith("-") || next.startsWith("+")) {
+    return Math.max(0, current + parseFloat(next));
+  } else if (next === "<") {
+    return prev;
+  } else if (next.startsWith("<")) {
+    return Math.max(0, prev + parseFloat(next.slice(1)));
+  } else {
+    return labels.get(next) ?? current;
+  }
+}
+function eraseKeyframes(sequence, startTime, endTime) {
+  for (let i = 0; i < sequence.length; i++) {
+    const keyframe = sequence[i];
+    if (keyframe.at > startTime && keyframe.at < endTime) {
+      removeItem(sequence, keyframe);
+      i--;
+    }
+  }
+}
+function addKeyframes(sequence, keyframes, easing, offset, startTime, endTime) {
+  eraseKeyframes(sequence, startTime, endTime);
+  for (let i = 0; i < keyframes.length; i++) {
+    sequence.push({
+      value: keyframes[i],
+      at: mixNumber(startTime, endTime, offset[i]),
+      easing: getEasingForSegment(easing, i)
+    });
+  }
+}
+function normalizeTimes(times, repeat) {
+  for (let i = 0; i < times.length; i++) {
+    times[i] = times[i] / (repeat + 1);
+  }
+}
+function compareByTime(a, b) {
+  if (a.at === b.at) {
+    if (a.value === null)
+      return 1;
+    if (b.value === null)
+      return -1;
+    return 0;
+  } else {
+    return a.at - b.at;
+  }
+}
+const defaultSegmentEasing = "easeInOut";
+function createAnimationsFromSequence(sequence, { defaultTransition = {}, ...sequenceTransition } = {}, scope, generators) {
+  const defaultDuration = defaultTransition.duration || 0.3;
+  const animationDefinitions = /* @__PURE__ */ new Map();
+  const sequences = /* @__PURE__ */ new Map();
+  const elementCache = {};
+  const timeLabels = /* @__PURE__ */ new Map();
+  let prevTime = 0;
+  let currentTime = 0;
+  let totalDuration = 0;
+  for (let i = 0; i < sequence.length; i++) {
+    const segment = sequence[i];
+    if (typeof segment === "string") {
+      timeLabels.set(segment, currentTime);
+      continue;
+    } else if (!Array.isArray(segment)) {
+      timeLabels.set(segment.name, calcNextTime(currentTime, segment.at, prevTime, timeLabels));
+      continue;
+    }
+    let [subject, keyframes, transition = {}] = segment;
+    if (transition.at !== void 0) {
+      currentTime = calcNextTime(currentTime, transition.at, prevTime, timeLabels);
+    }
+    let maxDuration = 0;
+    const resolveValueSequence = (valueKeyframes, valueTransition, valueSequence, elementIndex = 0, numSubjects = 0) => {
+      const valueKeyframesAsList = keyframesAsList(valueKeyframes);
+      const { delay = 0, times = defaultOffset$1(valueKeyframesAsList), type = defaultTransition.type || "keyframes", repeat, repeatType, repeatDelay = 0, ...remainingTransition } = valueTransition;
+      let { ease = defaultTransition.ease || "easeOut", duration } = valueTransition;
+      const calculatedDelay = typeof delay === "function" ? delay(elementIndex, numSubjects) : delay;
+      const numKeyframes = valueKeyframesAsList.length;
+      const createGenerator = isGenerator(type) ? type : generators?.[type || "keyframes"];
+      if (numKeyframes <= 2 && createGenerator) {
+        let absoluteDelta = 100;
+        if (numKeyframes === 2 && isNumberKeyframesArray(valueKeyframesAsList)) {
+          const delta = valueKeyframesAsList[1] - valueKeyframesAsList[0];
+          absoluteDelta = Math.abs(delta);
+        }
+        const springTransition = {
+          ...defaultTransition,
+          ...remainingTransition
+        };
+        if (duration !== void 0) {
+          springTransition.duration = secondsToMilliseconds(duration);
+        }
+        const springEasing = createGeneratorEasing(springTransition, absoluteDelta, createGenerator);
+        ease = springEasing.ease;
+        duration = springEasing.duration;
+      }
+      duration ?? (duration = defaultDuration);
+      const startTime = currentTime + calculatedDelay;
+      if (times.length === 1 && times[0] === 0) {
+        times[1] = 1;
+      }
+      const remainder = times.length - valueKeyframesAsList.length;
+      remainder > 0 && fillOffset(times, remainder);
+      valueKeyframesAsList.length === 1 && valueKeyframesAsList.unshift(null);
+      if (repeat) {
+        duration = calculateRepeatDuration(duration, repeat);
+        const originalKeyframes = [...valueKeyframesAsList];
+        const originalTimes = [...times];
+        ease = Array.isArray(ease) ? [...ease] : [ease];
+        const originalEase = [...ease];
+        for (let repeatIndex = 0; repeatIndex < repeat; repeatIndex++) {
+          valueKeyframesAsList.push(...originalKeyframes);
+          for (let keyframeIndex = 0; keyframeIndex < originalKeyframes.length; keyframeIndex++) {
+            times.push(originalTimes[keyframeIndex] + (repeatIndex + 1));
+            ease.push(keyframeIndex === 0 ? "linear" : getEasingForSegment(originalEase, keyframeIndex - 1));
+          }
+        }
+        normalizeTimes(times, repeat);
+      }
+      const targetTime = startTime + duration;
+      addKeyframes(valueSequence, valueKeyframesAsList, ease, times, startTime, targetTime);
+      maxDuration = Math.max(calculatedDelay + duration, maxDuration);
+      totalDuration = Math.max(targetTime, totalDuration);
+    };
+    if (isMotionValue(subject)) {
+      const subjectSequence = getSubjectSequence(subject, sequences);
+      resolveValueSequence(keyframes, transition, getValueSequence("default", subjectSequence));
+    } else {
+      const subjects = resolveSubjects(subject, keyframes, scope, elementCache);
+      const numSubjects = subjects.length;
+      for (let subjectIndex = 0; subjectIndex < numSubjects; subjectIndex++) {
+        keyframes = keyframes;
+        transition = transition;
+        const thisSubject = subjects[subjectIndex];
+        const subjectSequence = getSubjectSequence(thisSubject, sequences);
+        for (const key in keyframes) {
+          resolveValueSequence(keyframes[key], getValueTransition(transition, key), getValueSequence(key, subjectSequence), subjectIndex, numSubjects);
+        }
+      }
+    }
+    prevTime = currentTime;
+    currentTime += maxDuration;
+  }
+  sequences.forEach((valueSequences, element) => {
+    for (const key in valueSequences) {
+      const valueSequence = valueSequences[key];
+      valueSequence.sort(compareByTime);
+      const keyframes = [];
+      const valueOffset = [];
+      const valueEasing = [];
+      for (let i = 0; i < valueSequence.length; i++) {
+        const { at, value, easing } = valueSequence[i];
+        keyframes.push(value);
+        valueOffset.push(progress(0, totalDuration, at));
+        valueEasing.push(easing || "easeOut");
+      }
+      if (valueOffset[0] !== 0) {
+        valueOffset.unshift(0);
+        keyframes.unshift(keyframes[0]);
+        valueEasing.unshift(defaultSegmentEasing);
+      }
+      if (valueOffset[valueOffset.length - 1] !== 1) {
+        valueOffset.push(1);
+        keyframes.push(null);
+      }
+      if (!animationDefinitions.has(element)) {
+        animationDefinitions.set(element, {
+          keyframes: {},
+          transition: {}
+        });
+      }
+      const definition = animationDefinitions.get(element);
+      definition.keyframes[key] = keyframes;
+      const { type: _type, ...remainingDefaultTransition } = defaultTransition;
+      definition.transition[key] = {
+        ...remainingDefaultTransition,
+        duration: totalDuration,
+        ease: valueEasing,
+        times: valueOffset,
+        ...sequenceTransition
+      };
+    }
+  });
+  return animationDefinitions;
+}
+function getSubjectSequence(subject, sequences) {
+  !sequences.has(subject) && sequences.set(subject, {});
+  return sequences.get(subject);
+}
+function getValueSequence(name, sequences) {
+  if (!sequences[name])
+    sequences[name] = [];
+  return sequences[name];
+}
+function keyframesAsList(keyframes) {
+  return Array.isArray(keyframes) ? keyframes : [keyframes];
+}
+function getValueTransition(transition, key) {
+  return transition && transition[key] ? {
+    ...transition,
+    ...transition[key]
+  } : { ...transition };
+}
+const isNumber = (keyframe) => typeof keyframe === "number";
+const isNumberKeyframesArray = (keyframes) => keyframes.every(isNumber);
+function createDOMVisualElement(element) {
+  const options = {
+    presenceContext: null,
+    props: {},
+    visualState: {
+      renderState: {
+        transform: {},
+        transformOrigin: {},
+        style: {},
+        vars: {},
+        attrs: {}
+      },
+      latestValues: {}
+    }
+  };
+  const node = isSVGElement(element) && !isSVGSVGElement(element) ? new SVGVisualElement(options) : new HTMLVisualElement(options);
+  node.mount(element);
+  visualElementStore.set(element, node);
+}
+function createObjectVisualElement(subject) {
+  const options = {
+    presenceContext: null,
+    props: {},
+    visualState: {
+      renderState: {
+        output: {}
+      },
+      latestValues: {}
+    }
+  };
+  const node = new ObjectVisualElement(options);
+  node.mount(subject);
+  visualElementStore.set(subject, node);
+}
+function isSingleValue(subject, keyframes) {
+  return isMotionValue(subject) || typeof subject === "number" || typeof subject === "string" && !isDOMKeyframes(keyframes);
+}
+function animateSubject(subject, keyframes, options, scope) {
+  const animations2 = [];
+  if (isSingleValue(subject, keyframes)) {
+    animations2.push(animateSingleValue(subject, isDOMKeyframes(keyframes) ? keyframes.default || keyframes : keyframes, options ? options.default || options : options));
+  } else {
+    if (subject == null) {
+      return animations2;
+    }
+    const subjects = resolveSubjects(subject, keyframes, scope);
+    const numSubjects = subjects.length;
+    for (let i = 0; i < numSubjects; i++) {
+      const thisSubject = subjects[i];
+      const createVisualElement = thisSubject instanceof Element ? createDOMVisualElement : createObjectVisualElement;
+      if (!visualElementStore.has(thisSubject)) {
+        createVisualElement(thisSubject);
+      }
+      const visualElement = visualElementStore.get(thisSubject);
+      const transition = { ...options };
+      if ("delay" in transition && typeof transition.delay === "function") {
+        transition.delay = transition.delay(i, numSubjects);
+      }
+      animations2.push(...animateTarget(visualElement, { ...keyframes, transition }, {}));
+    }
+  }
+  return animations2;
+}
+function animateSequence(sequence, options, scope) {
+  const animations2 = [];
+  const processedSequence = sequence.map((segment) => {
+    if (Array.isArray(segment) && typeof segment[0] === "function") {
+      const callback = segment[0];
+      const mv = motionValue(0);
+      mv.on("change", callback);
+      if (segment.length === 1) {
+        return [mv, [0, 1]];
+      } else if (segment.length === 2) {
+        return [mv, [0, 1], segment[1]];
+      } else {
+        return [mv, segment[1], segment[2]];
+      }
+    }
+    return segment;
+  });
+  const animationDefinitions = createAnimationsFromSequence(processedSequence, options, scope, { spring });
+  animationDefinitions.forEach(({ keyframes, transition }, subject) => {
+    animations2.push(...animateSubject(subject, keyframes, transition));
+  });
+  return animations2;
+}
+function isSequence(value) {
+  return Array.isArray(value) && value.some(Array.isArray);
+}
+function createScopedAnimate(options = {}) {
+  const { scope, reduceMotion } = options;
+  function scopedAnimate(subjectOrSequence, optionsOrKeyframes, options2) {
+    let animations2 = [];
+    let animationOnComplete;
+    if (isSequence(subjectOrSequence)) {
+      const { onComplete, ...sequenceOptions } = optionsOrKeyframes || {};
+      if (typeof onComplete === "function") {
+        animationOnComplete = onComplete;
+      }
+      animations2 = animateSequence(subjectOrSequence, reduceMotion !== void 0 ? { reduceMotion, ...sequenceOptions } : sequenceOptions, scope);
+    } else {
+      const { onComplete, ...rest } = options2 || {};
+      if (typeof onComplete === "function") {
+        animationOnComplete = onComplete;
+      }
+      animations2 = animateSubject(subjectOrSequence, optionsOrKeyframes, reduceMotion !== void 0 ? { reduceMotion, ...rest } : rest, scope);
+    }
+    const animation = new GroupAnimationWithThen(animations2);
+    if (animationOnComplete) {
+      animation.finished.then(animationOnComplete);
+    }
+    if (scope) {
+      scope.animations.push(animation);
+      animation.finished.then(() => {
+        removeItem(scope.animations, animation);
+      });
+    }
+    return animation;
+  }
+  return scopedAnimate;
+}
+const animate = createScopedAnimate();
+const thresholds = {
+  some: 0,
+  all: 1
+};
+function inView(elementOrSelector, onStart, { root, margin: rootMargin, amount = "some" } = {}) {
+  const elements = resolveElements(elementOrSelector);
+  const activeIntersections = /* @__PURE__ */ new WeakMap();
+  const onIntersectionChange = (entries) => {
+    entries.forEach((entry) => {
+      const onEnd = activeIntersections.get(entry.target);
+      if (entry.isIntersecting === Boolean(onEnd))
+        return;
+      if (entry.isIntersecting) {
+        const newOnEnd = onStart(entry.target, entry);
+        if (typeof newOnEnd === "function") {
+          activeIntersections.set(entry.target, newOnEnd);
+        } else {
+          observer.unobserve(entry.target);
+        }
+      } else if (typeof onEnd === "function") {
+        onEnd(entry);
+        activeIntersections.delete(entry.target);
+      }
+    });
+  };
+  const observer = new IntersectionObserver(onIntersectionChange, {
+    root,
+    rootMargin,
+    threshold: typeof amount === "number" ? amount : thresholds[amount]
+  });
+  elements.forEach((element) => observer.observe(element));
+  return () => observer.disconnect();
+}
+function useInView(ref, { root, margin, amount, once = false, initial = false } = {}) {
+  const [isInView, setInView] = reactExports.useState(initial);
+  reactExports.useEffect(() => {
+    if (!ref.current || once && isInView)
+      return;
+    const onEnter = () => {
+      setInView(true);
+      return once ? void 0 : () => setInView(false);
+    };
+    const options = {
+      root: root && root.current || void 0,
+      margin,
+      amount
+    };
+    return inView(ref.current, onEnter, options);
+  }, [root, ref, margin, once, amount]);
+  return isInView;
+}
 export {
-  useTransform as a,
+  AnimatePresence as A,
+  MotionConfig as M,
+  useSpring as a,
+  useTransform as b,
+  useReducedMotion as c,
+  useInView as d,
+  animate as e,
   motion as m,
   useScroll as u
 };

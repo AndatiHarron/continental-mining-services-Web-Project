@@ -1,226 +1,281 @@
-// import { Link } from "@tanstack/react-router";
-import { motion } from "framer-motion";
+import {
+  ArrowDown01Icon,
+  Location01Icon,
+  WhatsappIcon,
+} from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+import {
+  AnimatePresence,
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+} from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import heroBg from "@/assets/hero.jpg";
-import { Button } from "@/components/ui/button";
-import { useState } from "react";
-import excavatorImg from "@/assets/home/excavators.avif";
-import bulldozerImg from "@/assets/home/bulldozer.webp";
-import loaderImg from "@/assets/home/front_loaders.jpg";
 import dumpTruckImg from "@/assets/home/heavy_dump_trucks.webp";
-// import logoImg from "@/logo.png";
-import logoImg from "@/logo.png";
+import excavatorAdtImg from "@/assets/services/earth-moving-equipment-rental/modern-equipment/me-02.jpg";
+import loaderRockImg from "@/assets/services/ore-loading/ol-1.jpg";
+import tipperImg from "@/assets/services/tipper-truck-rentals/reliable-equipment/re-01.jpg";
+import { CornerBrackets } from "@/components/ui/corner-brackets";
+import { CountUp } from "@/components/ui/count-up";
+import { ctaVariants } from "@/components/ui/cta";
+import { whatsappLink } from "@/lib/site";
+import { cn } from "@/lib/utils";
+
+const SLIDE_MS = 6500;
+
+/** Background slides, each labelled with the fleet item it shows */
+const SLIDES = [
+  {
+    src: heroBg,
+    labelKey: "rental.items.excavators.title",
+    position: "object-[70%_center]",
+  },
+  {
+    src: dumpTruckImg,
+    labelKey: "rental.items.dumpTrucks.title",
+    position: "object-center",
+  },
+  {
+    src: loaderRockImg,
+    labelKey: "rental.items.loaders.title",
+    position: "object-center",
+  },
+  {
+    src: tipperImg,
+    labelKey: "rental.items.tipperTrucks.title",
+    position: "object-center",
+  },
+  {
+    src: excavatorAdtImg,
+    labelKey: "servicesPage.detailedList.earthMovingRental.title",
+    position: "object-center",
+  },
+] as const;
 
 export const HeroSection = () => {
   const { t } = useTranslation();
+  const reduceMotion = useReducedMotion();
+  const sectionRef = useRef<HTMLElement>(null);
+  const [slide, setSlide] = useState(0);
+  const stats = t("hero.stats", { returnObjects: true }) as Array<{
+    value: string;
+    label: string;
+  }>;
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
-    },
-  };
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "18%"]);
+  const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.8, ease: [0.215, 0.61, 0.355, 1.0] as const },
-    },
-  };
+  useEffect(() => {
+    if (reduceMotion) {
+      return;
+    }
+    const timer = window.setTimeout(
+      () => setSlide((s) => (s + 1) % SLIDES.length),
+      SLIDE_MS
+    );
+    return () => window.clearTimeout(timer);
+  }, [slide, reduceMotion]);
 
-  const [showFleetPopup, setShowFleetPopup] = useState(false);
+  useEffect(() => {
+    const next = new Image();
+    next.src = SLIDES[(slide + 1) % SLIDES.length].src;
+  }, [slide]);
 
-  // Rental fleet data
-  const fleet = [
-    {
-      key: "excavators",
-      title: t("rental.items.excavators.title"),
-      description: t("rental.items.excavators.description"),
-      image: excavatorImg,
-      icon: null,
-      specs: [
-        { label: "Operating Weight", value: "21-35 ton" },
-        { label: "Engine Power", value: "120-210 kW" },
-        { label: "Bucket Capacity", value: "0.8-2.1 m³" },
-      ],
-    },
-    {
-      key: "bulldozers",
-      title: t("rental.items.bulldozers.title"),
-      description: t("rental.items.bulldozers.description"),
-      image: bulldozerImg,
-      icon: null,
-      specs: [
-        { label: "Operating Weight", value: "18-38 ton" },
-        { label: "Engine Power", value: "150-320 kW" },
-        { label: "Blade Capacity", value: "3.5-7.0 m³" },
-      ],
-    },
-    {
-      key: "loaders",
-      title: t("rental.items.loaders.title"),
-      description: t("rental.items.loaders.description"),
-      image: loaderImg,
-      icon: null,
-      specs: [
-        { label: "Operating Weight", value: "12-25 ton" },
-        { label: "Engine Power", value: "100-180 kW" },
-        { label: "Bucket Capacity", value: "1.8-4.5 m³" },
-      ],
-    },
-    {
-      key: "dumpTrucks",
-      title: t("rental.items.dumpTrucks.title"),
-      description: t("rental.items.dumpTrucks.description"),
-      image: dumpTruckImg,
-      icon: null,
-      specs: [
-        { label: "Payload", value: "41 ton" },
-        { label: "Engine Power", value: "368 kW" },
-        { label: "Drive", value: "6x6, 8x8" },
-      ],
-    },
-  ];
+  const current = SLIDES[slide];
 
   return (
-    <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-black">
-      <div className="absolute inset-0 z-0">
-        <motion.div
-          animate={{ scale: 1.05 }}
-          className="h-full w-full"
-          initial={{ scale: 1 }}
-          transition={{
-            duration: 20,
-            repeat: Number.POSITIVE_INFINITY,
-            repeatType: "reverse",
-            ease: "linear",
-          }}
-        >
-          <img
-            alt={t("hero.image.alt")}
-            className="h-full w-full object-cover opacity-60"
+    <section
+      className="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-black pt-28"
+      ref={sectionRef}
+    >
+      {/* Slideshow background with parallax */}
+      <motion.div className="absolute inset-0 -z-20" style={{ y: bgY }}>
+        <AnimatePresence initial={false}>
+          <motion.img
+            alt={slide === 0 ? t("hero.image.alt") : t(current.labelKey)}
+            animate={{ opacity: 0.75, scale: 1, zIndex: 1 }}
+            className={cn(
+              "absolute inset-0 h-[118%] w-full object-cover",
+              current.position
+            )}
+            decoding="async"
+            exit={{
+              zIndex: 0,
+              opacity: 0,
+              transition: { opacity: { delay: 1.4, duration: 0 } },
+            }}
+            fetchPriority={slide === 0 ? "high" : "auto"}
             height={1080}
-            src={heroBg}
-            title={t("hero.image.alt")}
+            initial={{ opacity: 0, scale: 1.12 }}
+            key={current.src}
+            src={current.src}
+            transition={{
+              opacity: { duration: 1.4, ease: "easeInOut" },
+              scale: { duration: SLIDE_MS / 1000 + 1.4, ease: "linear" },
+            }}
             width={1920}
           />
-          <div className="absolute inset-0 bg-black/70" style={{zIndex:1}} />
-        </motion.div>
-      </div>
+        </AnimatePresence>
+      </motion.div>
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10 bg-linear-to-t from-black via-black/45 to-black/40"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10 bg-linear-to-r from-black/90 via-black/45 to-transparent"
+      />
+      <div
+        aria-hidden="true"
+        className="mask-fade-y absolute inset-0 -z-10 bg-grid-light opacity-50"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute top-1/3 -left-40 -z-10 h-[28rem] w-[28rem] rounded-full bg-primary/30 blur-[120px]"
+      />
+      <CornerBrackets className="inset-6 hidden opacity-40 md:block lg:inset-10" />
 
-      <div className="container relative z-10 px-4 pt-20 md:px-6">
-        <motion.div
-          className="mx-auto max-w-4xl text-center md:text-left"
-          initial="hidden"
-          variants={containerVariants}
-          viewport={{ once: true }}
-          whileInView="visible"
-        >
-          <motion.span
-            className="mb-6 inline-block rounded-full border border-white/20 bg-white/5 px-6 py-2 font-bold text-sm text-white uppercase tracking-wider shadow-lg backdrop-blur-xl transition-all hover:bg-white/10"
-            variants={itemVariants}
-          >
+      <motion.div
+        className="container mx-auto flex flex-1 items-center px-4 py-16 md:px-6"
+        style={
+          reduceMotion ? undefined : { y: contentY, opacity: contentOpacity }
+        }
+      >
+        <div className="max-w-4xl">
+          <p className="fade-in slide-in-from-bottom-4 mb-8 inline-flex animate-in items-center gap-3 rounded-full border border-white/15 bg-white/5 fill-mode-both py-2 pr-5 pl-3 font-heading font-semibold text-white text-xs uppercase tracking-[0.18em] shadow-lg backdrop-blur-xl duration-700 md:text-sm">
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-secondary opacity-75" />
+              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-secondary" />
+            </span>
             {t("hero.badge")}
-          </motion.span>
-          <motion.h1
-            className="mb-6 font-bold font-heading text-4xl text-white leading-tight md:text-6xl lg:text-7xl"
-            variants={itemVariants}
+          </p>
+
+          <h1
+            className="fade-in slide-in-from-bottom-6 mb-8 animate-in fill-mode-both font-bold font-heading text-5xl text-white leading-[1.02] duration-700 sm:text-6xl lg:text-8xl"
+            style={{ animationDelay: "120ms" }}
           >
-            {t("hero.heading.part1")} <br className="hidden md:block" />
-            <span className="bg-linear-to-r from-white to-white/70 bg-clip-text text-transparent">
+            {t("hero.heading.part1")}
+            <span className="mt-2 block bg-linear-to-r from-white via-white/90 to-white/50 bg-clip-text text-transparent">
               {t("hero.heading.part2")}
             </span>
-          </motion.h1>
-          <motion.p
-            className="mb-10 max-w-2xl font-light text-lg text-white/80 leading-relaxed md:text-2xl"
-            variants={itemVariants}
+          </h1>
+
+          <p
+            className="fade-in slide-in-from-bottom-6 mb-10 max-w-2xl animate-in fill-mode-both font-light text-lg text-white/80 leading-relaxed duration-700 md:text-2xl"
+            style={{ animationDelay: "240ms" }}
           >
             {t("hero.description")}
-          </motion.p>
-          <motion.div
-            className="flex flex-col justify-center gap-4 sm:flex-row md:justify-start"
-            variants={itemVariants}
+          </p>
+
+          <div
+            className="fade-in slide-in-from-bottom-6 flex animate-in flex-col gap-4 fill-mode-both duration-700 sm:flex-row"
+            style={{ animationDelay: "360ms" }}
           >
             <a
-              href="https://wa.me/23275311632?text=Hello%2C%20I%20would%20like%20to%20request%20a%20quote.%20You%20can%20also%20reach%20me%20at%20info@continental-miningservices.com"
-              target="_blank"
+              className={ctaVariants({ variant: "primary", size: "lg" })}
+              href={whatsappLink(t("common.whatsappGeneric"))}
               rel="noopener noreferrer"
+              target="_blank"
             >
-              <Button
-                className="h-14 bg-secondary px-8 font-bold text-lg text-white shadow-secondary/20 shadow-xl hover:bg-secondary/90"
-                size="lg"
-              >
-                {t("hero.button.quote")}
-              </Button>
+              <HugeiconsIcon className="h-5 w-5" icon={WhatsappIcon} />
+              {t("hero.button.quote")}
             </a>
-            <Button
-              className="h-14 border-white/20 bg-white/5 text-lg text-white backdrop-blur-sm hover:bg-white/10"
-              size="lg"
-              variant="outline"
-              onClick={() => setShowFleetPopup(true)}
+            <a
+              className={ctaVariants({ variant: "glass", size: "lg" })}
+              href="#fleet"
             >
               {t("hero.button.fleet")}
-            </Button>
-          </motion.div>
-        </motion.div>
-      </div>
+              <HugeiconsIcon
+                className="h-5 w-5 transition-transform group-hover/cta:translate-y-0.5"
+                icon={ArrowDown01Icon}
+              />
+            </a>
+          </div>
 
-      {/* Fleet Popup */}
-      {showFleetPopup && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-[10px]"
-          style={{ background: "rgba(0,0,0,0.70)" }}
-          onClick={() => setShowFleetPopup(false)}
-        >
-          <div
-            className="relative rounded-2xl p-8 w-full max-w-3xl shadow-2xl border border-white/20 text-white"
-            style={{
-              background: "rgba(20, 20, 30, 0.95)",
-              boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
-              backdropFilter: "blur(16px)",
-              WebkitBackdropFilter: "blur(16px)",
-              border: "1px solid rgba(255,255,255,0.18)",
-              maxHeight: "80vh",
-              overflowY: "auto",
-            }}
-            onClick={e => e.stopPropagation()}
+          <p
+            className="fade-in mt-10 flex animate-in items-center gap-2 fill-mode-both font-medium text-sm text-white/60 duration-1000"
+            style={{ animationDelay: "500ms" }}
           >
-            <h3 className="mb-6 font-bold text-2xl text-white text-center">{t("rental.button.fleet")}</h3>
-            <div className="flex flex-col gap-6">
-              {fleet.map((item) => (
-                <div key={item.key} className="flex items-center gap-6 bg-white/5 rounded-xl p-4">
-                  <img src={item.image} alt={item.title} className="w-24 h-24 object-cover rounded-lg border border-white/10" />
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <img src={logoImg} alt="logo" className="w-6 h-6 object-contain" />
-                      <span className="font-bold text-lg">{item.title}</span>
-                    </div>
-                    <div className="text-white/80 mb-2 text-sm">{item.description}</div>
-                    <ul className="text-white/90 text-xs grid grid-cols-2 gap-x-4 gap-y-1">
-                      {item.specs.map((spec, i) => (
-                        <li key={i}><span className="font-semibold">{spec.label}:</span> {spec.value}</li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <HugeiconsIcon
+              className="h-4 w-4 text-secondary"
+              icon={Location01Icon}
+            />
+            {t("hero.location")}
+          </p>
+        </div>
+      </motion.div>
+
+      {/* Slide selector */}
+      <div className="container mx-auto hidden px-4 md:block md:px-6">
+        <div className="mb-5 flex items-end justify-end gap-2">
+          {SLIDES.map((item, index) => (
             <button
-              className="mt-8 rounded-lg bg-white/10 px-6 py-2 font-semibold text-white hover:bg-white/20 border border-white/30 block mx-auto"
-              onClick={() => setShowFleetPopup(false)}
+              aria-current={index === slide}
+              aria-label={t(item.labelKey)}
+              className="group flex w-28 cursor-pointer flex-col gap-2 text-left lg:w-36"
+              key={item.src}
+              onClick={() => setSlide(index)}
               type="button"
             >
-              Close
+              <span
+                className={cn(
+                  "truncate font-heading font-semibold text-[11px] uppercase tracking-wider transition-colors",
+                  index === slide
+                    ? "text-white"
+                    : "text-white/45 group-hover:text-white/80"
+                )}
+              >
+                <span className="mr-1.5 font-readout">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                {t(item.labelKey)}
+              </span>
+              <span className="relative h-[3px] overflow-hidden rounded-full bg-white/20">
+                {index === slide && (
+                  <span
+                    className={cn(
+                      "absolute inset-0 origin-left bg-white",
+                      !reduceMotion && "animate-progress"
+                    )}
+                    key={`progress-${slide}`}
+                    style={{ animationDuration: `${SLIDE_MS}ms` }}
+                  />
+                )}
+              </span>
             </button>
-          </div>
+          ))}
         </div>
-      )}
+      </div>
+
+      {/* Stats bar */}
+      <div className="container mx-auto px-4 pb-8 md:px-6 md:pb-12">
+        <dl
+          className="fade-in slide-in-from-bottom-8 grid animate-in grid-cols-2 gap-px overflow-hidden rounded-3xl border border-white/10 bg-white/10 fill-mode-both backdrop-blur-xl duration-1000 md:grid-cols-4"
+          style={{ animationDelay: "600ms" }}
+        >
+          {stats.map((stat) => (
+            <div
+              className="spotlight spotlight-inverted flex flex-col-reverse gap-1 bg-black/45 p-5 md:p-7"
+              key={stat.label}
+            >
+              <dt className="text-white/60 text-xs uppercase tracking-wider md:text-sm">
+                {stat.label}
+              </dt>
+              <dd className="font-readout font-semibold text-4xl text-white md:text-5xl">
+                <CountUp value={stat.value} />
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </div>
     </section>
   );
 };

@@ -1,367 +1,176 @@
-/** biome-ignore-all lint/correctness/useImageSize: Easier to adjust sizes */
-import Autoplay from "embla-carousel-autoplay";
-import { motion } from "framer-motion";
-import { useTranslation } from "react-i18next";
-// Import container-movement images
-// Efficient Loading
-import el1 from "@/assets/services/container-movement/efficient-loading/el-1.jpg";
-import el2 from "@/assets/services/container-movement/efficient-loading/el-2.avif";
-import el3 from "@/assets/services/container-movement/efficient-loading/el-3.jpg";
-import el4 from "@/assets/services/container-movement/efficient-loading/el-4.webp";
-import el5 from "@/assets/services/container-movement/efficient-loading/el-5.jpg";
-// Timely Delivery
-import td1 from "@/assets/services/container-movement/timely-delivery/td-1.webp";
-import td2 from "@/assets/services/container-movement/timely-delivery/td-2.webp";
-// Flexible Rental Terms
-import frt1 from "@/assets/services/earth-moving-equipment-rental/flexible-rental-terms/frt-01.avif";
-import frt2 from "@/assets/services/earth-moving-equipment-rental/flexible-rental-terms/frt-02.jpg";
-// Import earth-moving-equipment-rental images
-// Modern Equipment
-import me1 from "@/assets/services/earth-moving-equipment-rental/modern-equipment/me-01.webp";
-import me2 from "@/assets/services/earth-moving-equipment-rental/modern-equipment/me-02.jpg";
-// Import flatbed-cargo-movement images
-// Efficient Transport
-import et1 from "@/assets/services/flatbed-cargo-movement/efficient-transport/et-01.png";
-import et2 from "@/assets/services/flatbed-cargo-movement/efficient-transport/et-02.jpg";
-import et3 from "@/assets/services/flatbed-cargo-movement/efficient-transport/et-03.jpg";
-import et4 from "@/assets/services/flatbed-cargo-movement/efficient-transport/et-04.jpg";
-import et5 from "@/assets/services/flatbed-cargo-movement/efficient-transport/et-05.avif";
-// Seamless Operations
-import so1 from "@/assets/services/flatbed-cargo-movement/seamless-operations/so-01.jpeg";
-import so2 from "@/assets/services/flatbed-cargo-movement/seamless-operations/so-02.jpg";
-import vs1 from "@/assets/services/flatbed-cargo-movement/versatile-solutions/vs-01.jpg";
-import vs2 from "@/assets/services/flatbed-cargo-movement/versatile-solutions/vs-02.webp";
-import crewImg from "@/assets/services/mine-drilling/crew.webp";
-// Import mine-drilling images
-import drillImg from "@/assets/services/mine-drilling/drill.avif";
-import drillingImg from "@/assets/services/mine-drilling/drilling.webp";
-// Import ore-loading images
-// Efficient Operations
-import eo1 from "@/assets/services/ore-loading/efficient-operations/eo-1.webp";
-import eo2 from "@/assets/services/ore-loading/efficient-operations/eo-2.jpg";
-import eo3 from "@/assets/services/ore-loading/efficient-operations/eo-3.jpg";
-import eo4 from "@/assets/services/ore-loading/efficient-operations/eo-4.jpg";
-import eo5 from "@/assets/services/ore-loading/efficient-operations/eo-5.jpg";
-import eo6 from "@/assets/services/ore-loading/efficient-operations/eo-6.jpg";
-// Safe Transport
-import st1 from "@/assets/services/ore-loading/safe-transport/st-1.webp";
-import st2 from "@/assets/services/ore-loading/safe-transport/st-2.webp";
-import st3 from "@/assets/services/ore-loading/safe-transport/st-3.jpg";
-// Import tipper-truck-rentals images
-// High-Capacity Fleet
-import hcf1 from "@/assets/services/tipper-truck-rentals/high-capacity-fleet/hcf-01.png";
-import hcf2 from "@/assets/services/tipper-truck-rentals/high-capacity-fleet/hcf-02.png";
-import hcf3 from "@/assets/services/tipper-truck-rentals/high-capacity-fleet/hcf-03.png";
-// Reliable Equipment
-import re1 from "@/assets/services/tipper-truck-rentals/reliable-equipment/re-01.jpg";
-import re2 from "@/assets/services/tipper-truck-rentals/reliable-equipment/re-02.webp";
-import { Button } from "@/components/ui/button";
 import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
+  ArrowRight01Icon,
+  Call02Icon,
+  CheckmarkCircle02Icon,
+  WhatsappIcon,
+} from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Link } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
+import { CornerBrackets } from "@/components/ui/corner-brackets";
+import { ctaVariants } from "@/components/ui/cta";
+import { ImageGallery } from "@/components/ui/image-gallery";
+import { Reveal } from "@/components/ui/reveal";
+import { SERVICE_KEYS, SERVICES, type ServiceKey } from "@/lib/services";
+import { SITE, whatsappLink } from "@/lib/site";
+import { cn } from "@/lib/utils";
 
-export const ServiceDetailedList = () => {
-  const { t, i18n } = useTranslation();
-  const currentLang = i18n.language || "en";
+type FeatureCard = { title: string; description: string };
 
-  const services = [
-    {
-      id: "oreHaulage",
-      key: "oreHaulage",
-    },
-    {
-      id: "mineDrilling",
-      key: "mineDrilling",
-    },
-    {
-      id: "flatbedCargo",
-      key: "flatbedCargo",
-    },
-    {
-      id: "containerMovement",
-      key: "containerMovement",
-    },
-    {
-      id: "tipperTruckRentals",
-      key: "tipperTruckRentals",
-    },
-    {
-      id: "earthMovingRental",
-      key: "earthMovingRental",
-    },
-  ];
-
-  // Image mapping for ore-loading service (bilingual)
-  const oreLoadingImages = {
-    "Efficient Operations": [eo1, eo2, eo3, eo4, eo5, eo6],
-    "Opérations Efficaces": [eo1, eo2, eo3, eo4, eo5, eo6], // French
-    "Safe Transport": [st1, st2, st3],
-    "Transport Sécurisé": [st1, st2, st3], // French
-  };
-
-  // Image mapping for mine-drilling service (bilingual)
-  const mineDrillingImages = {
-    "Precision Drilling": [drillImg, drillingImg],
-    "Forage de Précision": [drillImg, drillingImg], // French
-    "Experienced Crew": [crewImg],
-    "Équipe Expérimentée": [crewImg], // French
-  };
-
-  // Image mapping for container-movement service (bilingual)
-  const containerMovementImages = {
-    "Efficient Loading": [el1, el2, el3, el4, el5],
-    "Chargement Efficace": [el1, el2, el3, el4, el5], // French
-    "Timely Delivery": [td1, td2],
-    "Livraison Ponctuelle": [td1, td2], // French
-  };
-
-  // Image mapping for earth-moving-equipment-rental service (bilingual)
-  const earthMovingRentalImages = {
-    "Modern Equipment": [me1, me2],
-    "Équipement Moderne": [me1, me2], // French
-    "Flexible Rental Terms": [frt1, frt2],
-    "Conditions de Location Flexibles": [frt1, frt2], // French
-  };
-
-  // Image mapping for flatbed-cargo-movement service (bilingual)
-  const flatbedCargoImages = {
-    "Efficient Transport": [et1, et2, et3, et4, et5],
-    "Transport Efficace": [et1, et2, et3, et4, et5], // French
-    "Seamless Operations": [so1, so2],
-    "Opérations Fluides": [so1, so2], // French
-    "Versatile Solutions": [vs1, vs2],
-    "Solutions Polyvalentes": [vs1, vs2], // French
-  };
-
-  // Image mapping for tipper-truck-rentals service (bilingual)
-  const tipperTruckRentalsImages = {
-    "High-Capacity Fleet": [hcf1, hcf2, hcf3],
-    "Flotte à Haute Capacité": [hcf1, hcf2, hcf3], // French
-    "Reliable Equipment": [re1, re2],
-    "Équipement Fiable": [re1, re2], // French
-  };
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.8, ease: "easeOut" as const },
-    },
-  };
+function ServiceBlock({
+  serviceKey,
+  index,
+}: {
+  serviceKey: ServiceKey;
+  index: number;
+}) {
+  const { t } = useTranslation();
+  const service = SERVICES[serviceKey];
+  const base = `servicesPage.detailedList.${serviceKey}`;
+  const title = t(`${base}.title`);
+  const features = t(`${base}.featureCards`, {
+    returnObjects: true,
+  }) as FeatureCard[];
+  const keyFacts = t(`${base}.keyFacts`, { returnObjects: true }) as string[];
+  const images = service.featureImages.flat();
+  const reversed = index % 2 === 1;
 
   return (
-    <section className="bg-neutral-bg py-24">
-      <div className="container mx-auto px-4 md:px-6">
-        <motion.div
-          className="space-y-32"
-          initial="hidden"
-          key={`services-list-${currentLang}`}
-          variants={containerVariants}
-          viewport={{ once: true }}
-          whileInView="visible"
+    <article
+      aria-labelledby={`${service.anchor}-title`}
+      className="scroll-mt-28 py-16 md:py-24"
+      id={service.anchor}
+    >
+      <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+        <Reveal
+          className={cn("relative", reversed && "lg:order-2")}
+          x={reversed ? 30 : -30}
+          y={0}
         >
-          {services.map((service, index) => {
-            const title = t(`servicesPage.detailedList.${service.key}.title`);
-            const subtitle = t(
-              `servicesPage.detailedList.${service.key}.subtitle`
-            );
-            const description = t(
-              `servicesPage.detailedList.${service.key}.description`
-            );
-            const featureCards = t(
-              `servicesPage.detailedList.${service.key}.featureCards`,
-              {
-                returnObjects: true,
-              }
-            ) as Array<{ title: string; description: string }>;
-            const ctaText = t(
-              `servicesPage.detailedList.${service.key}.ctaText`
-            );
+          <div
+            aria-hidden="true"
+            className={cn(
+              "absolute -inset-4 -z-10 rounded-[2.5rem] bg-grid-primary",
+              reversed ? "rotate-2" : "-rotate-2"
+            )}
+          />
+          <ImageGallery
+            alt={title}
+            className="aspect-[4/3] rounded-3xl shadow-2xl shadow-primary/15"
+            images={images}
+          >
+            <CornerBrackets />
+          </ImageGallery>
+          <div className="absolute -bottom-6 left-6 flex items-center gap-3 rounded-2xl bg-white px-5 py-3 shadow-xl">
+            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary text-white">
+              <HugeiconsIcon className="h-6 w-6" icon={service.icon} />
+            </span>
+            <span className="font-heading font-semibold text-primary text-sm">
+              {t(`${base}.subtitle`)}
+            </span>
+          </div>
+        </Reveal>
 
-            let gridCols = "md:grid-cols-2";
-            if (featureCards.length === 3) {
-              gridCols = "md:grid-cols-3";
-            }
+        <Reveal className={cn(reversed && "lg:order-1")} delay={0.1}>
+          <p className="mb-4 font-bold font-heading text-6xl text-primary/10 leading-none md:text-7xl">
+            {String(index + 1).padStart(2, "0")}
+          </p>
+          <h2
+            className="mb-5 font-bold font-heading text-3xl text-primary leading-tight md:text-4xl"
+            id={`${service.anchor}-title`}
+          >
+            {title}
+          </h2>
+          <p className="mb-6 text-lg text-muted-foreground leading-relaxed">
+            {t(`${base}.description`)}
+          </p>
 
-            return (
-              <motion.div
-                className="space-y-8"
-                key={service.id}
-                variants={itemVariants}
+          <div className="mb-8">
+            <p className="mb-3 font-heading font-semibold text-secondary text-xs uppercase tracking-[0.2em]">
+              {t("servicesPage.keyFactsLabel")}
+            </p>
+            <ul className="flex flex-wrap gap-2">
+              {keyFacts.map((fact) => (
+                <li
+                  className="rounded-md border border-primary/20 bg-primary/5 px-3 py-1.5 font-readout text-primary text-sm uppercase tracking-wide"
+                  key={fact}
+                >
+                  {fact}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <ul className="mb-10 grid gap-4 sm:grid-cols-2">
+            {features.map((feature) => (
+              <li
+                className={cn(
+                  "spotlight rounded-2xl border border-border bg-white p-5 shadow-sm transition-all hover:border-primary/25 hover:shadow-md",
+                  features.length === 3 && "last:sm:col-span-2"
+                )}
+                key={feature.title}
               >
-                {/* Service Header */}
-                <div className="text-center">
-                  <h3 className="mb-2 font-bold font-heading text-3xl text-primary md:text-4xl">
-                    {title}
-                  </h3>
-                  <p className="mb-4 font-semibold text-lg text-secondary">
-                    {subtitle}
-                  </p>
-                  <p className="mx-auto max-w-3xl text-muted-foreground leading-relaxed">
-                    {description}
-                  </p>
-                </div>
+                <h3 className="mb-1.5 flex items-center gap-2 font-bold font-heading text-foreground">
+                  <HugeiconsIcon
+                    className="h-5 w-5 shrink-0 text-secondary"
+                    icon={CheckmarkCircle02Icon}
+                  />
+                  {feature.title}
+                </h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">
+                  {feature.description}
+                </p>
+              </li>
+            ))}
+          </ul>
 
-                {/* Feature Cards Grid */}
-                <div className={`grid gap-6 ${gridCols}`}>
-                  {featureCards.map((card) => {
-                    const isOreLoading = service.key === "oreHaulage";
-                    const isMineDrilling = service.key === "mineDrilling";
-                    const isContainerMovement =
-                      service.key === "containerMovement";
-                    const isEarthMovingRental =
-                      service.key === "earthMovingRental";
-                    const isFlatbedCargo = service.key === "flatbedCargo";
-                    const isTipperTruckRentals =
-                      service.key === "tipperTruckRentals";
-
-                    // Get images for the card based on service and card title
-                    const getCardImages = (): string[] | null => {
-                      const imageMappings: Record<
-                        string,
-                        Record<string, string[]>
-                      > = {
-                        oreHaulage: oreLoadingImages,
-                        mineDrilling: mineDrillingImages,
-                        containerMovement: containerMovementImages,
-                        earthMovingRental: earthMovingRentalImages,
-                        flatbedCargo: flatbedCargoImages,
-                        tipperTruckRentals: tipperTruckRentalsImages,
-                      };
-
-                      const mapping = imageMappings[service.key];
-                      if (mapping) {
-                        return (
-                          (mapping[card.title] as string[] | undefined) || null
-                        );
-                      }
-                      return null;
-                    };
-
-                    const cardImages = getCardImages();
-
-                    return (
-                      <motion.div
-                        className="group overflow-hidden rounded-2xl border border-white/40 bg-white shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/5"
-                        key={`${service.id}-${card.title}-${currentLang}`}
-                        variants={itemVariants}
-                      >
-                        {/* Image Area */}
-                        {(isOreLoading ||
-                          isMineDrilling ||
-                          isContainerMovement ||
-                          isEarthMovingRental ||
-                          isFlatbedCargo ||
-                          isTipperTruckRentals) &&
-                        cardImages ? (
-                          <div className="relative aspect-3/2 w-full overflow-hidden bg-gray-100">
-                            <Carousel
-                              className="absolute inset-0 h-full w-full [&>div]:h-full"
-                              key={`carousel-${service.id}-${card.title}-${currentLang}`}
-                              plugins={[
-                                Autoplay({
-                                  delay: 5000,
-                                }),
-                              ]}
-                            >
-                              <CarouselContent className="ml-0 h-full">
-                                {cardImages.map((img, imgIndex) => (
-                                  <CarouselItem
-                                    className="relative h-full w-full pl-0"
-                                    key={`${card.title}-img-${imgIndex}-${currentLang}`}
-                                  >
-                                    <img
-                                      alt={`${card.title} ${imgIndex + 1}`}
-                                      className="absolute inset-0 h-full w-full object-cover object-center"
-                                      src={img}
-                                      title={`${card.title} ${imgIndex + 1}`}
-                                    />
-                                  </CarouselItem>
-                                ))}
-                              </CarouselContent>
-                              {cardImages.length > 1 && (
-                                <>
-                                  <CarouselPrevious className="absolute top-1/2 left-2 z-10 h-8 w-8 translate-x-0 -translate-y-1/2 bg-white/80 opacity-0 transition-opacity hover:bg-white group-hover:opacity-100" />
-                                  <CarouselNext className="absolute top-1/2 right-2 z-10 h-8 w-8 translate-x-0 -translate-y-1/2 bg-white/80 opacity-0 transition-opacity hover:bg-white group-hover:opacity-100" />
-                                </>
-                              )}
-                            </Carousel>
-                          </div>
-                        ) : (
-                          /* Fallback Image Placeholder */
-                          <div className="relative h-64 overflow-hidden bg-linear-to-br from-primary/20 to-secondary/20">
-                            <div className="absolute inset-0 flex items-center justify-center">
-                              <div className="text-center text-white/40">
-                                <div className="mb-2 font-bold text-4xl opacity-20">
-                                  {index + 1}
-                                </div>
-                                <p className="font-medium text-xs">
-                                  {card.title}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        )}
-
-                        {/* Card Content */}
-                        <div className="p-6">
-                          <h4 className="mb-3 font-bold font-heading text-primary text-xl">
-                            {card.title}
-                          </h4>
-                          <p className="text-muted-foreground leading-relaxed">
-                            {card.description}
-                          </p>
-                        </div>
-                      </motion.div>
-                    );
-                  })}
-                </div>
-
-                {/* CTA Button - WhatsApp with pre-filled message */}
-                <div className="flex justify-center">
-                  {(() => {
-                    // WhatsApp number (update if needed)
-                    const whatsappNumber = "23275311632";
-                    let waText = "Hello, I would like to make an enquiry.";
-                    if (service.key === "oreHaulage") {
-                      waText = "Hello, I would like to request a quote for ore haulage services.";
-                    } else if (service.key === "mineDrilling") {
-                      waText = "Hello, I would like to discuss my mine drilling requirements.";
-                    } else if (service.key === "flatbedCargo") {
-                      waText = "Hello, I am interested in getting rates for flatbed cargo movement.";
-                    } else if (service.key === "containerMovement") {
-                      waText = "Hello, I would like to request information about your container movement services.";
-                    }
-                    const waUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(waText.replace(/operations@continental-miningservices.com/g, "info@continental-miningservices.com"))}`;
-                    return (
-                      <a href={waUrl} target="_blank" rel="noopener noreferrer">
-                        <Button className="bg-secondary font-semibold text-white hover:bg-secondary/90" size="lg">
-                          {ctaText}
-                        </Button>
-                      </a>
-                    );
-                  })()}
-                </div>
-              </motion.div>
-            );
-          })}
-        </motion.div>
+          <div className="flex flex-wrap gap-3">
+            {service.isRental ? (
+              <Link
+                className={ctaVariants({ variant: "primary" })}
+                hash="fleet"
+                to="/"
+              >
+                {t(`${base}.ctaText`)}
+                <HugeiconsIcon
+                  className="h-4 w-4 transition-transform group-hover/cta:translate-x-1"
+                  icon={ArrowRight01Icon}
+                />
+              </Link>
+            ) : null}
+            <a
+              className={ctaVariants({
+                variant: service.isRental ? "outline" : "primary",
+              })}
+              href={whatsappLink(t(`${base}.whatsappText`))}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <HugeiconsIcon className="h-4 w-4" icon={WhatsappIcon} />
+              {service.isRental
+                ? t("common.requestQuote")
+                : t(`${base}.ctaText`)}
+            </a>
+            <a
+              className={ctaVariants({ variant: "outline" })}
+              href={SITE.phoneHref}
+            >
+              <HugeiconsIcon className="h-4 w-4" icon={Call02Icon} />
+              {t("common.callUs")}
+            </a>
+          </div>
+        </Reveal>
       </div>
-    </section>
+    </article>
   );
-};
+}
+
+export const ServiceDetailedList = () => (
+  <section className="relative">
+    <div className="container mx-auto divide-y divide-border px-4 md:px-6">
+      {SERVICE_KEYS.map((key, index) => (
+        <ServiceBlock index={index} key={key} serviceKey={key} />
+      ))}
+    </div>
+  </section>
+);
